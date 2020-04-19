@@ -4,15 +4,23 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>wqt.maven.plugins</groupId>
+    <groupId>io.github.wqt</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>0.0.0-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>maven-plugin</packaging>
 
     <name>SemVer Maven Plugin</name>
-
+    <description>A simple Maven plugin for SemVer operations on value of version element of the POM file. These operations only concern versioning, and not release which is a different and larger-scoped concern.</description>
     <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
+    <url>https://github.com/q3769/semver-maven-plugin</url>
+    
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <prerequisites>
         <maven>${maven.version}</maven>
@@ -188,4 +196,18 @@
             </build>
         </profile>
     </profiles>
+    <scm>
+        <url>https://github.com/q3769/semver-maven-plugin</url>
+        <connection>
+            scm:git:git://github.com/q3769/semver-maven-plugin.git
+        </connection>
+        <developerConnection>
+            scm:git:ssh://git@github.com:q3769/semver-maven-plugin.git
+        </developerConnection>
+    </scm>
+    <developers>
+        <developer>
+            <name>Qingtian Wang</name>
+        </developer>
+    </developers>
 </project>

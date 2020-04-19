@@ -21,10 +21,20 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.name;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.plugin;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.version;
 
+/**
+ *
+ * @author Qingtian Wang
+ */
 public abstract class SemverMojo extends AbstractMojo {
 
     protected static final String SNAPSHOT = "SNAPSHOT";
 
+    /**
+     *
+     * @param semver text that is supposed to be valid in terms of SemVer spec
+     * @return A valid SemVer
+     * @throws MojoFailureException if the input text is invalid per SemVer spec
+     */
     protected static Version requireValidSemVer(String semver) throws MojoFailureException {
         try {
             return Version.valueOf(semver);
@@ -43,12 +53,17 @@ public abstract class SemverMojo extends AbstractMojo {
     @Component
     private BuildPluginManager pluginManager;
 
-    protected void updatePomFileVersion(String version) throws MojoExecutionException {
+    /**
+     *
+     * @param version New version to be set in the POM file
+     * @throws MojoExecutionException if unexpected error occurred while updating the POM file
+     */
+    protected void updatePomFile(String version) throws MojoExecutionException {
         executeMojo(
                 plugin(
                         groupId("org.codehaus.mojo"),
                         artifactId("versions-maven-plugin"),
-                        version("2.3")
+                        version("2.7")
                 ),
                 goal("set"),
                 configuration(
