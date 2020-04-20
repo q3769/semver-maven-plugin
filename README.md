@@ -35,5 +35,5 @@ $ mvn semver:set -Dsemver=blah
 
 ```
 $ mvn semver:set -Dsemver=1.2.3-beta
-# sets the version value of the POM file to 1.2.3-beta
+# sets the value of the version element in the POM file to 1.2.3-beta
 ```
