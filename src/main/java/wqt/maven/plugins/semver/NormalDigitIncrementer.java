@@ -1,17 +1,18 @@
 package wqt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  *
  * @author Qingtian Wang
- * 
+ *
  * Increment one of the three digits in the normal release portion of the SemVer text
  */
-public abstract class IncrementNormal extends SemverMojo {
+public abstract class NormalDigitIncrementer extends Incrementer {
+
+    protected static final String SNAPSHOT = "SNAPSHOT";
 
     /**
      * Flag to append SNAPSHOT as the prerelease text in the target SemVer version
@@ -19,22 +20,16 @@ public abstract class IncrementNormal extends SemverMojo {
     @Parameter(property = "snapshot", defaultValue = "false", required = false)
     protected boolean snapshot;
 
-    /**
-     *
-     * @throws MojoExecutionException
-     * @throws MojoFailureException
-     */
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        increment(requireValidSemVer(project.getVersion()));
+    protected Version increment(Version original) {
+        return incrementNormalDigit(original);
     }
 
     /**
      *
      * @param originalSemVer
-     * @throws MojoExecutionException
-     * @throws MojoFailureException
+     * @return target version to update POM
      */
-    abstract protected void increment(Version originalSemVer) throws MojoExecutionException, MojoFailureException;
+    abstract protected Version incrementNormalDigit(Version originalSemVer);
 
 }

@@ -1,6 +1,6 @@
 package wqt.maven.plugins.semver;
 
-import org.apache.maven.plugin.MojoExecutionException;
+import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -12,20 +12,17 @@ import org.apache.maven.plugins.annotations.Mojo;
  * Mojo to increment build meta info portion of the SemVer text
  */
 @Mojo(name = "buildmeta", defaultPhase = LifecyclePhase.NONE)
-public class BuildMeta extends SemverMojo {
+public class BuildMeta extends Incrementer {
 
-    /**
-     *
-     * @throws MojoExecutionException
-     * @throws MojoFailureException
-     */
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        incrementBuildMeta();
-    }
-
-    private void incrementBuildMeta() throws MojoFailureException, MojoExecutionException {
-        updatePomFile(requireValidSemVer(project.getVersion()).incrementBuildMetadata().toString());
+    protected Version increment(Version original) throws MojoFailureException {
+        try {
+            return original.incrementBuildMetadata();
+        } catch (Exception ex) {
+            final String error = "Failed to increment build meta info of original version: " + original + " - build meta portion needs to exist and conform to SemVer format before increment";
+            getLog().error(error, ex);
+            throw new MojoFailureException(error, ex);
+        }
     }
 
 }

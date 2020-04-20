@@ -1,6 +1,6 @@
 package wqt.maven.plugins.semver;
 
-import org.apache.maven.plugin.MojoExecutionException;
+import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -12,20 +12,16 @@ import org.apache.maven.plugins.annotations.Mojo;
  * Mojo to increment prerelease portion of the SemVer text
  */
 @Mojo(name = "pre", defaultPhase = LifecyclePhase.NONE)
-public class PreRelease extends SemverMojo {
+public class PreRelease extends Incrementer {
 
-    /**
-     *
-     * @throws MojoExecutionException
-     * @throws MojoFailureException
-     */
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        incrementPreRelease();
+    protected Version increment(Version original) throws MojoFailureException {
+        try {
+            return original.incrementPreReleaseVersion();
+        } catch (Exception ex) {
+            final String error = "Failed to increment pre-release info of original version: " + original + " - pre-release portion needs to exist and conform to SemVer format before increment";
+            getLog().error(error, ex);
+            throw new MojoFailureException(error, ex);
+        }
     }
-
-    private void incrementPreRelease() throws MojoFailureException, MojoExecutionException {
-        updatePomFile(requireValidSemVer(project.getVersion()).incrementPreReleaseVersion().toString());
-    }
-
 }

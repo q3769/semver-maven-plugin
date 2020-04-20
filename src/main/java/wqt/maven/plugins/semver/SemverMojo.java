@@ -1,6 +1,5 @@
 package wqt.maven.plugins.semver;
 
-import com.github.zafarkhaja.semver.ParseException;
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
@@ -27,21 +26,13 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.version;
  */
 public abstract class SemverMojo extends AbstractMojo {
 
-    protected static final String SNAPSHOT = "SNAPSHOT";
-
     /**
      *
      * @param semver text that is supposed to be valid in terms of SemVer spec
      * @return A valid SemVer
-     * @throws MojoFailureException if the input text is invalid per SemVer spec
      */
-    protected static Version requireValidSemVer(String semver) throws MojoFailureException {
-        try {
-            return Version.valueOf(semver);
-        } catch (IllegalArgumentException | ParseException ex) {
-            throw new MojoFailureException("Error parsing semver: " + semver, ex);
-        }
-
+    protected static Version requireValidSemVer(String semver) {
+        return Version.valueOf(semver);
     }
 
     @Parameter(property = "project", defaultValue = "${project}", readonly = true, required = true)
@@ -52,6 +43,11 @@ public abstract class SemverMojo extends AbstractMojo {
 
     @Component
     private BuildPluginManager pluginManager;
+
+    @Override
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        updatePomFile(targetVersion().toString());
+    }
 
     /**
      *
@@ -76,5 +72,7 @@ public abstract class SemverMojo extends AbstractMojo {
                         pluginManager
                 ));
     }
+
+    abstract protected Version targetVersion() throws MojoFailureException;
 
 }
