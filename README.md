@@ -30,10 +30,10 @@ $ mvn semver:buildmeta
 
 ```
 $ mvn semver:set -Dsemver=blah
-# errors out because blah is not valid semver text
+# errors out because blah is not a valid SemVer text
 ```
 
 ```
 $ mvn semver:set -Dsemver=1.2.3-beta
-# sets the value of the version element in the POM file to 1.2.3-beta
+# sets the value of the version element in the POM file to be 1.2.3-beta
 ```
