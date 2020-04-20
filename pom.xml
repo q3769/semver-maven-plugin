@@ -11,7 +11,6 @@
 
     <name>SemVer Maven Plugin</name>
     <description>A simple Maven plugin for SemVer operations on value of version element of the POM file. These operations only concern versioning, and not release which is a different and larger-scoped concern.</description>
-    <!-- FIXME change it to the project's website -->
     <url>https://github.com/q3769/semver-maven-plugin</url>
     
     <licenses>
