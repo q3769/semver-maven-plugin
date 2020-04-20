@@ -36,10 +36,10 @@ $ mvn semver:patch
 
 ```
 $ mvn semver:pre
-# increments 1.2.3-beta.1 into 1.2.3-beta.2
+# increments 1.2.3-beta into 1.2.3-beta.1
 ```
 
 ```
 $ mvn semver:buildmeta
-# increments 1.2.3-beta.1+build into 1.2.3-beta.1+build.1
+# increments 1.2.3-beta.1+build.10 into 1.2.3-beta.1+build.11
 ```
