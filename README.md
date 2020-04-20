@@ -2,6 +2,19 @@
 
 Unlike some other Maven plugins, this one only addresses the concern of versioning, and not that of release. Release is a different and larger-scoped concern. This plugin operates on the value of the version element of the local POM file, according to the SemVer spec; it does nothing else.
 
+
+## Hard set
+
+```
+$ mvn semver:set -Dsemver=blah
+# errors out because blah is not a valid SemVer text
+```
+
+```
+$ mvn semver:set -Dsemver=1.2.3-beta
+# sets the value of the version element in the POM file to be 1.2.3-beta
+```
+
 ## Increment normal release digit
 
 ```
@@ -24,16 +37,4 @@ $ mvn semver:pre
 ```
 $ mvn semver:buildmeta
 # increments 1.2.3-beta.1+build into 1.2.3-beta.1+build.1
-```
-
-## Hard set
-
-```
-$ mvn semver:set -Dsemver=blah
-# errors out because blah is not a valid SemVer text
-```
-
-```
-$ mvn semver:set -Dsemver=1.2.3-beta
-# sets the value of the version element in the POM file to be 1.2.3-beta
 ```
