@@ -6,24 +6,24 @@ Unlike some other Maven plugins, this one only addresses the concern of versioni
 
 ```
 $ mvn semver:major
-# increments 1.2.0-beta.1 into 2.0.0
+# increments 1.2.3-beta.1 into 2.0.0
 ```
 
 ```
 $ mvn semver:minor -Dsnapshot=true
-# increments 1.2.0-beta.1 into 1.3.0-SNAPSHOT
+# increments 1.2.3-beta.1 into 1.3.0-SNAPSHOT
 ```
 
 ## Increment prerelease or build meta portion
 
 ```
 $ mvn semver:pre
-# increments 1.2.0-beta.1 into 1.2.0-beta.2
+# increments 1.2.3-beta.1 into 1.2.3-beta.2
 ```
 
 ```
 $ mvn semver:buildmeta
-# increments 1.2.0-beta.1+build into 1.2.0-beta.1+build.1
+# increments 1.2.3-beta.1+build into 1.2.3-beta.1+build.1
 ```
 
 ## Hard set
