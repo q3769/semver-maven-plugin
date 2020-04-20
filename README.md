@@ -32,7 +32,7 @@ $ mvn semver:patch
 # increments 1.2.3-beta.1 into 1.2.4
 ```
 
-## Increment prerelease or build meta portion
+## Increment pre-release or build meta portion
 
 ```
 $ mvn semver:pre
