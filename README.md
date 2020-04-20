@@ -27,6 +27,11 @@ $ mvn semver:minor -Dsnapshot=true
 # increments 1.2.3-beta.1 into 1.3.0-SNAPSHOT
 ```
 
+```
+$ mvn semver:patch
+# increments 1.2.3-beta.1 into 1.2.4
+```
+
 ## Increment prerelease or build meta portion
 
 ```
