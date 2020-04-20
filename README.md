@@ -1,6 +1,6 @@
 # semver-maven-plugin
 
-Unlike some other Maven plugins, this one only addresses the concern of versioning, and not that of release. Release is a different and larger-scoped concern. This plugin operates on the value of the version element of the local POM file, according to the SemVer spec; it does nothing else.
+Unlike some other Maven plugins, this one only addresses the concern of versioning, and not that of release. Release is a different and larger-scoped concern. This plugin operates on the value of the version element in the local POM file, according to the SemVer spec; it does nothing else.
 
 
 ## Hard set
@@ -32,7 +32,7 @@ $ mvn semver:patch
 # increments 1.2.3-beta.1 into 1.2.4
 ```
 
-## Increment prerelease or build meta portion
+## Increment pre-release or build meta portion
 
 ```
 $ mvn semver:pre
