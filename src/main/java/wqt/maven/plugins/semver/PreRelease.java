@@ -11,7 +11,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  *
  * Mojo to increment prerelease portion of the SemVer text
  */
-@Mojo(name = "pre", defaultPhase = LifecyclePhase.NONE)
+@Mojo(name = "p", defaultPhase = LifecyclePhase.NONE)
 public class PreRelease extends Incrementer {
 
     @Override

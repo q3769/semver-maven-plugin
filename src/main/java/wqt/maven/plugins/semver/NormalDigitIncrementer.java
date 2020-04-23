@@ -27,9 +27,9 @@ public abstract class NormalDigitIncrementer extends Incrementer {
 
     /**
      *
-     * @param originalSemVer
+     * @param original the SemVer whose normal digit is about to increment
      * @return target version to update POM
      */
-    abstract protected Version incrementNormalDigit(Version originalSemVer);
+    abstract protected Version incrementNormalDigit(Version original);
 
 }

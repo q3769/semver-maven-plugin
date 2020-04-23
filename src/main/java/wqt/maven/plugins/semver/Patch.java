@@ -13,7 +13,7 @@ public class Patch extends NormalDigitIncrementer {
 
     /**
      *
-     * @param original
+     * @param original semver whose patch digit is about to increment
      */
     @Override
     protected Version incrementNormalDigit(Version original) {

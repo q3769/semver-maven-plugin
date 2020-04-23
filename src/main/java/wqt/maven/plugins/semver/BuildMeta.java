@@ -11,7 +11,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  *
  * Mojo to increment build meta info portion of the SemVer text
  */
-@Mojo(name = "buildmeta", defaultPhase = LifecyclePhase.NONE)
+@Mojo(name = "b", defaultPhase = LifecyclePhase.NONE)
 public class BuildMeta extends Incrementer {
 
     @Override
