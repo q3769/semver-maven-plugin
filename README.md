@@ -35,11 +35,11 @@ $ mvn semver:patch
 ## Increment pre-release or build meta portion
 
 ```
-$ mvn semver:pre
+$ mvn semver:p
 # increments 1.2.3-beta into 1.2.3-beta.1
 ```
 
 ```
-$ mvn semver:buildmeta
+$ mvn semver:b
 # increments 1.2.3-beta.1+build.10 into 1.2.3-beta.1+build.11
 ```
