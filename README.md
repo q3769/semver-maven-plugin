@@ -1,5 +1,3 @@
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/q3769)
-
 # semver-maven-plugin
 
 Unlike some other versioning plugins for Maven, this one only addresses the concern of versioning, and not that of release. Release is a different and larger-scoped concern. This plugin operates on the value of the version element in the local POM file, according to the SemVer spec; it does nothing else.
@@ -59,3 +57,5 @@ increments 1.2.3-beta into 1.2.3-beta.1
 $ mvn semver:b
 ```
 increments 1.2.3-beta.1+build.10 into 1.2.3-beta.1+build.11
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/q3769)
