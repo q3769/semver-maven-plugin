@@ -4,7 +4,7 @@
 
 Unlike some other versioning plugins for Maven, this one only addresses the concern of versioning, and not that of release. Release is a different and larger-scoped concern. This plugin operates on the value of the version element in the local POM file, according to the SemVer spec; it does nothing else.
 
-## To have...
+## Get it...
 
 ```
     <build>
@@ -17,7 +17,7 @@ Unlike some other versioning plugins for Maven, this one only addresses the conc
             ...
 ```            
 
-## To use...
+## Use it...
 
 ### Hard set
 
