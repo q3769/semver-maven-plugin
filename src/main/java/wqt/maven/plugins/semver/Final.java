@@ -25,6 +25,7 @@ package wqt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
@@ -41,9 +42,11 @@ public class Final extends Updater {
      * @return final SemVer version of the original, all meta info stripped
      */
     @Override
-    protected Version update(Version original) {
+    protected Version update(Version original) throws MojoFailureException {
         if (StringUtils.isBlank(original.getPreReleaseVersion()) && StringUtils.isBlank(original.getBuildMetadata())) {
-            return original;
+            final String error = "Failing on already-final version: " + original;
+            getLog().error(error);
+            throw new MojoFailureException(error, new IllegalArgumentException("Original version: " + original + " is already final"));
         }
         return Version.forIntegers(original.getMajorVersion(), original.getMinorVersion(), original.getPatchVersion());
     }

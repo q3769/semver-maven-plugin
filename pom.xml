@@ -6,7 +6,7 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>2.1.1</version>
+    <version>2.1.2</version>
     <packaging>maven-plugin</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -215,7 +215,7 @@
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>2.1.1</version>
+                <version>2.1.2</version>
             </plugin>
         </plugins>
     </build>
