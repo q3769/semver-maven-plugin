@@ -24,9 +24,9 @@
 package wqt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.codehaus.plexus.util.StringUtils;
 
 /**
  *
