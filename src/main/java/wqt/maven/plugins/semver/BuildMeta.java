@@ -32,19 +32,19 @@ import org.apache.maven.plugins.annotations.Mojo;
  *
  * @author Qingtian Wang
  *
- * Mojo to increment build meta info portion of the SemVer text
+ * Mojo to update build meta info portion of the SemVer text
  */
 @Mojo(name = "b", defaultPhase = LifecyclePhase.NONE)
-public class BuildMeta extends Incrementer {
+public class BuildMeta extends Updater {
 
     /**
      *
-     * @param original SemVer
-     * @return incremented SemVer
-     * @throws MojoFailureException if any exception occurred while incrementing the build meta portion
+     * @param original from POM
+     * @return updated to set in POM
+     * @throws MojoFailureException on build error
      */
     @Override
-    protected Version increment(Version original) throws MojoFailureException {
+    protected Version update(Version original) throws MojoFailureException {
         try {
             return original.incrementBuildMetadata();
         } catch (Exception ex) {

@@ -32,7 +32,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  *
  * Increment one of the three digits in the normal release portion of the SemVer text
  */
-public abstract class NormalDigitIncrementer extends Incrementer {
+public abstract class NormalDigitIncrementer extends Updater {
 
     /**
      * Expected pre-release meta in SemVer for snapshot
@@ -47,17 +47,17 @@ public abstract class NormalDigitIncrementer extends Incrementer {
 
     /**
      *
-     * @param original one of whose normal digits is to be incremented
+     * @param original from POM
      * @return result SemVer by incrementing one of the normal digits of the original
      */
     @Override
-    protected Version increment(Version original) {
+    protected Version update(Version original) {
         return incrementNormalDigit(original);
     }
 
     /**
      *
-     * @param original the SemVer whose normal digit is about to increment
+     * @param original the SemVer whose normal digit is about to update
      * @return target version to update POM
      */
     abstract protected Version incrementNormalDigit(Version original);

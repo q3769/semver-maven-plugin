@@ -24,27 +24,38 @@
 package wqt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugin.MojoFailureException;
 
 /**
  *
  * @author Qingtian Wang
  */
-@Mojo(name = "patch", defaultPhase = LifecyclePhase.NONE)
-public class Patch extends NormalDigitIncrementer {
+public abstract class Updater extends SemverMojo {
 
     /**
      *
-     * @param original semver whose patch digit is about to update
+     * @return The incremented SemVer
+     * @throws MojoFailureException if original version in POM is malformed
      */
     @Override
-    protected Version incrementNormalDigit(Version original) {
-        return incrementPatch(original);
+    protected Version targetVersion() throws MojoFailureException {
+        Version original;
+        try {
+            original = requireValidSemVer(project.getVersion());
+        } catch (Exception ex) {
+            final String error = "Invalid original version: " + project.getVersion() + " - Original version in POM needs to conform to SemVer format";
+            getLog().error(error, ex);
+            throw new MojoFailureException(error, ex);
+        }
+        return update(original);
     }
 
-    private Version incrementPatch(Version original) {
-        return snapshot ? original.incrementPatchVersion(SNAPSHOT) : original.incrementPatchVersion();
-    }
+    /**
+     *
+     * @param original SemVer to be updated
+     * @return the incremented result SemVer
+     * @throws MojoFailureException on build error
+     */
+    abstract protected Version update(Version original) throws MojoFailureException;
 
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2020 Qingtian Wang.
@@ -24,38 +24,24 @@
 package wqt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 
 /**
  *
  * @author Qingtian Wang
  */
-public abstract class Incrementer extends SemverMojo {
+@Mojo(name = "final", defaultPhase = LifecyclePhase.NONE)
+public class Final extends Updater {
 
     /**
      *
-     * @return The incremented SemVer
-     * @throws MojoFailureException if original version in POM is malformed
+     * @param original to finalize
+     * @return final SemVer version of the original, all meta info stripped
      */
     @Override
-    protected Version targetVersion() throws MojoFailureException {
-        Version original;
-        try {
-            original = requireValidSemVer(project.getVersion());
-        } catch (Exception ex) {
-            final String error = "Invalid original version: " + project.getVersion() + " - Original version in POM needs to conform to SemVer format";
-            getLog().error(error, ex);
-            throw new MojoFailureException(error, ex);
-        }
-        return increment(original);
+    protected Version update(Version original) {
+        return Version.forIntegers(original.getMajorVersion(), original.getMinorVersion(), original.getPatchVersion());
     }
-
-    /**
-     *
-     * @param original SemVer to be incremented
-     * @return the incremented result SemVer
-     * @throws MojoFailureException on build error
-     */
-    abstract protected Version increment(Version original) throws MojoFailureException;
 
 }

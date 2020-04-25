@@ -32,10 +32,10 @@ import org.apache.maven.plugins.annotations.Mojo;
  *
  * @author Qingtian Wang
  *
- * Mojo to increment prerelease portion of the SemVer text
+ * Mojo to update prerelease portion of the SemVer text
  */
 @Mojo(name = "p", defaultPhase = LifecyclePhase.NONE)
-public class PreRelease extends Incrementer {
+public class PreRelease extends Updater {
 
     /**
      *
@@ -44,7 +44,7 @@ public class PreRelease extends Incrementer {
      * @throws MojoFailureException on build error
      */
     @Override
-    protected Version increment(Version original) throws MojoFailureException {
+    protected Version update(Version original) throws MojoFailureException {
         try {
             return original.incrementPreReleaseVersion();
         } catch (Exception ex) {
