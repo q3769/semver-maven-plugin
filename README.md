@@ -51,6 +51,13 @@ $ mvn semver:patch
 ```
 increments 1.2.3-beta.1 into 1.2.4
 
+### Finalize current version
+
+```
+$ mvn semver:final
+```
+changes 1.2.3-SNAPSHOT into 1.2.3, stripping off all meta info if any exists
+
 ### Increment pre-release or build meta portion
 
 ```
@@ -62,12 +69,5 @@ increments 1.2.3-beta into 1.2.3-beta.1
 $ mvn semver:b
 ```
 increments 1.2.3-beta.1+build.10 into 1.2.3-beta.1+build.11
-
-### Finalize current version
-
-```
-$ mvn semver:final
-```
-changes 1.2.3-SNAPSHOT into 1.2.3, stripping off all meta info if any exists
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/q3769)
