@@ -1,6 +1,6 @@
 # semver-maven-plugin
 
-Unlike some other versioning plugins for Maven, this one only addresses the concern of versioning, and not that of release. Release is a different and larger-scoped concern. This plugin operates on the value of the version element in the local POM file, according to the SemVer spec; it does nothing else.
+Unlike some other versioning plugins for Maven, this one only addresses the concern of versioning, and not that of release. Release is a different and larger-scoped concern. This plugin operates on the value of the version element in the local POM file, according to the SemVer Spec (Semantic Versioning 2.0.0); it does nothing else.
 
 ## Get it...
 
@@ -10,7 +10,7 @@ Unlike some other versioning plugins for Maven, this one only addresses the conc
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>2.0.0</version>
+                <version>2.0.2</version>
             </plugin>
             ...
 ```            
