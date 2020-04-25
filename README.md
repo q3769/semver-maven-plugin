@@ -4,7 +4,10 @@ Unlike some other versioning plugins for Maven, this one only addresses the conc
 
 ## Get it...
 
+In pom.xml
+
 ```
+    ...
     <build>
         <plugins>
             <plugin>
@@ -18,6 +21,8 @@ Unlike some other versioning plugins for Maven, this one only addresses the conc
 ## Use it...
 
 ### Hard set
+
+From CLI
 
 ```
 $ mvn semver:set -Dsemver=blah
