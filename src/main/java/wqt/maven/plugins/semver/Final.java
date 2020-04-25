@@ -26,6 +26,7 @@ package wqt.maven.plugins.semver;
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  *
@@ -41,6 +42,9 @@ public class Final extends Updater {
      */
     @Override
     protected Version update(Version original) {
+        if (StringUtils.isBlank(original.getPreReleaseVersion()) && StringUtils.isBlank(original.getBuildMetadata())) {
+            return original;
+        }
         return Version.forIntegers(original.getMajorVersion(), original.getMinorVersion(), original.getPatchVersion());
     }
 
