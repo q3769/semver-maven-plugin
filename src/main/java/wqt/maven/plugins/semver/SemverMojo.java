@@ -1,3 +1,26 @@
+/* 
+ * The MIT License
+ *
+ * Copyright 2020 Qingtian Wang.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package wqt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
@@ -35,15 +58,26 @@ public abstract class SemverMojo extends AbstractMojo {
         return Version.valueOf(semver);
     }
 
+    /**
+     * Current Maven POM
+     */
     @Parameter(property = "project", defaultValue = "${project}", readonly = true, required = true)
     protected MavenProject project;
 
+    /**
+     * Default session
+     */
     @Parameter(property = "session", defaultValue = "${session}", readonly = true, required = true)
     protected MavenSession session;
 
     @Component
     private BuildPluginManager pluginManager;
 
+    /**
+     *
+     * @throws MojoExecutionException on execution error
+     * @throws MojoFailureException on build error
+     */
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         updatePomFile(targetVersion().toString());
@@ -73,6 +107,11 @@ public abstract class SemverMojo extends AbstractMojo {
                 ));
     }
 
+    /**
+     *
+     * @return new target version to be set in the POM file
+     * @throws MojoFailureException on build error
+     */
     abstract protected Version targetVersion() throws MojoFailureException;
 
 }

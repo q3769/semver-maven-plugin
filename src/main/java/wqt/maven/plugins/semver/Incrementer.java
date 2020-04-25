@@ -1,4 +1,4 @@
-/*
+/* 
  * The MIT License
  *
  * Copyright 2020 Qingtian Wang.
@@ -32,6 +32,11 @@ import org.apache.maven.plugin.MojoFailureException;
  */
 public abstract class Incrementer extends SemverMojo {
 
+    /**
+     *
+     * @return The incremented SemVer
+     * @throws MojoFailureException if original version in POM is malformed
+     */
     @Override
     protected Version targetVersion() throws MojoFailureException {
         Version original;
@@ -45,6 +50,12 @@ public abstract class Incrementer extends SemverMojo {
         return increment(original);
     }
 
+    /**
+     *
+     * @param original SemVer to be incremented
+     * @return the incremented result SemVer
+     * @throws MojoFailureException on build error
+     */
     abstract protected Version increment(Version original) throws MojoFailureException;
 
 }
