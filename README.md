@@ -63,7 +63,7 @@ $ mvn semver:b
 ```
 increments 1.2.3-beta.1+build.10 into 1.2.3-beta.1+build.11
 
-### Finalize the current version
+### Finalize current version
 
 ```
 $ mvn semver:final
