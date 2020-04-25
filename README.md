@@ -20,9 +20,9 @@ In pom.xml
 
 ## Use it...
 
-### Hard set
-
 From CLI
+
+### Hard set
 
 ```
 $ mvn semver:set -Dsemver=blah
