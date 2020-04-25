@@ -58,11 +58,11 @@ $ mvn semver:b
 ```
 increments 1.2.3-beta.1+build.10 into 1.2.3-beta.1+build.11
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/q3769)
-
 ### Finalize the current version
 
 ```
 $ mvn semver:final
 ```
 changes 1.2.3-beta.4+build.5 into final release form 1.2.3, stripping off all meta info if any exists
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/q3769)
