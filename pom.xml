@@ -6,11 +6,11 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>2.1.2</version>
+    <version>3.0.0</version>
     <packaging>maven-plugin</packaging>
 
-    <name>${project.groupId}:${project.artifactId}</name>
-    <description>Simple Maven plugin for operating on the version value of the POM file, according to the SemVer (Semantic Versioning 2.0.0) Spec. These operations only concern versioning - not release which is a different and larger-scoped concern.</description>
+    <name>SemVer Maven Plugin</name>
+    <description>Simple Maven plugin operating on the version value of the POM file, according to the SemVer Spec (Semantic Versioning 2.0.0). These operations only concern versioning - not release which is a different and larger-scoped concern.</description>
     <url>https://github.com/q3769/semver-maven-plugin</url>
     
     <licenses>
@@ -215,7 +215,7 @@
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>2.1.2</version>
+                <version>3.0.0</version>
             </plugin>
         </plugins>
     </build>

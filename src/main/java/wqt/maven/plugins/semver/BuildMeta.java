@@ -34,7 +34,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  *
  * Mojo to update build meta info portion of the SemVer text
  */
-@Mojo(name = "b", defaultPhase = LifecyclePhase.NONE)
+@Mojo(name = "bm", defaultPhase = LifecyclePhase.NONE)
 public class BuildMeta extends Updater {
 
     /**
