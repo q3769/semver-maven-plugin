@@ -40,11 +40,12 @@ public class Minor extends NormalDigitIncrementer {
      */
     @Override
     protected Version incrementNormalDigit(Version original) {
-        return incrementMinor(original);
+        return original.incrementMinorVersion();
     }
 
-    private Version incrementMinor(Version original) {
-        return snapshot ? original.incrementMinorVersion(SNAPSHOT) : original.incrementMinorVersion();
+    @Override
+    protected Version incrementNormalDigitAndLabelSnapshot(Version original) {
+        return original.incrementMinorVersion(SNAPSHOT);
     }
 
 }

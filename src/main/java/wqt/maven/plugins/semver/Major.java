@@ -40,11 +40,12 @@ public class Major extends NormalDigitIncrementer {
      */
     @Override
     protected Version incrementNormalDigit(Version original) {
-        return incrementMajor(original);
+        return original.incrementMajorVersion();
     }
 
-    private Version incrementMajor(Version original) {
-        return snapshot ? original.incrementMajorVersion(SNAPSHOT) : original.incrementMajorVersion();
+    @Override
+    protected Version incrementNormalDigitAndLabelSnapshot(Version original) {
+        return original.incrementMajorVersion(SNAPSHOT);
     }
 
 }

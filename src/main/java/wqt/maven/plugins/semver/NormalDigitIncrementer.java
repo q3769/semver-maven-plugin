@@ -40,7 +40,8 @@ public abstract class NormalDigitIncrementer extends Updater {
     protected static final String SNAPSHOT = "SNAPSHOT";
 
     /**
-     * Flag to append SNAPSHOT as the prerelease text in the target SemVer version
+     * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in by user as a CLI
+     * -D parameter.
      */
     @Parameter(property = "snapshot", defaultValue = "false", required = false)
     protected boolean snapshot;
@@ -48,11 +49,11 @@ public abstract class NormalDigitIncrementer extends Updater {
     /**
      *
      * @param original from POM
-     * @return result SemVer by incrementing one of the normal digits of the original
+     * @return result SemVer by incrementing one of the normal digits of the original version
      */
     @Override
     protected Version update(Version original) {
-        return incrementNormalDigit(original);
+        return snapshot ? incrementNormalDigitAndLabelSnapshot(original) : incrementNormalDigit(original);
     }
 
     /**
@@ -61,5 +62,12 @@ public abstract class NormalDigitIncrementer extends Updater {
      * @return target version to update POM
      */
     abstract protected Version incrementNormalDigit(Version original);
+
+    /**
+     *
+     * @param original version from POM
+     * @return target version with snapshot label
+     */
+    abstract protected Version incrementNormalDigitAndLabelSnapshot(Version original);
 
 }

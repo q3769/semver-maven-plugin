@@ -40,11 +40,12 @@ public class Patch extends NormalDigitIncrementer {
      */
     @Override
     protected Version incrementNormalDigit(Version original) {
-        return incrementPatch(original);
+        return original.incrementPatchVersion();
     }
 
-    private Version incrementPatch(Version original) {
-        return snapshot ? original.incrementPatchVersion(SNAPSHOT) : original.incrementPatchVersion();
+    @Override
+    protected Version incrementNormalDigitAndLabelSnapshot(Version original) {
+        return original.incrementPatchVersion(SNAPSHOT);
     }
 
 }
