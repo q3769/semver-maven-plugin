@@ -53,11 +53,19 @@ public abstract class SemverMojo extends AbstractMojo {
 
     /**
      *
-     * @param semver text that is supposed to be valid in terms of SemVer spec
+     * @param version text that is supposed to be valid in terms of SemVer spec
      * @return A valid SemVer
+     * @throws MojoFailureException if input version text is malformed per
+     * SemVer spec
      */
-    protected static Version requireValidSemVer(String semver) {
-        return Version.valueOf(semver);
+    protected Version requireValidSemVer(String version) throws MojoFailureException {
+        try {
+            return Version.valueOf(version);
+        } catch (Exception ex) {
+            final String error = "Error forming SemVer from version: " + version;
+            getLog().error(error, ex);
+            throw new MojoFailureException(error, new IllegalArgumentException("Not a valid SemVer text: " + version, ex));
+        }
     }
 
     /**
@@ -88,7 +96,8 @@ public abstract class SemverMojo extends AbstractMojo {
     /**
      *
      * @param version New version to be set in the POM file
-     * @throws MojoExecutionException if unexpected error occurred while updating the POM file
+     * @throws MojoExecutionException if unexpected error occurred while
+     * updating the POM file
      */
     protected void updatePomFile(String version) throws MojoExecutionException {
         executeMojo(

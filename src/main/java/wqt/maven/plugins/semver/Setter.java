@@ -40,7 +40,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 public class Setter extends SemverMojo {
 
     /**
-     * Expected to be passed in as a -D parameter in CLI. Needs to be in valid SemVer format.
+     * Expected to be passed in as a -D parameter in CLI. Needs to be in valid
+     * SemVer format.
      */
     @Parameter(property = "semver", defaultValue = "0.0.0-SNAPSHOT", required = true)
     protected String semver;
@@ -48,17 +49,12 @@ public class Setter extends SemverMojo {
     /**
      *
      * @return target SemVer per user CLI parameter
-     * @throws MojoFailureException if input target version is malformed per SemVer spec
+     * @throws MojoFailureException if input target version is malformed per
+     * SemVer spec
      */
     @Override
     protected Version targetVersion() throws MojoFailureException {
-        try {
-            return requireValidSemVer(semver);
-        } catch (Exception ex) {
-            final String error = "Invalid version: " + semver + " - target version needs to conform to SemVer format";
-            getLog().error(error, ex);
-            throw new MojoFailureException(error, ex);
-        }
+        return requireValidSemVer(semver);
     }
 
 }

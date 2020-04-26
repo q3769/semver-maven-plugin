@@ -42,15 +42,7 @@ public abstract class Updater extends SemverMojo {
      */
     @Override
     protected Version targetVersion() throws MojoFailureException {
-        Version original;
-        try {
-            original = requireValidSemVer(project.getVersion());
-        } catch (Exception ex) {
-            final String error = "Invalid original version: " + project.getVersion() + " - Original version in POM needs to conform to SemVer format";
-            getLog().error(error, ex);
-            throw new MojoFailureException(error, ex);
-        }
-        return update(original);
+        return update(requireValidSemVer(project.getVersion()));
     }
 
     /**
