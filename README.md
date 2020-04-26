@@ -1,4 +1,4 @@
-# semver-maven-plugin
+# SemVer Maven Plugin
 
 Unlike some other versioning plugins for Maven, this one only addresses the concern of versioning, and not that of release. Release is a different and larger-scoped concern. This plugin operates on the value of the version element in the local POM file, according to the SemVer Spec (Semantic Versioning 2.0.0); it does nothing else.
 
@@ -13,7 +13,7 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>2.1.2</version>
+                <version>3.0.0</version>
             </plugin>
             ...
 ```            
@@ -61,12 +61,12 @@ changes 1.2.3-SNAPSHOT into 1.2.3, stripping off all meta info
 ### Increment pre-release or build meta portion
 
 ```
-$ mvn semver:p
+$ mvn semver:pr
 ```
 increments 1.2.3-beta into 1.2.3-beta.1
 
 ```
-$ mvn semver:b
+$ mvn semver:bm
 ```
 increments 1.2.3-beta.1+build.10 into 1.2.3-beta.1+build.11
 
