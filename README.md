@@ -34,7 +34,7 @@ $ mvn semver:set -Dsemver=1.2.3-beta
 ```
 sets the value of the version element in the POM file to be 1.2.3-beta
 
-### Increment normal release digit
+### Increment normal version number
 
 ```
 $ mvn semver:major
@@ -58,7 +58,7 @@ $ mvn semver:final
 ```
 changes 1.2.3-SNAPSHOT into 1.2.3, stripping off all labels
 
-### Increment pre-release or build meta portion
+### Increment pre-release or build meta label
 
 ```
 $ mvn semver:pr
