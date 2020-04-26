@@ -52,23 +52,6 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.version;
 public abstract class SemverMojo extends AbstractMojo {
 
     /**
-     *
-     * @param version text that is supposed to be valid in terms of SemVer spec
-     * @return A valid SemVer
-     * @throws MojoFailureException if input version text is malformed per
-     * SemVer spec
-     */
-    protected Version requireValidSemVer(String version) throws MojoFailureException {
-        try {
-            return Version.valueOf(version);
-        } catch (Exception ex) {
-            final String error = "Error forming SemVer from version: " + version;
-            getLog().error(error, ex);
-            throw new MojoFailureException(error, new IllegalArgumentException("Not a valid SemVer text: " + version, ex));
-        }
-    }
-
-    /**
      * Current Maven POM
      */
     @Parameter(property = "project", defaultValue = "${project}", readonly = true, required = true)
@@ -95,9 +78,15 @@ public abstract class SemverMojo extends AbstractMojo {
 
     /**
      *
+     * @return new target version to be set in the POM file
+     * @throws MojoFailureException on build error
+     */
+    abstract protected Version targetVersion() throws MojoFailureException;
+
+    /**
+     *
      * @param version New version to be set in the POM file
-     * @throws MojoExecutionException if unexpected error occurred while
-     * updating the POM file
+     * @throws MojoExecutionException if unexpected error occurred while updating the POM file
      */
     protected void updatePomFile(String version) throws MojoExecutionException {
         executeMojo(
@@ -120,9 +109,18 @@ public abstract class SemverMojo extends AbstractMojo {
 
     /**
      *
-     * @return new target version to be set in the POM file
-     * @throws MojoFailureException on build error
+     * @param version text that is supposed to be valid in terms of SemVer spec
+     * @return A valid SemVer
+     * @throws MojoFailureException if input version text is malformed per SemVer spec
      */
-    abstract protected Version targetVersion() throws MojoFailureException;
+    protected Version requireValidSemVer(String version) throws MojoFailureException {
+        try {
+            return Version.valueOf(version);
+        } catch (Exception ex) {
+            final String error = "Error forming SemVer from version: " + version;
+            getLog().error(error, ex);
+            throw new MojoFailureException(error, new IllegalArgumentException("Not a valid SemVer text: " + version, ex));
+        }
+    }
 
 }

@@ -15,7 +15,7 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>3.0.3</version>
+                <version>3.0.4</version>
             </plugin>
             ...
 ```            
