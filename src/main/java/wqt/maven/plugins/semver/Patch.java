@@ -32,20 +32,15 @@ import org.apache.maven.plugins.annotations.Mojo;
  * @author Qingtian Wang
  */
 @Mojo(name = "patch", defaultPhase = LifecyclePhase.NONE)
-public class Patch extends NormalDigitIncrementer {
+public class Patch extends NormalNumberIncrementer {
 
     /**
      *
-     * @param original semver whose patch digit is about to update
+     * @param original semver whose patch number is about to increment
      */
     @Override
-    protected Version incrementNormalDigit(Version original) {
+    protected Version incrementNormalNumber(Version original) {
         return original.incrementPatchVersion();
-    }
-
-    @Override
-    protected Version incrementNormalDigitAndLabelSnapshot(Version original) {
-        return original.incrementPatchVersion(SNAPSHOT);
     }
 
 }

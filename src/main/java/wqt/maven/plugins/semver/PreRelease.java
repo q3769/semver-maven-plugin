@@ -32,15 +32,15 @@ import org.apache.maven.plugins.annotations.Mojo;
  *
  * @author Qingtian Wang
  *
- * Mojo to update prerelease portion of the SemVer text
+ * Mojo to increment prerelease portion of the SemVer text
  */
 @Mojo(name = "pr", defaultPhase = LifecyclePhase.NONE)
 public class PreRelease extends Updater {
 
     /**
      *
-     * @param original to be incremented on pre-release meta
-     * @return target SemVer by incrementing the pre-release digit of the original
+     * @param original to be incremented on pre-release label
+     * @return target SemVer by incrementing the pre-release label of the original
      * @throws MojoFailureException on build error
      */
     @Override

@@ -30,14 +30,11 @@ import org.apache.maven.plugins.annotations.Parameter;
  *
  * @author Qingtian Wang
  *
- * Increment one of the three digits in the normal release portion of the SemVer text
+ * Increment one of the three numbers in the normal release portion of the SemVer text
  */
-public abstract class NormalDigitIncrementer extends Updater {
+public abstract class NormalNumberIncrementer extends Updater {
 
-    /**
-     * Expected pre-release meta in SemVer for snapshot
-     */
-    protected static final String SNAPSHOT = "SNAPSHOT";
+    private static final String SNAPSHOT = "SNAPSHOT";
 
     /**
      * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in by user as a CLI
@@ -53,21 +50,18 @@ public abstract class NormalDigitIncrementer extends Updater {
      */
     @Override
     protected Version update(Version original) {
-        return snapshot ? incrementNormalDigitAndLabelSnapshot(original) : incrementNormalDigit(original);
+        Version incremented = incrementNormalNumber(original);
+        if (!snapshot) {
+            return incremented;
+        }
+        return incremented.setPreReleaseVersion(SNAPSHOT);
     }
 
     /**
      *
-     * @param original the SemVer whose normal digit is about to update
+     * @param original the SemVer one of whose normal numbers is about to be incremented
      * @return target version to update POM
      */
-    abstract protected Version incrementNormalDigit(Version original);
-
-    /**
-     *
-     * @param original version from POM
-     * @return target version with snapshot label
-     */
-    abstract protected Version incrementNormalDigitAndLabelSnapshot(Version original);
+    abstract protected Version incrementNormalNumber(Version original);
 
 }

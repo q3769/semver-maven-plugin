@@ -32,20 +32,15 @@ import org.apache.maven.plugins.annotations.Mojo;
  * @author Qingtian Wang
  */
 @Mojo(name = "major", defaultPhase = LifecyclePhase.NONE)
-public class Major extends NormalDigitIncrementer {
+public class Major extends NormalNumberIncrementer {
 
     /**
      *
-     * @param original version whose major digit is to be incremented
+     * @param original version whose major number is to be incremented
      */
     @Override
-    protected Version incrementNormalDigit(Version original) {
+    protected Version incrementNormalNumber(Version original) {
         return original.incrementMajorVersion();
-    }
-
-    @Override
-    protected Version incrementNormalDigitAndLabelSnapshot(Version original) {
-        return original.incrementMajorVersion(SNAPSHOT);
     }
 
 }

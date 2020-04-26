@@ -32,6 +32,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 /**
  *
  * @author Qingtian Wang
+ *
+ * Hard-sets to new SemVer, ignoring current version in POM
+ *
  */
 @Mojo(name = "set", defaultPhase = LifecyclePhase.NONE)
 public class Setter extends SemverMojo {

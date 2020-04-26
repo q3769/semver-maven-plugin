@@ -32,7 +32,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  *
  * @author Qingtian Wang
  *
- * Mojo to update build meta info portion of the SemVer text
+ * Mojo to increment build meta info portion of the SemVer text
  */
 @Mojo(name = "bm", defaultPhase = LifecyclePhase.NONE)
 public class BuildMeta extends Updater {

@@ -32,20 +32,15 @@ import org.apache.maven.plugins.annotations.Mojo;
  * @author Qingtian Wang
  */
 @Mojo(name = "minor", defaultPhase = LifecyclePhase.NONE)
-public class Minor extends NormalDigitIncrementer {
+public class Minor extends NormalNumberIncrementer {
 
     /**
      *
-     * @param original to be incremented on the minor digit
+     * @param original to be incremented on the minor number
      */
     @Override
-    protected Version incrementNormalDigit(Version original) {
+    protected Version incrementNormalNumber(Version original) {
         return original.incrementMinorVersion();
-    }
-
-    @Override
-    protected Version incrementNormalDigitAndLabelSnapshot(Version original) {
-        return original.incrementMinorVersion(SNAPSHOT);
     }
 
 }

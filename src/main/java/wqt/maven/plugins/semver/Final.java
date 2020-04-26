@@ -32,6 +32,9 @@ import org.apache.maven.plugins.annotations.Mojo;
 /**
  *
  * @author Qingtian Wang
+ *
+ * Mojo to strip off all additional labels of the SemVer, leaving the normal numbers untouched for final version.
+ *
  */
 @Mojo(name = "final", defaultPhase = LifecyclePhase.NONE)
 public class Final extends Updater {
@@ -40,13 +43,14 @@ public class Final extends Updater {
      *
      * @param original to finalize
      * @return final SemVer version of the original, all meta info stripped
+     * @throws MojoFailureException if the original SemVer is already without additional labels
      */
     @Override
     protected Version update(Version original) throws MojoFailureException {
         if (StringUtils.isBlank(original.getPreReleaseVersion()) && StringUtils.isBlank(original.getBuildMetadata())) {
-            final String error = "Failing on already-final version: " + original;
+            final String error = "Failed to strip additional labels from version: " + original;
             getLog().error(error);
-            throw new MojoFailureException(error, new IllegalArgumentException("Original version: " + original + " is already final"));
+            throw new MojoFailureException(error, new IllegalArgumentException("Original version: " + original + " has no additional labels"));
         }
         return Version.forIntegers(original.getMajorVersion(), original.getMinorVersion(), original.getPatchVersion());
     }
