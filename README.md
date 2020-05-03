@@ -60,7 +60,7 @@ increments 1.2.3-beta.1 into 1.2.4
 ```
 $ mvn semver:final
 ```
-changes 1.2.3-SNAPSHOT into 1.2.3, stripping off all additional labels
+changes 1.2.3-SNAPSHOT or 1.2.3-beta.1+build.10 into 1.2.3, stripping off all additional labels
 
 ### Increment pre-release or build meta label
 
