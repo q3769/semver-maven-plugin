@@ -2,7 +2,9 @@
 
 # SemVer Maven Plugin
 
-Unlike some other versioning plugins for Maven, this one only addresses the concern of versioning, and not that of release. Release is a different and larger-scoped concern. This plugin operates on the value of the version element in the local POM file, according to the SemVer Spec (Semantic Versioning 2.0.0); it does nothing else.
+Unlike some other versioning plugins for Maven, this one only addresses the concern of versioning, and not that of release. Release is a different and larger-scoped concern. This plugin operates on the value of the version element in the local POM file, according to the SemVer Spec (Semantic Versioning 2.0.0); it does nothing else. 
+
+If you use a CICD process, it would be senseable to integrate this plugin into your CICD pipelines. That way, the concern of versioning  can be automated and managed as part of CICD; the developers can be relieved from such burden in most cases.
 
 ## Get it...
 
