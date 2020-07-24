@@ -2,9 +2,9 @@
 
 # SemVer Maven Plugin
 
-Unlike some other versioning plugins for Maven, this one only addresses the concern of versioning, and not that of release which is a different and larger-scoped concern. This plugin operates on the version value of the local POM file, according to the spec of Semantic Versioning 2.0.0; it does nothing else. 
+Unlike some other versioning plugins for Maven, this one only addresses the concern of versioning, and not that of release which is a different and larger-scoped concern. This plugin operates on the version value in the local POM file, according to the spec of Semantic Versioning 2.0.0; it does nothing else. 
 
-Stemmed from the use case of using CICD pipeline to automate and manage versioning, manual intervention would only be needed in rare scenarios, such as major version increment.
+Stemmed from the use case of using CICD pipeline to automate and manage a Maven project's version, where manual intervention on versioning would only be needed in rare scenarios, such as major version increment.
 
 ## Get it...
 
