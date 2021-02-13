@@ -48,7 +48,7 @@ increments 1.2.3-beta.1 into 2.0.0
 ```
 $ mvn semver:minor -Dsnapshot=true
 ```
-increments 1.2.3 into 1.3.0-SNAPSHOT
+increments 1.2.3 into 1.3.0-SNAPSHOT. Snapshot flag works with all increments.
 
 ```
 $ mvn semver:patch
