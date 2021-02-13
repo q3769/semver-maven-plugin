@@ -17,7 +17,7 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>3.0.4</version>
+                <version>20210213.0.0</version>
             </plugin>
             ...
 ```            
@@ -54,6 +54,12 @@ increments 1.2.3 into 1.3.0-SNAPSHOT
 $ mvn semver:patch
 ```
 increments 1.2.3-beta.1 into 1.2.4
+
+
+```
+$ mvn semver:calMajor
+```
+increments 20201231.2.3-beta.1 into 20210213.0.0, assuming today is Feb 13, 2021
 
 ### Finalize current version
 
