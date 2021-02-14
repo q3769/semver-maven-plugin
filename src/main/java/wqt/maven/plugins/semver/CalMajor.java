@@ -32,6 +32,9 @@ import org.apache.maven.plugins.annotations.Mojo;
 /**
  *
  * @author Qingtian Wang
+ *
+ * Increments major version to current calendar date in basic ISO format. i.e. Minor and patch versions are reset to
+ * zeros.
  */
 @Mojo(name = "calMajor", defaultPhase = LifecyclePhase.NONE)
 public class CalMajor extends NormalNumberIncrementer {
@@ -39,8 +42,9 @@ public class CalMajor extends NormalNumberIncrementer {
     /**
      *
      * @param original POM project version whose major number is to be incremented
-     * 
-     * @return New semver version whose major number is incremented to current date in basic ISO format
+     *
+     * @return New semver version whose major number is incremented to current date in basic ISO format. Note that
+     * repeated calls during the same calendar day will silently succeed, resetting minor and patch versions to zeros.
      */
     @Override
     protected Version incrementNormalNumber(Version original) {
