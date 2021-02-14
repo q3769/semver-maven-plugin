@@ -59,7 +59,7 @@ increments 1.2.3-beta.1 into 1.2.4
 ```
 $ mvn semver:calMajor
 ```
-increments 20201231.2.3-beta.1 into 20210213.0.0, assuming today is Feb 13, 2021
+increments 20201231.2.3-beta.1 into 20210213.0.0, assuming today is Feb 13, 2021. Note that repeated calls of this on the same calendar day will silently succeed, with the same major number and resetting minor and patch numbers to zeros.
 
 ### Finalize current version
 
