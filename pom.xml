@@ -6,7 +6,7 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>20210213.0.1</version>
+    <version>20210213.0.2-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>SemVer Maven Plugin</name>
@@ -29,7 +29,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.version>3.3.9</maven.version>
+        <maven.version>3.6.3</maven.version>
     </properties>
 
     <dependencies>
@@ -64,12 +64,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.maven.plugin-testing</groupId>
             <artifactId>maven-plugin-testing-harness</artifactId>
             <version>3.3.0</version>
@@ -89,6 +83,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit</groupId>
+            <artifactId>junit-bom</artifactId>
+            <version>5.7.1</version>
+            <type>pom</type>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -184,6 +185,9 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <release>8</release>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -215,7 +219,7 @@
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20210213.0.1</version>
+                <version>20210213.0.2-SNAPSHOT</version>
             </plugin>
         </plugins>
     </build>
