@@ -77,6 +77,3 @@ increments 1.2.3-beta into 1.2.3-beta.1
 $ mvn semver:bm
 ```
 increments 1.2.3-beta.1+build.10 into 1.2.3-beta.1+build.11
-
-
-[//]: # "[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/q3769)"
