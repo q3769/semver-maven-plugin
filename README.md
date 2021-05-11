@@ -29,7 +29,7 @@ From CLI
 ```
 $ mvn semver:set -Dsemver=blah
 ```
-errors out because blah is not a valid SemVer text
+errors out because 'blah' is not a valid SemVer
 
 ```
 $ mvn semver:set -Dsemver=1.2.3-beta
