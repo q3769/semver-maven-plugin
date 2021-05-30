@@ -1,6 +1,6 @@
 # SemVer Maven Plugin
 
-A simple Maven plugin that manipulates the local POM version via CLI or scripting. It updates the version in the local POM file according to the Semantic Versioning 2.0.0 [spec](https://semver.org/). 
+A simple Maven plugin that manipulates the local POM version via CLI or scripting, according to the Semantic Versioning 2.0.0 [spec](https://semver.org/). 
 
 Unlike some other Maven versioning plugins, in and of itself, this one does not include or combine any extra functionalities beyond local versioning. E.g. There is no interaction with source code or artifact repositories after the version update.
 
