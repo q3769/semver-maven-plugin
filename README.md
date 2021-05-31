@@ -4,7 +4,7 @@ A simple Maven plugin that manipulates the local POM version via CLI or scriptin
 
 Unlike some other Maven versioning plugins, in and of itself, this one does not include or combine any extra functionalities beyond local versioning. E.g. There is no interaction with source code or artifact repositories after the version update.
 
-The project is motivated by the use case of using CICD pipeline code/script to automate a Maven project's version increment, where manual intervention on versioning would only be needed in rare scenarios, such as change of major version. The hope of the simple design is a cleaner separation of concerns. Instead of rigidly regulating and enforcing a certain portion of the pipeline workflow by going beyond the concern of versioning, it serves as an atomic action that is more robust, flexible, and easier to integrate in a pipeline.
+The project is motivated by the use case of using CICD pipeline code/script to automate a Maven project's version increment, where manual intervention on versioning would only be needed in rare scenarios, such as change of major version. The hope of the simple design is a cleaner separation of concerns. Instead of rigidly regulating and enforcing a certain portion of the pipeline workflow by going beyond the concern of versioning, this plugin serves as an atomic action that is more robust, flexible, and easier to integrate in a pipeline.
 
 ## Get it...
 
