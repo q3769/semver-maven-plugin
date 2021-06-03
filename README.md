@@ -4,7 +4,7 @@ A simple Maven plugin that manipulates the local POM version via CLI or scriptin
 
 Unlike some other Maven versioning plugins, in and of itself, this one does not include or combine any extra functionalities beyond local versioning. E.g. There is no interaction with source code or artifact repositories after the version update.
 
-The project is motivated by the use case of using CICD pipeline code/script to automate a Maven project's version increment, where manual intervention on versioning would only be needed in rare scenarios, such as change of major version. The hope of the simple design is a cleaner separation of concerns. Instead of rigidly regulating and enforcing a certain portion of the pipeline workflow by going beyond the concern of versioning, this plugin serves as an atomic action that is more robust, flexible, and easier to integrate in a pipeline.
+The project is motivated by the use case of using CICD pipeline code/script to automate a Maven project's version increment, where manual intervention on versioning would only be needed in rare scenarios such as change of major version. The hope of the simple design is a cleaner separation of concerns. Instead of rigidly regulating and enforcing a certain portion of the pipeline workflow by going beyond the concern of versioning, this plugin serves as an atomic action that is more robust, flexible, and easier to integrate in a pipeline.
 
 ## Get it...
 
@@ -59,7 +59,7 @@ increments 1.2.3-beta.1 into 1.2.4
 ```
 $ mvn semver:calMajor
 ```
-increments 20201231.2.3-beta.1 or 1.2.4 into 20210213.0.0, assuming today is Feb 13, 2021. Note that repeated calls on the same calendar day will always succeed, resulting in the same major number bearing today's date, while resetting minor and patch numbers to zeros.
+increments 1.23.4 or 20201231.2.3-beta.1 into 20210131.0.0, assuming today is Jan 31, 2021. Note that repeated calls on the same calendar day will always succeed, resulting in the same major number bearing today's date, while resetting minor and patch numbers to zeros
 
 ### Finalize current version
 
