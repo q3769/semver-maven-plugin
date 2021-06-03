@@ -43,7 +43,7 @@ sets the value of the version element of the pom.xml file to be 1.2.3-beta, rega
 ```
 $ mvn semver:major
 ```
-increments 1.2.3-beta.1 into 2.0.0
+increments 1.2.3-beta.1 into 2.0.0, where 1.2.3-beta.1 is the existing value
 
 ```
 $ mvn semver:minor -Dsnapshot=true
@@ -59,7 +59,7 @@ increments 1.2.3-beta.1 into 1.2.4
 ```
 $ mvn semver:calMajor
 ```
-increments 20201231.2.3-beta.1 into 20210213.0.0, assuming today is Feb 13, 2021. Note that repeated calls on the same calendar day will always succeed, with the same major number bearing today's date, while resetting minor and patch numbers to zeros.
+increments 20201231.2.3-beta.1 or 1.2.4 into 20210213.0.0, assuming today is Feb 13, 2021. Note that repeated calls on the same calendar day will always succeed, resulting in the same major number bearing today's date, while resetting minor and patch numbers to zeros.
 
 ### Finalize current version
 
