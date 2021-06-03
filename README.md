@@ -24,7 +24,7 @@ In pom.xml
 
 ## Use it...
 
-From CLI
+From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located 
 
 ### Hard set
 
@@ -36,7 +36,7 @@ errors out because 'blah' is not a valid SemVer
 ```
 $ mvn semver:set -Dsemver=1.2.3-beta
 ```
-sets the value of the version element in the POM file to be 1.2.3-beta
+sets the value of the version element of the pom.xml file to be 1.2.3-beta, regardless of the existing value
 
 ### Increment normal version number
 
