@@ -2,7 +2,7 @@
 
 A simple Maven plugin that manipulates the local POM version via CLI or scripting, according to the Semantic Versioning 2.0.0 [spec](https://semver.org/). 
 
-Unlike some other Maven versioning plugins, this one does not include or combine any extra functionalities beyond local version change. E.g. In and of itself, there is no communication with version control system or artifact repositories. 
+Unlike some other Maven versioning plugins, this one does not include or combine any extra functionalities beyond local version change. E.g. In and of itself, it does not communicate with version control systems or artifact repositories. The plugin has one single concern on the project's definition - its version. 
 
 The motivation of the effort is to facilitate using CICD pipeline code/script to automate versions increments. Manual intervention by developers on versioning would only be needed in rare scenarios such as changing the major version. 
 
