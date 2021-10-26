@@ -1,3 +1,4 @@
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.q3769/semver-maven-plugin.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.q3769%22%20AND%20a:%22semver-maven-plugin%22)
 # SemVer Maven Plugin
 
 A simple Maven plugin that manipulates the local POM version via CLI or scripting, according to the Semantic Versioning 2.0.0 [spec](https://semver.org/). 
@@ -19,7 +20,7 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20210213.0.0</version>
+                <version>20210213.0.1</version>
             </plugin>
             ...
 ```            
