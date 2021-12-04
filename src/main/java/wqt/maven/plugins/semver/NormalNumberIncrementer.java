@@ -20,8 +20,6 @@
 package wqt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
@@ -29,8 +27,6 @@ import org.apache.maven.plugins.annotations.Parameter;
  *         Increment one of the three numbers in the normal release portion of the SemVer text
  */
 public abstract class NormalNumberIncrementer extends Updater {
-
-    private static final Logger LOG = Logger.getLogger(NormalNumberIncrementer.class.getName());
 
     private static final String SNAPSHOT = "SNAPSHOT";
 
@@ -54,11 +50,6 @@ public abstract class NormalNumberIncrementer extends Updater {
      */
     @Override
     protected Version update(Version original) {
-        if (skipOnZero) {
-            LOG.log(Level.INFO, "Skipping SemVer increment as instructed by skip flag. Version unchanged: {0}", original
-                    .toString());
-            return original;
-        }
         Version incremented = incrementNormalNumber(original);
         if (!snapshot) {
             return incremented;
