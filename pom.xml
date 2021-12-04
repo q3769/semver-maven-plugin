@@ -10,7 +10,7 @@
     <packaging>maven-plugin</packaging>
 
     <name>semver-maven-plugin</name>
-    <description>A simple Maven Plugin to update the version element's value of the local POM file via CLI or scripting, according to the SemVer Spec (Semantic Versioning 2.0.0)</description>
+    <description>A simple Maven Plugin to update current project's version in the local POM file (via CLI or scripting) according to the SemVer Spec (Semantic Versioning 2.0.0)</description>
     <url>https://github.com/q3769/semver-maven-plugin</url>
     
     <licenses>
