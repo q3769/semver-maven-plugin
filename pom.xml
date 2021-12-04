@@ -10,7 +10,7 @@
     <packaging>maven-plugin</packaging>
 
     <name>semver-maven-plugin</name>
-    <description>A simple Maven Plugin to update current project's version in the local POM file (via CLI or scripting) according to the specifications of Semantic Versioning 2.0.0</description>
+    <description>A simple Maven Plugin to update current project's version in the local POM file, via CLI or scripting, according to the specifications of Semantic Versioning 2.0.0</description>
     <url>https://github.com/q3769/semver-maven-plugin</url>
     
     <licenses>
@@ -97,11 +97,6 @@
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <plugin>
-                    <groupId>io.github.q3769</groupId>
-                    <artifactId>semver-maven-plugin</artifactId>
-                    <version>20210213.1.1</version>
-                </plugin>
-                <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
@@ -184,10 +179,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-help-plugin</artifactId>
                 <version>3.2.0</version>
-            </plugin>
-            <plugin>
-                <groupId>io.github.q3769</groupId>
-                <artifactId>semver-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
