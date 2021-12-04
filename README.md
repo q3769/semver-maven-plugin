@@ -67,7 +67,7 @@ increments 1.23.4 or 20201231.2.3-beta.1 into 20210131.0.0, assuming today is Ja
 ```
 $ mvn semver:patch -DskipOnZero=true
 ```
-increments 1.2.3 into 1.2.4. However, will leave 1.3.0 unchanged because you said "don't do it if the target number is zero".
+increments 1.2.3 into 1.2.4. However, will leave 1.3.0 unchanged because in this case the target patch number is 0, and you said "Don't do it if the target number is zero".
 
 ### Finalize current version
 
