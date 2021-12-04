@@ -6,10 +6,10 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>20210213.0.2-SNAPSHOT</version>
+    <version>20210213.1.0</version>
     <packaging>maven-plugin</packaging>
 
-    <name>SemVer Maven Plugin</name>
+    <name>semver-maven-plugin</name>
     <description>Simple Maven plugin operating on the version value of the POM file, according to the SemVer Spec (Semantic Versioning 2.0.0). These operations only concern versioning - not release which is a different and larger-scoped concern.</description>
     <url>https://github.com/q3769/semver-maven-plugin</url>
     
@@ -97,6 +97,11 @@
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <plugin>
+                    <groupId>io.github.q3769</groupId>
+                    <artifactId>semver-maven-plugin</artifactId>
+                    <version>20210213.1.0</version>
+                </plugin>
+                <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
@@ -132,6 +137,11 @@
                 <plugin>
                     <artifactId>maven-invoker-plugin</artifactId>
                     <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-help-plugin</artifactId>
+                    <version>3.2.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -171,9 +181,13 @@
                 </configuration>
             </plugin>-->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-help-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
+            <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20210213.0.2-SNAPSHOT</version>
             </plugin>
         </plugins>
     </build>
