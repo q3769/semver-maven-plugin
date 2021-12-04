@@ -269,9 +269,6 @@
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
-                                <configuration>
-                                    <release>8</release>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
