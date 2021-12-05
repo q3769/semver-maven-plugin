@@ -33,7 +33,7 @@ public abstract class Updater extends SemverMojo {
      * @throws MojoFailureException if original version in POM is malformed
      */
     @Override
-    protected Version targetVersion() throws MojoFailureException {
+    protected Version getUpdatedVersion() throws MojoFailureException {
         return update(requireValidSemVer(project.getVersion()));
     }
 

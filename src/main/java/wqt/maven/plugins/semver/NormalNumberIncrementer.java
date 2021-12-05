@@ -20,6 +20,7 @@
 package wqt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
@@ -29,6 +30,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 public abstract class NormalNumberIncrementer extends Updater {
 
     private static final String SNAPSHOT = "SNAPSHOT";
+    private static final String HYPHEN = "-";
 
     /**
      * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in as a -D
@@ -36,6 +38,9 @@ public abstract class NormalNumberIncrementer extends Updater {
      */
     @Parameter(property = "snapshot", defaultValue = "false", required = false)
     protected boolean snapshot;
+
+    @Parameter(property = "labelCategory", defaultValue = "false", required = false)
+    protected boolean labelCategory;
 
     /**
      * @param original from POM
@@ -47,7 +52,14 @@ public abstract class NormalNumberIncrementer extends Updater {
         if (!snapshot) {
             return incremented;
         }
-        return incremented.setPreReleaseVersion(SNAPSHOT);
+        final String incrementedLabel = incremented.getPreReleaseVersion();
+        if (StringUtils.isBlank(incrementedLabel)) {
+            return incremented.setPreReleaseVersion(SNAPSHOT);
+        }
+        if (incrementedLabel.endsWith(SNAPSHOT)) {
+            return incremented;
+        }
+        return incremented.setPreReleaseVersion(incrementedLabel + HYPHEN + SNAPSHOT);
     }
 
     /**
@@ -56,4 +68,9 @@ public abstract class NormalNumberIncrementer extends Updater {
      */
     abstract protected Version incrementNormalNumber(Version original);
 
+    public static enum Category {
+        MAJOR,
+        MINOR,
+        PATCH;
+    }
 }

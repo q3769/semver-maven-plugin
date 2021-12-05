@@ -34,7 +34,11 @@ public class Patch extends NormalNumberIncrementer {
      */
     @Override
     protected Version incrementNormalNumber(Version original) {
-        return original.incrementPatchVersion();
+        Version incremented = original.incrementPatchVersion();
+        if (labelCategory) {
+            return incremented.setPreReleaseVersion(Category.PATCH.toString());
+        }
+        return incremented;
     }
 
 }

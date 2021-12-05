@@ -34,7 +34,11 @@ public class Major extends NormalNumberIncrementer {
      */
     @Override
     protected Version incrementNormalNumber(Version original) {
-        return original.incrementMajorVersion();
+        final Version incremented = original.incrementMajorVersion();
+        if (labelCategory) {
+            return incremented.setPreReleaseVersion(Category.MAJOR.toString());
+        }
+        return incremented;
     }
 
 }

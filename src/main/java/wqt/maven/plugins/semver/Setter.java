@@ -43,7 +43,7 @@ public class Setter extends SemverMojo {
      * @throws MojoFailureException if input target version is malformed per SemVer spec
      */
     @Override
-    protected Version targetVersion() throws MojoFailureException {
+    protected Version getUpdatedVersion() throws MojoFailureException {
         return requireValidSemVer(semver);
     }
 

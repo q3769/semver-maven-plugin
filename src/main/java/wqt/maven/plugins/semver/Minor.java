@@ -34,7 +34,11 @@ public class Minor extends NormalNumberIncrementer {
      */
     @Override
     protected Version incrementNormalNumber(Version original) {
-        return original.incrementMinorVersion();
+        final Version incremented = original.incrementMinorVersion();
+        if (labelCategory) {
+            return incremented.setPreReleaseVersion(Category.MINOR.toString());
+        }
+        return incremented;
     }
 
 }

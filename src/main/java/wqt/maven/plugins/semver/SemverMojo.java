@@ -66,14 +66,14 @@ public abstract class SemverMojo extends AbstractMojo {
      */
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        updatePomFile(targetVersion().toString());
+        updatePomFile(getUpdatedVersion().toString());
     }
 
     /**
      * @return new target version to be set in the POM file
      * @throws MojoFailureException on build error
      */
-    abstract protected Version targetVersion() throws MojoFailureException;
+    abstract protected Version getUpdatedVersion() throws MojoFailureException;
 
     /**
      * @param version New version to be set in the POM file
