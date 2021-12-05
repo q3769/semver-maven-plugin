@@ -1,18 +1,14 @@
-/* 
+/*
  * The MIT License
- *
  * Copyright 2020 Qingtian Wang.
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,16 +25,13 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- *
  * @author Qingtian Wang
- *
- * Mojo to increment build meta info portion of the SemVer text
+ *         Mojo to increment build meta info portion of the SemVer text
  */
 @Mojo(name = "bm", defaultPhase = LifecyclePhase.NONE)
 public class BuildMeta extends Updater {
 
     /**
-     *
      * @param original from POM
      * @return updated to set in POM
      * @throws MojoFailureException on build error
@@ -48,7 +41,8 @@ public class BuildMeta extends Updater {
         try {
             return original.incrementBuildMetadata();
         } catch (Exception ex) {
-            final String error = "Failed to increment build meta info of original version: " + original + " - build meta portion needs to exist and conform to SemVer format before increment";
+            final String error = "Failed to increment build meta info of original version: " + original
+                    + " - build meta portion needs to exist and conform to SemVer format before increment";
             getLog().error(error, ex);
             throw new MojoFailureException(error, ex);
         }

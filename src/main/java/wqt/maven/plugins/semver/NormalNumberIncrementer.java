@@ -38,13 +38,6 @@ public abstract class NormalNumberIncrementer extends Updater {
     protected boolean snapshot;
 
     /**
-     * Flag to skip any change on the version number if the current number is zero (0). Expected to be passed in as a -D
-     * parameter from CLI. Default to false.
-     */
-    @Parameter(property = "skipOnZero", defaultValue = "false", required = false)
-    protected boolean skipOnZero;
-
-    /**
      * @param original from POM
      * @return result SemVer by incrementing one of the normal digits of the original version
      */

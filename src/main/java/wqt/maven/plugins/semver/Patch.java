@@ -20,8 +20,6 @@
 package wqt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
@@ -31,18 +29,11 @@ import org.apache.maven.plugins.annotations.Mojo;
 @Mojo(name = "patch", defaultPhase = LifecyclePhase.NONE)
 public class Patch extends NormalNumberIncrementer {
 
-    private static final Logger LOG = Logger.getLogger(Patch.class.getName());
-
     /**
      * @param original semver whose patch number is about to increment
      */
     @Override
     protected Version incrementNormalNumber(Version original) {
-        if (skipOnZero && original.getPatchVersion() == 0) {
-            LOG.log(Level.INFO, "Skipping increment on zero patch as instructed by skip flag. Version unchanged: {0}",
-                    original.toString());
-            return original;
-        }
         return original.incrementPatchVersion();
     }
 

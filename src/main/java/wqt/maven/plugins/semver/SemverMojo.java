@@ -1,18 +1,14 @@
-/* 
+/*
  * The MIT License
- *
  * Copyright 2020 Qingtian Wang.
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -44,10 +40,8 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.plugin;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.version;
 
 /**
- *
  * @author Qingtian Wang
- *
- * Updates the POM file with a new SemVer version
+ *         Updates the POM file with a new SemVer version
  */
 public abstract class SemverMojo extends AbstractMojo {
 
@@ -67,9 +61,8 @@ public abstract class SemverMojo extends AbstractMojo {
     private BuildPluginManager pluginManager;
 
     /**
-     *
      * @throws MojoExecutionException on execution error
-     * @throws MojoFailureException on build error
+     * @throws MojoFailureException   on build error
      */
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -77,38 +70,22 @@ public abstract class SemverMojo extends AbstractMojo {
     }
 
     /**
-     *
      * @return new target version to be set in the POM file
      * @throws MojoFailureException on build error
      */
     abstract protected Version targetVersion() throws MojoFailureException;
 
     /**
-     *
      * @param version New version to be set in the POM file
      * @throws MojoExecutionException if unexpected error occurred while updating the POM file
      */
     protected void updatePomFile(String version) throws MojoExecutionException {
-        executeMojo(
-                plugin(
-                        groupId("org.codehaus.mojo"),
-                        artifactId("versions-maven-plugin"),
-                        version("2.7")
-                ),
-                goal("set"),
-                configuration(
-                        element(name("generateBackupPoms"), "false"),
-                        element(name("newVersion"), version)
-                ),
-                executionEnvironment(
-                        project,
-                        session,
-                        pluginManager
-                ));
+        executeMojo(plugin(groupId("org.codehaus.mojo"), artifactId("versions-maven-plugin"), version("2.7")), goal(
+                "set"), configuration(element(name("generateBackupPoms"), "false"), element(name("newVersion"),
+                        version)), executionEnvironment(project, session, pluginManager));
     }
 
     /**
-     *
      * @param version text that is supposed to be valid in terms of SemVer spec
      * @return A valid SemVer
      * @throws MojoFailureException if input version text is malformed per SemVer spec
@@ -119,7 +96,8 @@ public abstract class SemverMojo extends AbstractMojo {
         } catch (Exception ex) {
             final String error = "Error forming SemVer from version: " + version;
             getLog().error(error, ex);
-            throw new MojoFailureException(error, new IllegalArgumentException("Not a valid SemVer text: " + version, ex));
+            throw new MojoFailureException(error, new IllegalArgumentException("Not a valid SemVer text: " + version,
+                    ex));
         }
     }
 

@@ -20,8 +20,6 @@
 package wqt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
@@ -31,18 +29,11 @@ import org.apache.maven.plugins.annotations.Mojo;
 @Mojo(name = "major", defaultPhase = LifecyclePhase.NONE)
 public class Major extends NormalNumberIncrementer {
 
-    private static final Logger LOG = Logger.getLogger(Major.class.getName());
-
     /**
      * @param original version whose major number is to be incremented
      */
     @Override
     protected Version incrementNormalNumber(Version original) {
-        if (skipOnZero && original.getMajorVersion() == 0) {
-            LOG.log(Level.INFO, "Skipping increment on zero major as instructed by skip flag. Version unchanged: {0}",
-                    original.toString());
-            return original;
-        }
         return original.incrementMajorVersion();
     }
 
