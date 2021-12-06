@@ -21,7 +21,7 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20211205.0.0</version>
+                <version>20211206.0.0</version>
             </plugin>
             ...
 ```            
@@ -62,7 +62,7 @@ increments 1.2.3-beta.1 into 1.2.4
 ```
 $ mvn semver:calMajor
 ```
-increments 1.23.4 or 20201231.2.3-beta.1 into 20210131.0.0, assuming today is Jan 31, 2021. Note that repeated calls on the same calendar day will always succeed, resulting in the same major number bearing today's date, while resetting minor and patch numbers to zeros.
+increments 1.23.4 or 20201231.2.3-beta.1 into 20210131.0.0, assuming today is Jan 31, 2021. If the original POM version is newer than that of `<today>.0.0`, error is returned and no update will be performed to the POM. 
 
 ### Finalize current version
 
