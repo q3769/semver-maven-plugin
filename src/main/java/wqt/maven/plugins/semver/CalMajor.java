@@ -26,10 +26,10 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
+ * Increments major version to current calendar date in basic ISO format. i.e. Minor and patch versions are reset to
+ * zeros.
+ * 
  * @author Qingtian Wang
- *         Increments major version to current calendar date in basic ISO format. i.e. Minor and patch versions are
- *         reset to
- *         zeros.
  */
 @Mojo(name = "calMajor", defaultPhase = LifecyclePhase.NONE)
 public class CalMajor extends NormalNumberIncrementer {

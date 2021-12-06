@@ -23,24 +23,29 @@ import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Mojo to increment prerelease portion of the SemVer text
+ * Merge this POM's version with another SemVer passed in as parameter. End result will the higher of the two per SemVer
+ * spec.
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "pr", defaultPhase = LifecyclePhase.NONE)
-public class PreRelease extends Updater {
+@Mojo(name = "merge", defaultPhase = LifecyclePhase.NONE)
+public class Merge extends Updater {
+
+    /**
+     * The other SemVer to be merged with current local POM's version
+     */
+    @Parameter(property = "semver", defaultValue = "false", required = false)
+    protected String otherSemVer;
 
     @Override
     protected Version update(Version original) throws MojoFailureException {
-        try {
-            return original.incrementPreReleaseVersion();
-        } catch (Exception ex) {
-            final String error = "Failed to increment pre-release info of original version: " + original
-                    + " - pre-release portion needs to exist and conform to SemVer format before increment";
-            getLog().error(error, ex);
-            throw new MojoFailureException(error, ex);
-        }
+        final Version other = requireValidSemVer(otherSemVer);
+        if (original.greaterThanOrEqualTo(other))
+            return original;
+        return other;
     }
+
 }

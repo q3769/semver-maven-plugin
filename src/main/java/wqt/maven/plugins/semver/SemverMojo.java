@@ -40,8 +40,9 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.plugin;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.version;
 
 /**
+ * Updates the POM file with a new SemVer version
+ * 
  * @author Qingtian Wang
- *         Updates the POM file with a new SemVer version
  */
 public abstract class SemverMojo extends AbstractMojo {
 

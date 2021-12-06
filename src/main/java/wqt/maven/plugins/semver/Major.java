@@ -24,21 +24,16 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
+ * Increment major
+ * 
  * @author Qingtian Wang
  */
 @Mojo(name = "major", defaultPhase = LifecyclePhase.NONE)
 public class Major extends NormalNumberIncrementer {
 
-    /**
-     * @param original version whose major number is to be incremented
-     */
     @Override
     protected Version incrementNormalNumber(Version original) {
-        final Version incremented = original.incrementMajorVersion();
-        if (labelCategory) {
-            return incremented.setPreReleaseVersion(Category.MAJOR.toString());
-        }
-        return incremented;
+        return original.incrementMajorVersion();
     }
 
 }

@@ -25,8 +25,9 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
+ * Mojo to increment build meta info portion of the SemVer text
+ * 
  * @author Qingtian Wang
- *         Mojo to increment build meta info portion of the SemVer text
  */
 @Mojo(name = "bm", defaultPhase = LifecyclePhase.NONE)
 public class BuildMeta extends Updater {

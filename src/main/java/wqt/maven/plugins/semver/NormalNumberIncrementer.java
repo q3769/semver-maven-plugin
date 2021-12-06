@@ -24,8 +24,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
+ * Increment one of the three numbers in the normal release portion of the SemVer text
+ * 
  * @author Qingtian Wang
- *         Increment one of the three numbers in the normal release portion of the SemVer text
  */
 public abstract class NormalNumberIncrementer extends Updater {
 
@@ -38,9 +39,6 @@ public abstract class NormalNumberIncrementer extends Updater {
      */
     @Parameter(property = "snapshot", defaultValue = "false", required = false)
     protected boolean snapshot;
-
-    @Parameter(property = "labelCategory", defaultValue = "false", required = false)
-    protected boolean labelCategory;
 
     /**
      * @param original from POM
@@ -63,14 +61,9 @@ public abstract class NormalNumberIncrementer extends Updater {
     }
 
     /**
-     * @param original the SemVer one of whose normal numbers is about to be incremented
+     * @param original Local POM version whose normal numbers is about to be incremented
      * @return target version to update POM
      */
     abstract protected Version incrementNormalNumber(Version original);
 
-    public static enum Category {
-        MAJOR,
-        MINOR,
-        PATCH;
-    }
 }

@@ -24,21 +24,16 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
+ * Increment patch
+ * 
  * @author Qingtian Wang
  */
 @Mojo(name = "patch", defaultPhase = LifecyclePhase.NONE)
 public class Patch extends NormalNumberIncrementer {
 
-    /**
-     * @param original semver whose patch number is about to increment
-     */
     @Override
     protected Version incrementNormalNumber(Version original) {
-        Version incremented = original.incrementPatchVersion();
-        if (labelCategory) {
-            return incremented.setPreReleaseVersion(Category.PATCH.toString());
-        }
-        return incremented;
+        return original.incrementPatchVersion();
     }
 
 }

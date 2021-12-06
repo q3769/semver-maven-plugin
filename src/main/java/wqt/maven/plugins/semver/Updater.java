@@ -23,8 +23,9 @@ import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
 
 /**
+ * Updates POM version, based on current value
+ * 
  * @author Qingtian Wang
- *         Updates POM version, based on current value
  */
 public abstract class Updater extends SemverMojo {
 

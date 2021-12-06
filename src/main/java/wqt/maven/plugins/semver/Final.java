@@ -26,9 +26,10 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
+ * Mojo to strip off all additional labels of the SemVer, leaving the normal numbers untouched for final
+ * version.
+ * 
  * @author Qingtian Wang
- *         Mojo to strip off all additional labels of the SemVer, leaving the normal numbers untouched for final
- *         version.
  */
 @Mojo(name = "final", defaultPhase = LifecyclePhase.NONE)
 public class Final extends Updater {
