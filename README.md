@@ -86,7 +86,7 @@ increments 1.2.3-beta.1+build.10 into 1.2.3-beta.1+build.11
 ### Merge current POM version with another SemVer
 
 ```
-$ mvn semver:merge -Dsemver=1.3.8-SNAPSHOT
+$ mvn semver:merge -Dsemver=1.3.8-HOTFIX
 ```
-updates current POM's 1.2.3 version to 1.3.8-SNAPSHOT because, according to the SemVer spec, 1.3.8-SNAPSHOT is a newer version than 1.2.3.
+updates current POM's 1.2.3 version to 1.3.8-HOTFIX because 1.3.8-HOTFIX is a newer version than 1.2.3. Otherwise if the current POM version is 1.3.8, then no change will be made because, according to the SemVer spec, the current 1.3.8 is newer than the given 1.3.8-HOTFIX.
 
