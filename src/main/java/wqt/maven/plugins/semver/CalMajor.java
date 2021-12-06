@@ -22,12 +22,13 @@ package wqt.maven.plugins.semver;
 import com.github.zafarkhaja.semver.Version;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- * Increments major version to current calendar date in basic ISO format. i.e. Minor and patch versions are reset to
- * zeros.
+ * Increments major version to current calendar date in basic ISO format. If the resulting version is newer than the
+ * original POM version, up the POM version to the new one. Otherwise errors out.
  * 
  * @author Qingtian Wang
  */
@@ -36,19 +37,15 @@ public class CalMajor extends NormalNumberIncrementer {
 
     /**
      * @param original POM project version whose major number is to be incremented
-     * @return New semver version whose major number is incremented to current date in basic ISO format. Note that
-     *         repeated calls during the same calendar day will silently succeed, resetting minor and patch versions to
-     *         zeros.
+     * @return New semver version whose major number is incremented to current date in basic ISO format. Error out
      */
     @Override
-    protected Version incrementNormalNumber(Version original) {
+    protected Version incrementNormalNumber(Version original) throws MojoFailureException {
         Version newVersion = new Version.Builder(LocalDate.now()
                 .format(DateTimeFormatter.BASIC_ISO_DATE) + ".0.0").build();
-        final int newMajor = newVersion.getMajorVersion();
-        final int originalMajor = original.getMajorVersion();
-        if (newMajor < originalMajor) {
-            throw new IllegalStateException("New major version : " + newMajor + " cannot be smaller than original : "
-                    + originalMajor);
+        if (original.greaterThanOrEqualTo(newVersion)) {
+            throw new MojoFailureException("Original POM version: " + original
+                    + " is already newer than the intended update: " + newVersion);
         }
         return newVersion;
     }

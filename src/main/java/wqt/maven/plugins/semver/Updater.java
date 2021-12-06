@@ -43,6 +43,6 @@ public abstract class Updater extends SemverMojo {
      * @return the incremented result SemVer
      * @throws MojoFailureException on build error
      */
-    abstract protected Version update(Version original) throws MojoFailureException;
+    protected abstract Version update(Version original) throws MojoFailureException;
 
 }

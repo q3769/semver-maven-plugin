@@ -21,6 +21,7 @@ package wqt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
@@ -38,16 +39,16 @@ public abstract class NormalNumberIncrementer extends Updater {
      * parameter from CLI.
      */
     @Parameter(property = "snapshot", defaultValue = "false", required = false)
-    protected boolean snapshot;
+    protected boolean labelSnapshot;
 
     /**
      * @param original from POM
      * @return result SemVer by incrementing one of the normal digits of the original version
      */
     @Override
-    protected Version update(Version original) {
+    protected Version update(Version original) throws MojoFailureException {
         Version incremented = incrementNormalNumber(original);
-        if (!snapshot) {
+        if (!labelSnapshot) {
             return incremented;
         }
         final String incrementedLabel = incremented.getPreReleaseVersion();
@@ -63,7 +64,8 @@ public abstract class NormalNumberIncrementer extends Updater {
     /**
      * @param original Local POM version whose normal numbers is about to be incremented
      * @return target version to update POM
+     * @throws org.apache.maven.plugin.MojoFailureException
      */
-    abstract protected Version incrementNormalNumber(Version original);
+    protected abstract Version incrementNormalNumber(Version original) throws MojoFailureException;
 
 }

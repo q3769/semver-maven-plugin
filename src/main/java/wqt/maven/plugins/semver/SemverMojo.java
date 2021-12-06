@@ -74,7 +74,7 @@ public abstract class SemverMojo extends AbstractMojo {
      * @return new target version to be set in the POM file
      * @throws MojoFailureException on build error
      */
-    abstract protected Version getUpdatedVersion() throws MojoFailureException;
+    protected abstract Version getUpdatedVersion() throws MojoFailureException;
 
     /**
      * @param version New version to be set in the POM file
