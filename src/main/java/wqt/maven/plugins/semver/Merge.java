@@ -42,6 +42,7 @@ public class Merge extends Updater {
 
     @Override
     protected Version update(Version original) throws MojoFailureException {
+        getLog().info("Merging current version: " + original + " with version: " + otherSemVer);
         final Version other = requireValidSemVer(otherSemVer);
         if (original.greaterThanOrEqualTo(other))
             return original;
