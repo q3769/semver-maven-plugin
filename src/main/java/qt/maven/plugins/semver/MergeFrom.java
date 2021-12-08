@@ -47,18 +47,23 @@ public class MergeFrom extends Updater {
         getLog().info("Merging current version: " + original + " from version: " + otherSemVer
                 + ", result will keep labels of the original");
         final Version other = requireValidSemVer(otherSemVer);
-        Version result = new Version.Builder(other.greaterThanOrEqualTo(original) ? other.getNormalVersion() : original
-                .getNormalVersion()).build();
+        Version result = original;
         final SemverCategory originalCategory = SemverCategory.getCategory(original);
         switch (originalCategory) {
             case MAJOR:
-                result = result.incrementMajorVersion();
+                if (original.lessThanOrEqualTo(other)) {
+                    result = other.incrementMajorVersion();
+                }
                 break;
             case MINOR:
-                result = result.incrementMinorVersion();
+                if (original.lessThanOrEqualTo(other)) {
+                    result = other.incrementMinorVersion();
+                }
                 break;
             case PATCH:
-                result = result.incrementPatchVersion();
+                if (original.lessThanOrEqualTo(other)) {
+                    result = other.incrementPatchVersion();
+                }
                 break;
             default:
                 throw new IllegalStateException("Unexpected: " + originalCategory);
