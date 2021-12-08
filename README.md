@@ -120,4 +120,10 @@ $ mvn semver:merge-from iDsemver=1.3.10-HOTFIX
 
 updates 1.2.3-SNAPSHOT into 1.3.11-SNAPSHOT. This first takes the newer of the two semvers, then increments that on the normal number of the original version's intended update category, and keeps the labels of the original version's.
 
+### Verify the current POM version
 
+```
+$ mvn semver:verify
+```
+
+prints confirmation message if the current version of the local POM is in valid SemVer format, errors otherwise.
