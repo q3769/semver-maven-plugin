@@ -17,7 +17,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package wqt.maven.plugins.semver;
+package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.commons.lang3.StringUtils;
@@ -51,14 +51,14 @@ public abstract class NormalNumberIncrementer extends Updater {
         if (!labelSnapshot) {
             return incremented;
         }
-        final String incrementedLabel = incremented.getPreReleaseVersion();
-        if (StringUtils.isBlank(incrementedLabel)) {
+        final String preReleaseLabel = incremented.getPreReleaseVersion();
+        if (StringUtils.isBlank(preReleaseLabel)) {
             return incremented.setPreReleaseVersion(SNAPSHOT);
         }
-        if (incrementedLabel.endsWith(SNAPSHOT)) {
+        if (preReleaseLabel.endsWith(SNAPSHOT)) {
             return incremented;
         }
-        return incremented.setPreReleaseVersion(incrementedLabel + HYPHEN + SNAPSHOT);
+        return incremented.setPreReleaseVersion(preReleaseLabel + HYPHEN + SNAPSHOT);
     }
 
     /**

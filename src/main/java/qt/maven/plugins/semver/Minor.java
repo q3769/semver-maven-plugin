@@ -17,23 +17,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package wqt.maven.plugins.semver;
+package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- * Increment major
+ * Increment minor
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "major", defaultPhase = LifecyclePhase.NONE)
-public class Major extends NormalNumberIncrementer {
+@Mojo(name = "minor", defaultPhase = LifecyclePhase.NONE)
+public class Minor extends NormalNumberIncrementer {
 
     @Override
     protected Version incrementNormalNumber(Version original) {
-        return original.incrementMajorVersion();
+        return original.incrementMinorVersion();
     }
 
 }

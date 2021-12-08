@@ -1,6 +1,6 @@
 /*
  * The MIT License
- * Copyright 2020 Qingtian Wang.
+ * Copyright 2021 Qingtian Wang.
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -17,23 +17,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package wqt.maven.plugins.semver;
+
+package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- * Increment patch
- * 
  * @author Qingtian Wang
  */
-@Mojo(name = "patch", defaultPhase = LifecyclePhase.NONE)
-public class Patch extends NormalNumberIncrementer {
+enum SemverCategory {
 
-    @Override
-    protected Version incrementNormalNumber(Version original) {
-        return original.incrementPatchVersion();
+    MAJOR,
+    MINOR,
+    PATCH;
+
+    static SemverCategory getCategory(Version version) {
+        final int major = version.getMajorVersion();
+        final int minor = version.getMinorVersion();
+        final int patch = version.getPatchVersion();
+        if (major == 0 && minor == 0 && patch == 0)
+            throw new IllegalArgumentException("At least one normal number is expected to be non-zero: " + version);
+        if (minor == 0 && patch == 0)
+            return MAJOR;
+        if (patch == 0)
+            return MINOR;
+        return PATCH;
     }
 
 }

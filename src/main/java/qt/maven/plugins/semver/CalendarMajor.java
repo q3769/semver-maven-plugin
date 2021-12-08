@@ -17,37 +17,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package wqt.maven.plugins.semver;
+package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.commons.lang3.StringUtils;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- * Mojo to strip off all additional labels of the SemVer, leaving the normal numbers untouched for final
- * version.
+ * Increments major version to current calendar date in basic ISO format. If the resulting version is newer than the
+ * original POM version, up the POM version to the new one. Otherwise errors out.
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "final", defaultPhase = LifecyclePhase.NONE)
-public class Final extends Updater {
+@Mojo(name = "calendar-major", defaultPhase = LifecyclePhase.NONE)
+public class CalendarMajor extends NormalNumberIncrementer {
 
     /**
-     * @param original to finalize
-     * @return final SemVer version of the original, all meta info stripped
-     * @throws MojoFailureException if the original SemVer is already without additional labels
+     * @param original POM project version whose major number is to be incremented
+     * @return New semver version whose major number is incremented to current date in basic ISO format. Error out
      */
     @Override
-    protected Version update(Version original) throws MojoFailureException {
-        if (StringUtils.isBlank(original.getPreReleaseVersion()) && StringUtils.isBlank(original.getBuildMetadata())) {
-            final String error = "Failed to strip additional labels from version: " + original;
-            getLog().error(error);
-            throw new MojoFailureException(error, new IllegalArgumentException("Original version: " + original
-                    + " has no additional labels"));
+    protected Version incrementNormalNumber(Version original) throws MojoFailureException {
+        Version newVersion = new Version.Builder(LocalDate.now()
+                .format(DateTimeFormatter.BASIC_ISO_DATE) + ".0.0").build();
+        if (original.greaterThanOrEqualTo(newVersion)) {
+            throw new MojoFailureException("Original POM version: " + original
+                    + " is already newer than the intended update: " + newVersion);
         }
-        return Version.forIntegers(original.getMajorVersion(), original.getMinorVersion(), original.getPatchVersion());
+        return newVersion;
     }
 
 }

@@ -17,32 +17,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package wqt.maven.plugins.semver;
+package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- * Updates POM version, based on current value
+ * Mojo to strip off all additional labels of the SemVer, leaving the normal numbers untouched for final
+ * version.
  * 
  * @author Qingtian Wang
  */
-public abstract class Updater extends SemverMojo {
+@Mojo(name = "final", defaultPhase = LifecyclePhase.NONE)
+public class Final extends Updater {
 
     /**
-     * @return The incremented SemVer
-     * @throws MojoFailureException if original version in POM is malformed
+     * @param original to finalize
+     * @return final SemVer version of the original, all meta info stripped
+     * @throws MojoFailureException if the original SemVer is already without additional labels
      */
     @Override
-    protected Version getUpdatedVersion() throws MojoFailureException {
-        return update(requireValidSemVer(project.getVersion()));
+    protected Version update(Version original) throws MojoFailureException {
+        if (StringUtils.isBlank(original.getPreReleaseVersion()) && StringUtils.isBlank(original.getBuildMetadata())) {
+            final String error = "Failed to strip additional labels from version: " + original;
+            getLog().error(error);
+            throw new MojoFailureException(error, new IllegalArgumentException("Original version: " + original
+                    + " has no additional labels"));
+        }
+        return Version.forIntegers(original.getMajorVersion(), original.getMinorVersion(), original.getPatchVersion());
     }
-
-    /**
-     * @param original SemVer to be updated
-     * @return the incremented result SemVer
-     * @throws MojoFailureException on build error
-     */
-    protected abstract Version update(Version original) throws MojoFailureException;
 
 }

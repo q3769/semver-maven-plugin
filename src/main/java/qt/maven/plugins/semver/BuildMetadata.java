@@ -17,20 +17,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package wqt.maven.plugins.semver;
+package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Mojo to increment build meta info portion of the SemVer text
+ * Mojo to increment build meta info portion of the SemVer text. If, however, the <code>set</code> parameter is passed
+ * in, its value will be used to set as the build metadata label.
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "bm", defaultPhase = LifecyclePhase.NONE)
-public class BuildMeta extends Updater {
+@Mojo(name = "build-metadata", defaultPhase = LifecyclePhase.NONE)
+public class BuildMetadata extends Updater {
+
+    /**
+     * If passed in, will be used to set as the build metadata label.
+     */
+    @Parameter(property = "set", defaultValue = "", required = false)
+    protected String set;
 
     /**
      * @param original from POM
@@ -39,14 +48,19 @@ public class BuildMeta extends Updater {
      */
     @Override
     protected Version update(Version original) throws MojoFailureException {
-        try {
-            return original.incrementBuildMetadata();
-        } catch (Exception ex) {
-            final String error = "Failed to increment build meta info of original version: " + original
-                    + " - build meta portion needs to exist and conform to SemVer format before increment";
-            getLog().error(error, ex);
-            throw new MojoFailureException(error, ex);
+        if (StringUtils.isBlank(set)) {
+            getLog().info("Incrementing build metadata label of version: " + original);
+            try {
+                return original.incrementBuildMetadata();
+            } catch (Exception ex) {
+                final String error = "Failed to increment build meta info of original version: " + original
+                        + " - build meta portion needs to exist and conform to SemVer format before increment";
+                getLog().error(error, ex);
+                throw new MojoFailureException(error, ex);
+            }
         }
+        getLog().info("Setting build metadata label of version: " + original + " into: " + set);
+        return original.setBuildMetadata(set);
     }
 
 }

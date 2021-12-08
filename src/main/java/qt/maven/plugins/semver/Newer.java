@@ -17,7 +17,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package wqt.maven.plugins.semver;
+package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
@@ -26,26 +26,27 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Hard-sets to new SemVer, ignoring current version in POM
+ * Merge this POM's version with another SemVer passed in as parameter. End result will the higher of the two per SemVer
+ * spec.
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "set", defaultPhase = LifecyclePhase.NONE)
-public class Setter extends SemverMojo {
+@Mojo(name = "newer", defaultPhase = LifecyclePhase.NONE)
+public class Newer extends Updater {
 
     /**
-     * Expected to be passed in as a -D parameter in CLI. Needs to be in valid SemVer format.
+     * The other SemVer to be merged with current local POM's version
      */
-    @Parameter(property = "semver", defaultValue = "", required = true)
-    protected String semver;
+    @Parameter(property = "semver", defaultValue = "NOT_SET", required = true)
+    protected String otherSemVer;
 
-    /**
-     * @return target SemVer per user CLI parameter
-     * @throws MojoFailureException if input target version is malformed per SemVer spec
-     */
     @Override
-    protected Version getUpdatedVersion() throws MojoFailureException {
-        return requireValidSemVer(semver);
+    protected Version update(Version original) throws MojoFailureException {
+        getLog().info("Merging current version: " + original + " with version: " + otherSemVer);
+        final Version other = requireValidSemVer(otherSemVer);
+        if (original.greaterThanOrEqualTo(other))
+            return original;
+        return other;
     }
 
 }

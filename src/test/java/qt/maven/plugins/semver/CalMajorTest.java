@@ -17,7 +17,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package wqt.maven.plugins.semver;
+package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 import java.time.LocalDate;
@@ -39,7 +39,7 @@ public class CalMajorTest {
     private static final String TODAY = LocalDate.now()
             .format(DateTimeFormatter.BASIC_ISO_DATE);
     private static final Version EXPECTED_RESULT = new Version.Builder(TODAY + ".0.0").build();
-    private final CalMajor instance = new CalMajor();
+    private final CalendarMajor instance = new CalendarMajor();
 
     @Test
     public void testShouldIncrementMojorToToday() throws MojoFailureException {
