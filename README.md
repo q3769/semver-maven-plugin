@@ -21,7 +21,7 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20211207.0.0</version>
+                <version>20211208.0.0</version>
             </plugin>
             ...
 ```            
@@ -104,21 +104,21 @@ $ mvn semver:build-metadata -Dset=build.reno
 
 updates 1.2.3-alpha into 1.2.3-alpha+build.reno
 
-### Take the newer of the POM version and another SemVer
+### Pick the newer of the POM version and another SemVer
 
 ```
-$ mvn semver:newer -Dsemver=1.3.8-HOTFIX
+$ mvn semver:pick-newer -Dsemver=1.3.8-HOTFIX
 ```
 
 updates current POM's 1.2.3 version to 1.3.8-HOTFIX because 1.3.8-HOTFIX is a newer version than 1.2.3. However, if the current POM version is 1.3.8, then no change will be made because, according to the SemVer spec, the current 1.3.8 is newer than the given 1.3.8-HOTFIX.
 
-### Merge from another SemVer
+### Merge with another SemVer
 
 ```
-$ mvn semver:merge-from -Dsemver=1.3.10-HOTFIX
+$ mvn semver:merge -Dsemver=1.3.10-HOTFIX
 ```
 
-updates 1.2.3-SNAPSHOT into 1.3.11-SNAPSHOT. The basic idea is first, according to the SemVer spec, figure out the target category the POM version is intends to be incrementing. Then compare the POM version with the given one. If the POM version is older or equal to the given, then increment the given on the category number the POM version intends to increment, and use the incremented given one as the result. Otherwise if the POM version is newer than the given, then the POM version stays unchanged. In any case, the pre-release and build metadata labels of the POM version always stay the same.
+updates 1.2.3-SNAPSHOT into 1.3.11-SNAPSHOT. The basic idea is: If, according to the SemVer spec, the current POM version is newer than the given, then the POM version stays unchanged; otherwise, figure out the intended change category of the current POM version, then increment the given version on the intended category number, and use the incremented given version as the result. In any case, the pre-release and build metadata labels of the POM version always stay the same.
 
 ### Verify the current POM version
 

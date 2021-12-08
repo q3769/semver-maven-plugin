@@ -31,8 +31,8 @@ import org.apache.maven.plugins.annotations.Parameter;
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "newer", defaultPhase = LifecyclePhase.NONE)
-public class Newer extends Updater {
+@Mojo(name = "pick-newer", defaultPhase = LifecyclePhase.NONE)
+public class PickNewer extends Updater {
 
     /**
      * The other SemVer to be merged with current local POM's version
@@ -42,10 +42,13 @@ public class Newer extends Updater {
 
     @Override
     protected Version update(Version original) throws MojoFailureException {
-        getLog().info("Merging current version: " + original + " with version: " + otherSemVer);
+        getLog().info("Taking the newer of current version: " + original + " and version: " + otherSemVer);
         final Version other = requireValidSemVer(otherSemVer);
-        if (original.greaterThanOrEqualTo(other))
+        if (original.greaterThanOrEqualTo(other)) {
+            getLog().info("Current version: " + original + " is picked");
             return original;
+        }
+        getLog().info("New version: " + otherSemVer + " is picked");
         return other;
     }
 

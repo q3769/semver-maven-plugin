@@ -20,6 +20,8 @@
 package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -33,8 +35,33 @@ import org.apache.maven.plugins.annotations.Parameter;
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "merge-from", defaultPhase = LifecyclePhase.NONE)
-public class MergeFrom extends Updater {
+@Mojo(name = "merge", defaultPhase = LifecyclePhase.NONE)
+public class Merge extends Updater {
+
+    private static final Logger LOG = Logger.getLogger(Merge.class.getName());
+
+    private static Version setLabels(Version version, String preReleaseLabel, String buildMetadataLabel) {
+        Version withLabels = version;
+        if (StringUtils.isNotBlank(preReleaseLabel))
+            withLabels = version.setPreReleaseVersion(preReleaseLabel);
+        if (StringUtils.isNotBlank(buildMetadataLabel))
+            withLabels = version.setBuildMetadata(buildMetadataLabel);
+        return withLabels;
+    }
+
+    private static Version increment(Version version, SemverCategory category) {
+        LOG.log(Level.INFO, "Incrementing version: {0} on category: {1}", new Object[] { version, category });
+        switch (category) {
+            case MAJOR:
+                return version.incrementMajorVersion();
+            case MINOR:
+                return version.incrementMinorVersion();
+            case PATCH:
+                return version.incrementPatchVersion();
+            default:
+                throw new IllegalStateException("Unexpected: " + category);
+        }
+    }
 
     /**
      * The other SemVer to be merged with current local POM's version
@@ -47,33 +74,15 @@ public class MergeFrom extends Updater {
         getLog().info("Merging current version: " + original + " from version: " + otherSemVer
                 + ", result will keep labels of the original");
         final Version other = requireValidSemVer(otherSemVer);
-        Version result = original;
-        final SemverCategory originalCategory = SemverCategory.getCategory(original);
-        switch (originalCategory) {
-            case MAJOR:
-                if (original.lessThanOrEqualTo(other)) {
-                    result = other.incrementMajorVersion();
-                }
-                break;
-            case MINOR:
-                if (original.lessThanOrEqualTo(other)) {
-                    result = other.incrementMinorVersion();
-                }
-                break;
-            case PATCH:
-                if (original.lessThanOrEqualTo(other)) {
-                    result = other.incrementPatchVersion();
-                }
-                break;
-            default:
-                throw new IllegalStateException("Unexpected: " + originalCategory);
+        if (original.greaterThan(other)) {
+            getLog().info("Current POM version: " + original + " is newer, so no change after merge.");
+            return original;
         }
-        final String originalPreRelease = original.getPreReleaseVersion();
-        final String originaBuildMetadata = original.getBuildMetadata();
-        if (StringUtils.isNotBlank(originalPreRelease))
-            result = result.setPreReleaseVersion(originalPreRelease);
-        if (StringUtils.isNotBlank(originaBuildMetadata))
-            result = result.setBuildMetadata(originaBuildMetadata);
+        getLog().info("Incoming version: " + other + " is new than current POM version: " + original);
+        Version result = increment(other, SemverCategory.getCategory(original));
+        getLog().info("Keeping orginal labels of POM version: " + original);
+        result = setLabels(result, original.getPreReleaseVersion(), original.getBuildMetadata());
+        getLog().info("Merged version: " + result);
         return result;
     }
 }
