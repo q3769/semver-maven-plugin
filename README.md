@@ -21,7 +21,7 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20211206.0.1</version>
+                <version>20211207.0.0</version>
             </plugin>
             ...
 ```            
@@ -35,11 +35,13 @@ From CLI, assuming you are in the Maven project's default root directory where t
 ```
 $ mvn semver:set -Dsemver=blah
 ```
+
 errors out because 'blah' is not a valid SemVer
 
 ```
 $ mvn semver:set -Dsemver=1.2.3-beta
 ```
+
 sets the value of the version element of the pom.xml file to be 1.2.3-beta, regardless of the existing value
 
 ### Increment normal version number
@@ -47,21 +49,25 @@ sets the value of the version element of the pom.xml file to be 1.2.3-beta, rega
 ```
 $ mvn semver:major
 ```
+
 increments 1.2.3-beta.1 into 2.0.0, where 1.2.3-beta.1 is the existing value
 
 ```
 $ mvn semver:minor -Dsnapshot=true
 ```
+
 increments 1.2.3 into 1.3.0-SNAPSHOT. Note that the snapshot flag works with all three types of normal version increment.
 
 ```
 $ mvn semver:patch
 ```
+
 increments 1.2.3-beta.1 into 1.2.4
 
 ```
-$ mvn semver:calMajor
+$ mvn semver:calendar-major
 ```
+
 increments 1.23.4 or 20201231.2.3-beta.1 into 20210131.0.0, assuming today is Jan 31, 2021. If the original POM version is already newer than that of `<today>.0.0`, error is returned and no update will be performed to the POM. 
 
 ### Finalize current version
@@ -69,21 +75,36 @@ increments 1.23.4 or 20201231.2.3-beta.1 into 20210131.0.0, assuming today is Ja
 ```
 $ mvn semver:final
 ```
+
 changes 1.2.3-SNAPSHOT or 1.2.3-beta.1+build.10 into 1.2.3, stripping off all additional labels
 
-### Increment pre-release or build meta label
+### Pre-release and build meta label
 
 ```
-$ mvn semver:pr
+$ mvn semver:pre-release
 ```
+
 increments 1.2.3-beta into 1.2.3-beta.1
 
 ```
-$ mvn semver:bm
+$ mvn semver:build-metadata
 ```
+
 increments 1.2.3-beta.1+build.10 into 1.2.3-beta.1+build.11
 
-### Merge current POM version with another SemVer
+```
+$ mvn semver:pre-release -Dset=beta
+```
+
+updates 1.2.3-alpha+build.7 into 1.2.3-beta
+
+```
+$ mvn semver:build-metadata -Dset=build.reno
+```
+
+updates 1.2.3-alpha into 1.2.3-alpha+build.reno
+
+### Take the newer of the POM version and another SemVer
 
 ```
 $ mvn semver:newer -Dsemver=1.3.8-HOTFIX
