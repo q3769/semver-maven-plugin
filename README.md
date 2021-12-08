@@ -115,7 +115,7 @@ updates current POM's 1.2.3 version to 1.3.8-HOTFIX because 1.3.8-HOTFIX is a ne
 ### Merge from another SemVer
 
 ```
-$ mvn semver:merge-from iDsemver=1.3.10-HOTFIX
+$ mvn semver:merge-from -Dsemver=1.3.10-HOTFIX
 ```
 
 updates 1.2.3-SNAPSHOT into 1.3.11-SNAPSHOT. The basic idea is first, according to the SemVer spec, figure out the target category the POM version is intends to be incrementing. Then compare the POM version with the given one. If the POM version is older or equal to the given, then increment the given on the category number the POM version intends to increment, and use the incremented given one as the result. Otherwise if the POM version is newer than the given, then the POM version stays unchanged. In any case, the pre-release and build metadata labels of the POM version always stay the same.
