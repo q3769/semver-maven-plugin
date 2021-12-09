@@ -127,3 +127,9 @@ $ mvn semver:verify
 ```
 
 prints confirmation message if the current version of the local POM is in valid SemVer format, errors otherwise.
+
+```
+$ mvn semver:verify -Dforce-stdout -q
+```
+
+prints the current POM version and nothing else (e.g. "1.2.3-beta.4+build.5") in std out if it is a valid SemVer. Note that you need `-q` or `--quiet` option to suppress regular Maven messages.
