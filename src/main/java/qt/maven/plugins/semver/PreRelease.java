@@ -20,11 +20,8 @@
 package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * Mojo to increment pre-release portion of the SemVer text. If, however, the <code>set</code> parameter is passed in,
@@ -33,28 +30,15 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author Qingtian Wang
  */
 @Mojo(name = "pre-release", defaultPhase = LifecyclePhase.NONE)
-public class PreRelease extends Updater {
-
-    /**
-     * If passed in, will be used to set as the pre-release label.
-     */
-    @Parameter(property = "set", defaultValue = "", required = false)
-    protected String set;
+public class PreRelease extends LabelUpdater {
 
     @Override
-    protected Version update(Version original) throws MojoFailureException {
-        if (StringUtils.isBlank(set)) {
-            getLog().info("Incrementing pre-release label of version: " + original);
-            try {
-                return original.incrementPreReleaseVersion();
-            } catch (Exception ex) {
-                final String error = "Failed to increment pre-release info of original version: " + original
-                        + " - pre-release portion needs to exist and conform to SemVer format before increment";
-                getLog().error(error, ex);
-                throw new MojoFailureException(error, ex);
-            }
-        }
-        getLog().info("Setting pre-release label of version: " + original + " into: " + set);
-        return original.setPreReleaseVersion(set);
+    protected Version setLabel(Version version, String label) {
+        return version.setPreReleaseVersion(label);
+    }
+
+    @Override
+    protected Version incrementLabel(Version version) {
+        return version.incrementPreReleaseVersion();
     }
 }

@@ -20,11 +20,8 @@
 package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * Mojo to increment build meta info portion of the SemVer text. If, however, the <code>set</code> parameter is passed
@@ -33,34 +30,16 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author Qingtian Wang
  */
 @Mojo(name = "build-metadata", defaultPhase = LifecyclePhase.NONE)
-public class BuildMetadata extends Updater {
+public class BuildMetadata extends LabelUpdater {
 
-    /**
-     * If passed in, will be used to set as the build metadata label.
-     */
-    @Parameter(property = "set", defaultValue = "", required = false)
-    protected String set;
-
-    /**
-     * @param original from POM
-     * @return updated to set in POM
-     * @throws MojoFailureException on build error
-     */
     @Override
-    protected Version update(Version original) throws MojoFailureException {
-        if (StringUtils.isBlank(set)) {
-            getLog().info("Incrementing build metadata label of version: " + original);
-            try {
-                return original.incrementBuildMetadata();
-            } catch (Exception ex) {
-                final String error = "Failed to increment build meta info of original version: " + original
-                        + " - build meta portion needs to exist and conform to SemVer format before increment";
-                getLog().error(error, ex);
-                throw new MojoFailureException(error, ex);
-            }
-        }
-        getLog().info("Setting build metadata label of version: " + original + " into: " + set);
-        return original.setBuildMetadata(set);
+    protected Version incrementLabel(Version version) {
+        return version.incrementBuildMetadata();
+    }
+
+    @Override
+    protected Version setLabel(Version version, String label) {
+        return version.setBuildMetadata(label);
     }
 
 }
