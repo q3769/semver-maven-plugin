@@ -50,7 +50,7 @@ public class Verify extends AbstractMojo {
         final String version = project.getVersion();
         try {
             Version.valueOf(version);
-            getLog().info("Original POM version: " + version + " is a valid SemVer, printing to std out...");
+            getLog().info("Original POM version: " + version + " is a valid SemVer.");
             if (forceStdOut)
                 System.out.println(version);
         } catch (Exception ex) {
