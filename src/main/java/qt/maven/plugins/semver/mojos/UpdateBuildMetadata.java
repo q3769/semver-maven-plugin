@@ -17,23 +17,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver;
+package qt.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import qt.maven.plugins.semver.LabelUpdater;
 
 /**
- * Increment patch
+ * Mojo to increment build meta info portion of the SemVer text. If, however, the <code>set</code> parameter is passed
+ * in, its value will be used to set as the build metadata label.
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "patch", defaultPhase = LifecyclePhase.NONE)
-public class Patch extends NormalNumberIncrementer {
+@Mojo(name = "update-build-metadata", defaultPhase = LifecyclePhase.NONE)
+public class UpdateBuildMetadata extends LabelUpdater {
 
     @Override
-    protected Version incrementNormalNumber(Version original) {
-        return original.incrementPatchVersion();
+    protected Version incrementLabel(Version version) {
+        return version.incrementBuildMetadata();
+    }
+
+    @Override
+    protected Version setLabel(Version version, String label) {
+        return version.setBuildMetadata(label);
     }
 
 }

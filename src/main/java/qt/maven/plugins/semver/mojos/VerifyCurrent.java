@@ -17,37 +17,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver;
+package qt.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 
 /**
- * Mojo to strip off all additional labels of the SemVer, leaving the normal numbers untouched for final
- * version.
+ * VerifyCurrent the current POM version is a valid SemVer
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "final", defaultPhase = LifecyclePhase.NONE)
-public class Final extends Updater {
+@Mojo(name = "verify-current", defaultPhase = LifecyclePhase.NONE)
+public class VerifyCurrent extends AbstractMojo {
 
     /**
-     * @param original to finalize
-     * @return final SemVer version of the original, all meta info stripped
-     * @throws MojoFailureException if the original SemVer is already without additional labels
+     * Current Maven POM
      */
+    @Parameter(property = "project", defaultValue = "${project}", readonly = true, required = true)
+    protected MavenProject project;
+
+    @Parameter(property = "force-stdout", defaultValue = "false", required = false)
+    protected boolean forceStdOut;
+
     @Override
-    protected Version update(Version original) throws MojoFailureException {
-        if (StringUtils.isBlank(original.getPreReleaseVersion()) && StringUtils.isBlank(original.getBuildMetadata())) {
-            final String error = "Failed to strip additional labels from version: " + original;
-            getLog().error(error);
-            throw new MojoFailureException(error, new IllegalArgumentException("Original version: " + original
-                    + " has no additional labels"));
+    public void execute() throws MojoExecutionException, MojoFailureException {
+        final String version = project.getVersion();
+        try {
+            Version.valueOf(version);
+            getLog().info("Original POM version: " + version + " is a valid SemVer.");
+            if (forceStdOut)
+                System.out.println(version);
+        } catch (Exception ex) {
+            getLog().error("Original POM version: " + version + " is not a valid SemVer");
+            throw ex;
         }
-        return Version.forIntegers(original.getMajorVersion(), original.getMinorVersion(), original.getPatchVersion());
     }
 
 }

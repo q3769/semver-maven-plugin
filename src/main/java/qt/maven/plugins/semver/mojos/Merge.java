@@ -17,7 +17,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver;
+package qt.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
 import java.util.logging.Level;
@@ -27,6 +27,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import qt.maven.plugins.semver.SemverCategory;
+import qt.maven.plugins.semver.Updater;
 
 /**
  * Merge this POM's version with another SemVer passed in as parameter, and set the merge result as the updated POM
@@ -73,8 +75,8 @@ public class Merge extends Updater {
 
     @Override
     protected Version update(Version original) throws MojoFailureException {
-        getLog().info("Merging current version: " + original + " from version: " + otherSemVer
-                + ", result will keep labels of the original");
+        getLog().info("Merging current version: " + original + " with version: " + otherSemVer
+                + ", result will keep labels of the current");
         final Version other = requireValidSemVer(otherSemVer);
         if (original.greaterThan(other)) {
             getLog().info("Current POM version: " + original + " is newer, so no change after merge.");

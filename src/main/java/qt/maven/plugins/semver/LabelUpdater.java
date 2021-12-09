@@ -38,18 +38,22 @@ public abstract class LabelUpdater extends Updater {
 
     @Override
     protected Version update(Version original) throws MojoFailureException {
+        final String updatePreReleaseOrBuildMetadata = mojo.getGoal();
         if (StringUtils.isBlank(set)) {
-            getLog().info("Incrementing pre-release label of version: " + original);
+            getLog().info("Incrementing label of version: " + original + " in goal: "
+                    + updatePreReleaseOrBuildMetadata);
             try {
                 return incrementLabel(original);
             } catch (Exception ex) {
                 final String error = "Failed to increment label of original version: " + original
-                        + ", the target label needs to exist and conform to SemVer format before increment";
+                        + ", the target label in goal: " + updatePreReleaseOrBuildMetadata
+                        + " needs to exist and conform to SemVer format before increment";
                 getLog().error(error, ex);
                 throw new MojoFailureException(error, ex);
             }
         }
-        getLog().info("Setting pre-release label of version: " + original + " into: " + set);
+        getLog().info("Setting label of version: " + original + " in goal: " + updatePreReleaseOrBuildMetadata
+                + " into: " + set);
         return setLabel(original, set);
     }
 

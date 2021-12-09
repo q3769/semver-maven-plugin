@@ -25,13 +25,13 @@ import com.github.zafarkhaja.semver.Version;
 /**
  * @author Qingtian Wang
  */
-enum SemverCategory {
+public enum SemverCategory {
 
     MAJOR,
     MINOR,
     PATCH;
 
-    static SemverCategory getCategory(Version version) {
+    public static SemverCategory getCategory(Version version) {
         final int major = version.getMajorVersion();
         final int minor = version.getMinorVersion();
         final int patch = version.getPatchVersion();

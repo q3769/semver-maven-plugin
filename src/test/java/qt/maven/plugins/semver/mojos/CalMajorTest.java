@@ -17,7 +17,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver;
+package qt.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
 import java.time.LocalDate;

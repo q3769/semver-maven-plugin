@@ -17,29 +17,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver;
+package qt.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import qt.maven.plugins.semver.SemverMojo;
 
 /**
- * Mojo to increment build meta info portion of the SemVer text. If, however, the <code>set</code> parameter is passed
- * in, its value will be used to set as the build metadata label.
+ * Hard-sets to new SemVer, ignoring current version in POM
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "build-metadata", defaultPhase = LifecyclePhase.NONE)
-public class BuildMetadata extends LabelUpdater {
+@Mojo(name = "set-current", defaultPhase = LifecyclePhase.NONE)
+public class SetCurrent extends SemverMojo {
 
-    @Override
-    protected Version incrementLabel(Version version) {
-        return version.incrementBuildMetadata();
-    }
+    /**
+     * Expected to be passed in as a -D parameter in CLI. Needs to be in valid SemVer format.
+     */
+    @Parameter(property = "semver", defaultValue = "", required = true)
+    protected String semver;
 
+    /**
+     * @return target SemVer per user CLI parameter
+     * @throws MojoFailureException if input target version is malformed per SemVer spec
+     */
     @Override
-    protected Version setLabel(Version version, String label) {
-        return version.setBuildMetadata(label);
+    protected Version getUpdatedVersion() throws MojoFailureException {
+        return requireValidSemVer(semver);
     }
 
 }

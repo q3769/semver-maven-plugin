@@ -17,28 +17,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver;
+package qt.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import qt.maven.plugins.semver.NormalNumberIncrementer;
 
 /**
- * Mojo to increment pre-release portion of the SemVer text. If, however, the <code>set</code> parameter is passed in,
- * then its value will be used to set as the pre-release label.
+ * Increment major
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "pre-release", defaultPhase = LifecyclePhase.NONE)
-public class PreRelease extends LabelUpdater {
+@Mojo(name = "increment-major", defaultPhase = LifecyclePhase.NONE)
+public class IncrementMajor extends NormalNumberIncrementer {
 
     @Override
-    protected Version setLabel(Version version, String label) {
-        return version.setPreReleaseVersion(label);
+    protected Version incrementNormalNumber(Version original) {
+        return original.incrementMajorVersion();
     }
 
-    @Override
-    protected Version incrementLabel(Version version) {
-        return version.incrementPreReleaseVersion();
-    }
 }

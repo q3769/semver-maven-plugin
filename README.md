@@ -21,7 +21,7 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20211208.0.1</version>
+                <version>20211209.0.0</version>
             </plugin>
             ...
 ```            
@@ -33,13 +33,13 @@ From CLI, assuming you are in the Maven project's default root directory where t
 ### Hard set
 
 ```
-$ mvn semver:set -Dsemver=blah
+$ mvn semver:set-current -Dsemver=blah
 ```
 
 errors out because 'blah' is not a valid SemVer
 
 ```
-$ mvn semver:set -Dsemver=1.2.3-beta
+$ mvn semver:set-current -Dsemver=1.2.3-beta
 ```
 
 sets the value of the version element of the pom.xml file to be 1.2.3-beta, regardless of the existing value
@@ -47,19 +47,19 @@ sets the value of the version element of the pom.xml file to be 1.2.3-beta, rega
 ### Increment normal version number
 
 ```
-$ mvn semver:major
+$ mvn semver:increment-major
 ```
 
 increments 1.2.3-beta.1 into 2.0.0, where 1.2.3-beta.1 is the existing value
 
 ```
-$ mvn semver:minor -Dsnapshot=true
+$ mvn semver:increment-minor -Dsnapshot=true
 ```
 
-increments 1.2.3 into 1.3.0-SNAPSHOT. Note that the snapshot flag works with all three types of normal version increment.
+increments 1.2.3 into 1.3.0-SNAPSHOT. Note that the `snapshot` flag works with all three types of normal version increment.
 
 ```
-$ mvn semver:patch
+$ mvn semver:increment-patch
 ```
 
 increments 1.2.3-beta.1 into 1.2.4
@@ -73,7 +73,7 @@ increments 1.23.4 or 20201231.2.3-beta.1 into 20210131.0.0, assuming today is Ja
 ### Finalize current version
 
 ```
-$ mvn semver:final
+$ mvn semver:finalize-current
 ```
 
 changes 1.2.3-SNAPSHOT or 1.2.3-beta.1+build.10 into 1.2.3, stripping off all additional labels
@@ -81,25 +81,25 @@ changes 1.2.3-SNAPSHOT or 1.2.3-beta.1+build.10 into 1.2.3, stripping off all ad
 ### Pre-release and build meta label
 
 ```
-$ mvn semver:pre-release
+$ mvn semver:update-pre-release
 ```
 
 increments 1.2.3-beta into 1.2.3-beta.1
 
 ```
-$ mvn semver:build-metadata
+$ mvn semver:update-build-metadata
 ```
 
 increments 1.2.3-beta.1+build.10 into 1.2.3-beta.1+build.11
 
 ```
-$ mvn semver:pre-release -Dset=beta
+$ mvn semver:update-pre-release -Dset=beta
 ```
 
 updates 1.2.3-alpha+build.7 into 1.2.3-beta
 
 ```
-$ mvn semver:build-metadata -Dset=build.reno
+$ mvn semver:update-build-metadata -Dset=build.reno
 ```
 
 updates 1.2.3-alpha into 1.2.3-alpha+build.reno
@@ -123,13 +123,13 @@ updates 1.2.3-SNAPSHOT into 1.3.11-SNAPSHOT. The basic idea is: If, according to
 ### Verify the current POM version
 
 ```
-$ mvn semver:verify
+$ mvn semver:verify-current
 ```
 
 prints confirmation message if the current version of the local POM is in valid SemVer format, errors otherwise.
 
 ```
-$ mvn semver:verify -Dforce-stdout -q
+$ mvn semver:verify-current -Dforce-stdout -q
 ```
 
 prints the current POM version and nothing else (e.g. "1.2.3-beta.4+build.5") in std out if it is a valid SemVer. Note that you need `-q` or `--quiet` option to suppress regular Maven messages.

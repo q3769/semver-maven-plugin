@@ -17,23 +17,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver;
+package qt.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
+import qt.maven.plugins.semver.NormalNumberIncrementer;
 
 /**
- * Increment major
+ * Increments major version to current calendar date in basic ISO format. If the resulting version is newer than the
+ * original POM version, up the POM version to the new one. Otherwise errors out.
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "major", defaultPhase = LifecyclePhase.NONE)
-public class Major extends NormalNumberIncrementer {
+@Mojo(name = "calendar-major", defaultPhase = LifecyclePhase.NONE)
+public class CalendarMajor extends NormalNumberIncrementer {
 
+    /**
+     * @param original POM project version whose major number is to be incremented
+     * @return New semver version whose major number is incremented to current date in basic ISO format. Error out
+     */
     @Override
-    protected Version incrementNormalNumber(Version original) {
-        return original.incrementMajorVersion();
+    protected Version incrementNormalNumber(Version original) throws MojoFailureException {
+        Version newVersion = new Version.Builder(LocalDate.now()
+                .format(DateTimeFormatter.BASIC_ISO_DATE) + ".0.0").build();
+        if (original.greaterThanOrEqualTo(newVersion)) {
+            throw new MojoFailureException("Original POM version: " + original
+                    + " is already newer than the intended update: " + newVersion);
+        }
+        return newVersion;
     }
 
 }
