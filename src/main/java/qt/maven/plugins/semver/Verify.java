@@ -42,13 +42,17 @@ public class Verify extends AbstractMojo {
     @Parameter(property = "project", defaultValue = "${project}", readonly = true, required = true)
     protected MavenProject project;
 
+    @Parameter(property = "force-stdout", defaultValue = "false", required = false)
+    protected boolean forceStdOut;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         final String version = project.getVersion();
         try {
             Version.valueOf(version);
             getLog().info("Original POM version: " + version + " is a valid SemVer, printing to std out...");
-            System.out.println(version);
+            if (forceStdOut)
+                System.out.println(version);
         } catch (Exception ex) {
             getLog().error("Original POM version: " + version + " is not a valid SemVer");
             throw ex;

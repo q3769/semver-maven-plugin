@@ -26,8 +26,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Merge this POM's version with another SemVer passed in as parameter. End result will the higher of the two per SemVer
- * spec.
+ * Compares this POM's version with another SemVer passed in as parameter, and pick the newer of the two versions as the
+ * updated POM version.
  * 
  * @author Qingtian Wang
  */

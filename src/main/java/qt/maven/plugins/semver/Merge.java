@@ -29,9 +29,11 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
- * Merge this POM's version with another SemVer passed in as parameter. End result will the higher version of the two,
- * plus an increment according to the current version's category. Same labels from the current semver will be used for
- * the merged version.
+ * Merge this POM's version with another SemVer passed in as parameter, and set the merge result as the updated POM
+ * version. If the current POM version is newer, no update will be performed. Otherwise, the update version will be
+ * decided this way: Take the intended SemVer category of the current POM version; increment the passed in SemVer on the
+ * same category number as the currently intended category, and use the incremented result as the new POM version. The
+ * pre-release and build metadata labels of the new POM version are the same as the original POM's.
  * 
  * @author Qingtian Wang
  */
