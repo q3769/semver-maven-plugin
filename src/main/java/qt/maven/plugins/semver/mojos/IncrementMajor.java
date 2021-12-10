@@ -22,7 +22,7 @@ package qt.maven.plugins.semver.mojos;
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import qt.maven.plugins.semver.NormalNumberIncrementer;
+import qt.maven.plugins.semver.Updater;
 
 /**
  * Increment major
@@ -30,10 +30,10 @@ import qt.maven.plugins.semver.NormalNumberIncrementer;
  * @author Qingtian Wang
  */
 @Mojo(name = "increment-major", defaultPhase = LifecyclePhase.NONE)
-public class IncrementMajor extends NormalNumberIncrementer {
+public class IncrementMajor extends Updater {
 
     @Override
-    protected Version incrementNormalNumber(Version original) {
+    protected Version update(Version original) {
         return original.incrementMajorVersion();
     }
 

@@ -45,7 +45,7 @@ public class CalMajorTest {
     public void testShouldIncrementMojorToToday() throws MojoFailureException {
         final int someDayEarlier = Integer.valueOf(TODAY) - 10000;
         Version original = new Version.Builder(someDayEarlier + ".2.3").build();
-        Version result = instance.incrementNormalNumber(original);
+        Version result = instance.update(original);
         assertEquals(EXPECTED_RESULT, result);
     }
 
@@ -54,7 +54,7 @@ public class CalMajorTest {
         final int someLaterDay = Integer.valueOf(TODAY) + 10000;
         Version original = new Version.Builder(someLaterDay + ".2.3").build();
         MojoFailureException assertThrows = Assertions.assertThrows(MojoFailureException.class, () -> {
-            instance.incrementNormalNumber(original);
+            instance.update(original);
         });
         LOG.log(Level.INFO, "Expected message: {0}", assertThrows.getMessage());
     }

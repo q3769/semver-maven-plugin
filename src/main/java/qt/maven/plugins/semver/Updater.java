@@ -20,7 +20,9 @@
 package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * Updates POM version, based on current value
@@ -29,13 +31,37 @@ import org.apache.maven.plugin.MojoFailureException;
  */
 public abstract class Updater extends SemverMojo {
 
+    protected static final String HYPHEN = "-";
+    protected static final String SNAPSHOT_SUFFIX = "SNAPSHOT";
+
+    /**
+     * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in as a -D
+     * parameter from CLI.
+     */
+    @Parameter(property = "snapshot", defaultValue = "false", required = false)
+    protected boolean snapshot;
+
     /**
      * @return The incremented SemVer
      * @throws MojoFailureException if original version in POM is malformed
      */
     @Override
     protected Version getUpdatedVersion() throws MojoFailureException {
-        return update(requireValidSemVer(project.getVersion()));
+        Version updated = update(requireValidSemVer(project.getVersion()));
+        if (!snapshot) {
+            return updated;
+        }
+        final String preReleaseLabel = updated.getPreReleaseVersion();
+        final String buildMetadataLabel = updated.getBuildMetadata();
+        if (StringUtils.isBlank(preReleaseLabel)) {
+            updated = updated.setPreReleaseVersion(SNAPSHOT_SUFFIX);
+        } else if (!preReleaseLabel.contains(SNAPSHOT_SUFFIX)) {
+            updated = updated.setPreReleaseVersion(preReleaseLabel + HYPHEN + SNAPSHOT_SUFFIX);
+        }
+        if (StringUtils.isBlank(buildMetadataLabel)) {
+            return updated;
+        }
+        return updated.setBuildMetadata(buildMetadataLabel);
     }
 
     /**
