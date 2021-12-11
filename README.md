@@ -78,7 +78,7 @@ $ mvn semver:finalize-current
 
 changes 1.2.3-SNAPSHOT or 1.2.3-beta.1+build.10 into 1.2.3, stripping off all additional labels
 
-### Pre-release and build meta label
+### Pre-release and build meta labels
 
 ```
 $ mvn semver:update-pre-release
