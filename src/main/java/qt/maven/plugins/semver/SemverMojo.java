@@ -86,10 +86,17 @@ public abstract class SemverMojo extends AbstractMojo {
      */
     protected void updatePomFile(String version) throws MojoExecutionException {
         String original = project.getVersion();
+        final String executedGoal = mojo.getGoal();
+        if (version.equals(original)) {
+            getLog().info("Original POM version: " + original + " remains unchanged after executing goal: "
+                    + executedGoal);
+            return;
+        }
         executeMojo(plugin(groupId("org.codehaus.mojo"), artifactId("versions-maven-plugin"), version("2.7")), goal(
                 "set"), configuration(element(name("generateBackupPoms"), "false"), element(name("newVersion"),
                         version)), executionEnvironment(project, session, pluginManager));
-        getLog().info("Updated original POM version: " + original + " into: " + version);
+        getLog().info("Updated original POM version: " + original + " into: " + version + " after executing goal: "
+                + executedGoal);
     }
 
     /**
