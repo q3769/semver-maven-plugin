@@ -21,7 +21,7 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20211209.0.0</version>
+                <version>20211209.1.0</version>
             </plugin>
             ...
 ```            
@@ -78,7 +78,7 @@ $ mvn semver:finalize-current
 
 changes 1.2.3-SNAPSHOT or 1.2.3-beta.1+build.10 into 1.2.3, stripping off all additional labels
 
-### Pre-release and build meta label
+### Pre-release and Build Metadata labels
 
 ```
 $ mvn semver:update-pre-release
@@ -118,7 +118,7 @@ updates current POM's 1.2.3 version to 1.3.8-HOTFIX because 1.3.8-HOTFIX is a ne
 $ mvn semver:merge -Dsemver=1.3.10-HOTFIX
 ```
 
-updates 1.2.3-SNAPSHOT into 1.3.11-SNAPSHOT. The basic idea is: If, according to the SemVer spec, the current POM version is newer than the given, then the POM version stays unchanged; otherwise, figure out the intended change category of the current POM version, then increment the given version on the intended category number, and use the incremented given version as the result. In any case, the pre-release and build metadata labels of the POM version always stay the same.
+updates 1.2.3-SNAPSHOT into 1.3.11-SNAPSHOT. The basic idea is: If, according to the SemVer spec, the current POM version is newer than the given, then the POM version stays unchanged; otherwise, figure out the intended change category of the current POM version, then increment the given version on the intended category number, and use the incremented given version as the result. In any case, the pre-release and build metadata labels of the POM version always stay the same. In this case, the current POM version 1.2.3-SNAPSHOT's catetory is PATCH, so the newer version 1.3.10-HOTFIX's PATCH number is incremented, then the current POM version's label SNAPSHOT stays; thus we have 1.3.11-SNAPSHOT as the updated POM version in the end.
 
 ### Verify the current POM version
 
