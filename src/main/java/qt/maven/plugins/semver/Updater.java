@@ -32,7 +32,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 public abstract class Updater extends SemverMojo {
 
     protected static final String HYPHEN = "-";
-    protected static final String SNAPSHOT_SUFFIX = "SNAPSHOT";
+    protected static final String SNAPSHOT_SUFFIX = "beta";
 
     /**
      * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in as a -D
