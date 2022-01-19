@@ -95,6 +95,7 @@ public abstract class SemverMojo extends AbstractMojo {
         executeMojo(plugin(groupId("org.codehaus.mojo"), artifactId("versions-maven-plugin"), version("2.7")), goal(
                 "set"), configuration(element(name("generateBackupPoms"), "false"), element(name("newVersion"),
                         version)), executionEnvironment(project, session, pluginManager));
+        project.setVersion(version);
         getLog().info("Updated original POM version: " + original + " into: " + version + " after executing goal: "
                 + executedGoal);
     }
