@@ -21,28 +21,16 @@ package qt.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.execution.MavenSession;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.BuildPluginManager;
-import org.apache.maven.plugin.MojoExecution;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.*;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.artifactId;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.configuration;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.element;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.executeMojo;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.executionEnvironment;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.goal;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.groupId;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.name;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.plugin;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.version;
+
+import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 
 /**
  * Updates the POM file with a new SemVer version
- * 
+ *
  * @author Qingtian Wang
  */
 public abstract class SemverMojo extends AbstractMojo {
@@ -59,18 +47,15 @@ public abstract class SemverMojo extends AbstractMojo {
     @Parameter(property = "session", defaultValue = "${session}", readonly = true, required = true)
     protected MavenSession session;
 
-    @Parameter(defaultValue = "${mojoExecution}", readonly = true)
-    protected MojoExecution mojo;
+    @Parameter(defaultValue = "${mojoExecution}", readonly = true) protected MojoExecution mojo;
 
-    @Component
-    private BuildPluginManager pluginManager;
+    @Component private BuildPluginManager pluginManager;
 
     /**
      * @throws MojoExecutionException on execution error
      * @throws MojoFailureException   on build error
      */
-    @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
+    @Override public void execute() throws MojoExecutionException, MojoFailureException {
         updatePomFile(getUpdatedVersion().toString());
     }
 
@@ -88,13 +73,15 @@ public abstract class SemverMojo extends AbstractMojo {
         String original = project.getVersion();
         final String executedGoal = mojo.getGoal();
         if (version.equals(original)) {
-            getLog().info("Original POM version: " + original + " remains unchanged after executing goal: "
-                    + executedGoal);
+            getLog().info(
+                    "Original POM version: " + original + " remains unchanged after executing goal: " + executedGoal);
             return;
         }
-        executeMojo(plugin(groupId("org.codehaus.mojo"), artifactId("versions-maven-plugin"), version("2.7")), goal(
-                "set"), configuration(element(name("generateBackupPoms"), "false"), element(name("newVersion"),
-                        version)), executionEnvironment(project, session, pluginManager));
+        executeMojo(plugin(groupId("org.codehaus.mojo"), artifactId("versions-maven-plugin"), version("2.10.0")),
+                goal("set"),
+                configuration(element(name("generateBackupPoms"), "false"), element(name("newVersion"), version),
+                        element(name("processAllModules"), "false")),
+                executionEnvironment(project, session, pluginManager));
         getLog().info("Updated original POM version: " + original + " into: " + version + " after executing goal: "
                 + executedGoal);
     }
@@ -110,8 +97,8 @@ public abstract class SemverMojo extends AbstractMojo {
         } catch (Exception ex) {
             final String error = "Error forming SemVer from version: " + version;
             getLog().error(error, ex);
-            throw new MojoFailureException(error, new IllegalArgumentException("Not a valid SemVer text: " + version,
-                    ex));
+            throw new MojoFailureException(error,
+                    new IllegalArgumentException("Not a valid SemVer text: " + version, ex));
         }
     }
 
