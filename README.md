@@ -2,13 +2,13 @@
 
 # semver-maven-plugin
 
-A simple Maven Plugin to update current project's version in the local POM file, via CLI or scripting, according to the specifications of Semantic Versioning 2.0.0 
+A simple Maven Plugin to update current project's version in the local POM file, via CLI or scripting, according to the specifications of [Semantic Versioning 2.0.0](https://semver.org/) 
 
 ## User story
 
-As a user of this Maven Plugin, I want to update the value of the version element in the local pom.xml file according to the Semantic Versioning 2.0.0 specifications, by issuing a Maven command from CLI or scripting.
+As a user of this Maven Plugin, I want to update the value of the `version` element in the local `pom.xml` file according to the Semantic Versioning 2.0.0 specifications, by issuing a Maven command from CLI or scripting.
 
-Unlike some other Maven versioning plugins, this one does not include or combine any extra functionalities beyond local version change. E.g., in and of itself, it does not communicate with any version control system or artifact repository. The plugin has one single concern on the project's definition - its version in the local pom.xml file. The motivation of the effort is to facilitate using CICD pipeline code/script to automate versions increments. Manual version updates by developers would only be needed in rare scenarios such as changing the major version. The hope of the simple design is a cleaner separation of concerns. Instead of going beyond the concern of project version definition, this plugin serves as an atomic and composable action in whatever work flow code/script you may care to set up.
+Unlike some other Maven versioning plugins, this one does not include or combine any extra functionalities beyond local version change. E.g., in and of itself, it does not communicate with any version control system or artifact repository. The plugin has one single concern on the project's definition - its version in the local `pom.xml` file. The motivation of the effort is to facilitate using CICD pipeline code/script to automate versions increments. Manual version updates by developers would only be needed in rare scenarios such as changing the major version. The hope of the simple design is a cleaner separation of concerns. Instead of going beyond the concern of project version definition, this plugin serves as an atomic and composable action in whatever work flow code/script you may care to set up.
 
 ## Get it...
 
