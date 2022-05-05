@@ -137,7 +137,7 @@ updates 1.2.3-SNAPSHOT into 1.3.11-SNAPSHOT. The basic idea is: If, according to
 version is newer than the given, then the POM version stays unchanged; otherwise, figure out the intended change
 category of the current POM version, then increment the given version on the intended category number, and use the
 incremented given version as the result. In any case, the pre-release and build metadata labels of the POM version
-always stay the same. In this case, the current POM version 1.2.3-SNAPSHOT's catetory is PATCH, so the newer version
+always stay the same. In this case, the current POM version 1.2.3-SNAPSHOT's category is PATCH, so the newer version
 1.3.10-HOTFIX's PATCH number is incremented, then the current POM version's label SNAPSHOT stays; thus we have
 1.3.11-SNAPSHOT as the updated POM version in the end.
 
