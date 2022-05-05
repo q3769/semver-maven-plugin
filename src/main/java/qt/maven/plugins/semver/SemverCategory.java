@@ -27,11 +27,9 @@ import com.github.zafarkhaja.semver.Version;
  */
 public enum SemverCategory {
 
-    MAJOR,
-    MINOR,
-    PATCH;
+    MAJOR, MINOR, PATCH;
 
-    public static SemverCategory getCategory(Version version) {
+    public static SemverCategory getIntendedChangeCategory(Version version) {
         final int major = version.getMajorVersion();
         final int minor = version.getMinorVersion();
         final int patch = version.getPatchVersion();

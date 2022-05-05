@@ -21,6 +21,10 @@ version updates by developers would only be needed in rare scenarios such as cha
 simple design is a cleaner separation of concerns. Instead of going beyond the concern of project version definition,
 this plugin serves as an atomic and composable action in whatever work flow code/script you may care to set up.
 
+## Prerequisite
+
+Maven 3.5.6 or better
+
 ## Get it...
 
 In pom.xml
@@ -32,7 +36,7 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20211209.1.2</version>
+                <version>20220505.0.0</version>
             </plugin>
             ...
 ```            
@@ -133,13 +137,19 @@ newer than the given 1.3.8-HOTFIX.
 mvn semver:merge -Dsemver=1.3.10-HOTFIX
 ```
 
-updates 1.2.3-SNAPSHOT into 1.3.11-SNAPSHOT. The basic idea is: If, according to the SemVer spec, the current POM
-version is newer than the given, then the POM version stays unchanged; otherwise, figure out the intended change
-category of the current POM version, then increment the given version on the intended category number, and use the
-incremented given version as the result. In any case, the pre-release and build metadata labels of the POM version
-always stay the same. In this case, the current POM version 1.2.3-SNAPSHOT's category is PATCH, so the newer version
-1.3.10-HOTFIX's PATCH number is incremented, then the current POM version's label SNAPSHOT stays; thus we have
-1.3.11-SNAPSHOT as the updated POM version in the end.
+updates 1.2.0-SNAPSHOT+chi.1 into 1.4.0-SNAPSHOT+chi.1
+
+The basic idea: First, according to the SemVer spec, figure out the newer one between the current POM version and the
+given version to merge, the newer version will be the base of the final merged version, pending an increment. Then, for
+the older version, figure out its intended change category - `major`, `minor`, or `patch`, the intended change category
+will be used to increment the base (newer of the two) version. Lastly, no matter which version is newer, the current POM
+version's pre-release and build metadata labels always stay and serve as the ones of the final merged version.
+
+In this case, the given version `1.3.10-HOTFIX` is newer, so it's the base. The current POM
+version `1.2.0-SNAPSHOT+chi.1` is older, so its intended change category `minor` is used to increment the
+base `1.3.10-HOTFIX`, resulting in `1.4.0` according to the SemVer spec. Lastly, the current POM version's labels (in
+this case `SNAPSHOT` and `chi.1`), if any exist, always stay. Thus, for the final merged version, we
+have `1.4.0-SNAPSHOT+chi.1`.
 
 ### Verify the current POM version
 

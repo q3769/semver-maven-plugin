@@ -6,7 +6,7 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>20211209.1.2</version>
+    <version>20220505.0.0</version>
     <packaging>maven-plugin</packaging>
 
     <name>semver-maven-plugin</name>
@@ -31,7 +31,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.version>3.8.5</maven.version>
+        <maven.version>3.5.4</maven.version>
     </properties>
 
     <dependencyManagement>
@@ -203,7 +203,7 @@
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20211209.1.2</version>
+                <version>20220505.0.0</version>
             </plugin>
         </plugins>
     </build>
