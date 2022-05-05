@@ -23,7 +23,7 @@ this plugin serves as an atomic and composable action in whatever work flow code
 
 ## Prerequisite
 
-Maven 3.5.6 or better
+Maven 3.5.4 or better
 
 ## Get it...
 
