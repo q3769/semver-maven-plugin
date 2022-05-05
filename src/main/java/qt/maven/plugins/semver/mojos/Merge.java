@@ -20,7 +20,6 @@
 package qt.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -72,18 +71,12 @@ import qt.maven.plugins.semver.Updater;
         getLog().info("Merging current version: " + original + " with version: " + otherSemVer
                 + ", result will keep labels of the current");
         final Version other = requireValidSemVer(otherSemVer);
-        final Version newerVersion;
-        final Version olderVersion;
         if (original.greaterThan(other)) {
             getLog().info("Current POM version: " + original + " is newer than given version: " + other);
-            newerVersion = original;
-            olderVersion = other;
-        } else {
-            getLog().info("Incoming version: " + other + " is new than current POM version: " + original);
-            newerVersion = other;
-            olderVersion = original;
+            return original;
         }
-        Version result = increment(newerVersion, SemverCategory.getIntendedChangeCategory(olderVersion));
+        getLog().info("Incoming version: " + other + " is new than current POM version: " + original);
+        Version result = increment(other, SemverCategory.getIntendedChangeCategory(original));
         result = setLabels(result, original.getPreReleaseVersion(), original.getBuildMetadata());
         getLog().info("Final merged version: " + result);
         return result;
