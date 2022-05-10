@@ -44,7 +44,7 @@ In pom.xml
 ## Use it...
 
 Note: By default, only the parent project's version is processed. If otherwise desired, please use
-the `-DprocessAllModules` command line flag.
+the `'-DprocessAllModules'` command line flag.
 
 From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located
 
