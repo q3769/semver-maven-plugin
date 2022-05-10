@@ -44,7 +44,7 @@ In pom.xml
 ## Use it...
 
 *Caution, by default, only the parent project's version is processed. Use the* `'-DprocessModule'` *flag if module
-needs to be processed; that holds true no matter from which directory the plugin command is issued.*
+needs to be processed; that holds true no matter from which directory the Maven command is issued.*
 
 From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located
 
