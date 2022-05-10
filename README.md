@@ -36,15 +36,15 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20220509.0.0</version>
+                <version>20220509.0.1</version>
             </plugin>
             ...
 ```            
 
 ## Use it...
 
-*Note: By default, only the parent project's version is processed. Use the* `'-DprocessAllModules'` *flag if modules
-need to be included in the processing.*
+*Note: By default, only the parent project's version is processed. Use the* `'-DprocessModule'` *flag if the module
+needs to be included in the processing.*
 
 From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located
 
