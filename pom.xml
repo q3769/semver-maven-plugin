@@ -6,7 +6,7 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>20220506.0.0</version>
+    <version>20220509.0.0</version>
     <packaging>maven-plugin</packaging>
 
     <name>semver-maven-plugin</name>
@@ -203,7 +203,7 @@
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20220506.0.0</version>
+                <version>20220509.0.0</version>
             </plugin>
         </plugins>
     </build>

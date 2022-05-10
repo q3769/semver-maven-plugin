@@ -49,6 +49,8 @@ public abstract class SemverMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "${mojoExecution}", readonly = true) protected MojoExecution mojo;
 
+    @Parameter(property = "processAllModules", defaultValue = "false") protected boolean processAllModules;
+
     @Component private BuildPluginManager pluginManager;
 
     /**
@@ -77,10 +79,14 @@ public abstract class SemverMojo extends AbstractMojo {
                     "Original POM version: " + original + " remains unchanged after executing goal: " + executedGoal);
             return;
         }
+        if (project.hasParent() && !processAllModules) {
+            getLog().info(
+                    "No modules will be processed; by default, only the parent project will be processed. If otherwise desired, use `-DprocessAllModules`");
+            return;
+        }
         executeMojo(plugin(groupId("org.codehaus.mojo"), artifactId("versions-maven-plugin"), version("2.10.0")),
                 goal("set"),
-                configuration(element(name("generateBackupPoms"), "false"), element(name("newVersion"), version),
-                        element(name("processAllModules"), "false")),
+                configuration(element(name("generateBackupPoms"), "false"), element(name("newVersion"), version)),
                 executionEnvironment(project, session, pluginManager));
         getLog().info("Updated original POM version: " + original + " into: " + version + " after executing goal: "
                 + executedGoal);

@@ -36,12 +36,15 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20220506.0.0</version>
+                <version>20220509.0.0</version>
             </plugin>
             ...
 ```            
 
 ## Use it...
+
+Note: By default, only the parent project's version is processed. If otherwise desired, please use
+the `-DprocessAllModules` command line flag.
 
 From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located
 
@@ -51,13 +54,13 @@ From CLI, assuming you are in the Maven project's default root directory where t
 mvn semver:set-current -Dsemver=blah
 ```
 
-errors out because 'blah' is not a valid SemVer
+errors out because `blah` is not a valid SemVer
 
 ```
 mvn semver:set-current -Dsemver=1.2.3-beta
 ```
 
-sets the value of the version element of the pom.xml file to be 1.2.3-beta, regardless of the existing value
+sets the value of the version element of the pom.xml file to be `1.2.3-beta`, regardless of the existing value
 
 ### Increment normal version number
 
@@ -65,27 +68,27 @@ sets the value of the version element of the pom.xml file to be 1.2.3-beta, rega
 mvn semver:increment-major
 ```
 
-increments 1.2.3-beta.1 into 2.0.0, where 1.2.3-beta.1 is the existing value
+increments `1.2.3-beta.1` into `2.0.0`, where `1.2.3-beta.1` is the existing POM value
 
 ```
 mvn semver:increment-minor -Dsnapshot=true
 ```
 
-increments 1.2.3 into 1.3.0-SNAPSHOT. Note that the `snapshot` flag works with all three types of normal version
+increments `1.2.3 into 1.3.0-SNAPSHOT`. Note that the `snapshot` flag works with all three types of normal version
 increment.
 
 ```
 mvn semver:increment-patch
 ```
 
-increments 1.2.3-beta.1 into 1.2.4
+increments `1.2.3-beta.1` into `1.2.4`
 
 ```
 mvn semver:calendar-major
 ```
 
-increments 1.23.4 or 20201231.2.3-beta.1 into 20210131.0.0, assuming today is Jan 31, 2021. If the original POM version
-is already newer than that of `<today>.0.0`, error is returned and no update will be performed to the POM.
+increments `1.23.4` or `20201231.2.3-beta.1` into `20210131.0.0`, assuming today is Jan 31, 2021. If the original POM
+version is already newer than that of `<today>.0.0`, error is returned and no update will be performed to the POM.
 
 ### Finalize current version
 
@@ -93,7 +96,7 @@ is already newer than that of `<today>.0.0`, error is returned and no update wil
 mvn semver:finalize-current
 ```
 
-changes 1.2.3-SNAPSHOT or 1.2.3-beta.1+build.10 into 1.2.3, stripping off all additional labels
+changes `1.2.3-SNAPSHOT` or `1.2.3-beta.1+build.10` into `1.2.3`, stripping off all additional labels
 
 ### Pre-release and Build Metadata labels
 
@@ -101,25 +104,25 @@ changes 1.2.3-SNAPSHOT or 1.2.3-beta.1+build.10 into 1.2.3, stripping off all ad
 mvn semver:update-pre-release
 ```
 
-increments 1.2.3-beta into 1.2.3-beta.1
+increments `1.2.3-beta` into `1.2.3-beta.1`
 
 ```
 mvn semver:update-build-metadata
 ```
 
-increments 1.2.3-beta.1+build.10 into 1.2.3-beta.1+build.11
+increments `1.2.3-beta.1+build.10` into `1.2.3-beta.1+build.11`
 
 ```
 mvn semver:update-pre-release -Dset=beta
 ```
 
-updates 1.2.3-alpha+build.7 into 1.2.3-beta
+updates `1.2.3-alpha+build.7` into `1.2.3-beta`
 
 ```
 mvn semver:update-build-metadata -Dset=build.reno
 ```
 
-updates 1.2.3-alpha into 1.2.3-alpha+build.reno
+updates `1.2.3-alpha` into `1.2.3-alpha+build.reno`
 
 ### Pick the newer of the POM version and another SemVer
 
@@ -127,9 +130,9 @@ updates 1.2.3-alpha into 1.2.3-alpha+build.reno
 mvn semver:pick-newer -Dsemver=1.3.8-HOTFIX
 ```
 
-updates current POM's 1.2.3 version to 1.3.8-HOTFIX because 1.3.8-HOTFIX is a newer version than 1.2.3. However, if the
-current POM version is 1.3.8, then no change will be made because, according to the SemVer spec, the current 1.3.8 is
-newer than the given 1.3.8-HOTFIX.
+updates current POM's `1.2.3` version to `1.3.8-HOTFIX` because `1.3.8-HOTFIX` is a newer version than `1.2.3`. However,
+if the current POM version is `1.3.8`, then no change will be made because, according to the SemVer spec, the
+current `1.3.8` is newer than the given `1.3.8-HOTFIX`.
 
 ### Merge with another SemVer
 
@@ -137,7 +140,7 @@ newer than the given 1.3.8-HOTFIX.
 mvn semver:merge -Dsemver=1.3.10-HOTFIX
 ```
 
-updates 1.2.0-SNAPSHOT+chi.1 into 1.4.0-SNAPSHOT+chi.1
+updates `1.2.0-SNAPSHOT+chi.1` into `1.4.0-SNAPSHOT+chi.1`
 
 Note that the merge strategy here is opinionated; SemVer spec itself does not mention merging. The basic idea is that
 the merge is centered around the current POM's version. Other than the SemVer specified precedence, the intents and
@@ -166,5 +169,5 @@ prints confirmation message if the current version of the local POM is in valid 
 mvn semver:verify-current -Dforce-stdout -q
 ```
 
-prints the current POM version and nothing else (e.g. "1.2.3-beta.4+build.5") in std out if it is a valid SemVer. Note
+prints the current POM version and nothing else (e.g. `1.2.3-beta.4+build.5`) in std out if it is a valid SemVer. Note
 that, to produce the clean current SemVer only, you need `-q` or `--quiet` option to suppress the usual Maven messages.

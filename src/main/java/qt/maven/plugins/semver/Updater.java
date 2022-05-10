@@ -26,7 +26,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * Updates POM version, based on current value
- * 
+ *
  * @author Qingtian Wang
  */
 public abstract class Updater extends SemverMojo {
@@ -35,18 +35,16 @@ public abstract class Updater extends SemverMojo {
     protected static final String SNAPSHOT_SUFFIX = "SNAPSHOT";
 
     /**
-     * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in as a -D
-     * parameter from CLI.
+     * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in as a -D parameter
+     * from CLI.
      */
-    @Parameter(property = "snapshot", defaultValue = "false", required = false)
-    protected boolean snapshot;
+    @Parameter(property = "snapshot", defaultValue = "false") protected boolean snapshot;
 
     /**
      * @return The incremented SemVer
      * @throws MojoFailureException if original version in POM is malformed
      */
-    @Override
-    protected Version getUpdatedVersion() throws MojoFailureException {
+    @Override protected Version getUpdatedVersion() throws MojoFailureException {
         Version updated = update(requireValidSemVer(project.getVersion()));
         if (!snapshot) {
             return updated;
