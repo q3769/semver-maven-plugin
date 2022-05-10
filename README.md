@@ -43,7 +43,7 @@ In pom.xml
 
 ## Use it...
 
-*Note: By default, only the parent project's version is processed. Use the* `'-DprocessModule'` *flag if the module
+*Note: By default, only the parent project's version is processed. Use the* `'-DprocessModule'` *flag if module
 needs to be included in the processing.*
 
 From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located
