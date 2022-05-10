@@ -43,8 +43,8 @@ In pom.xml
 
 ## Use it...
 
-*Note: By default, only the parent project's version is processed. If otherwise desired, please use
-the* `'-DprocessAllModules'` *command line flag.*
+*Note: By default, only the parent project's version is processed. Use the* `'-DprocessAllModules'` *flag if modules
+need to be included in the processing.*
 
 From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located
 
