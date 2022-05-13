@@ -43,7 +43,7 @@ In pom.xml
 
 ## Use it...
 
-*Caution: By default, only the parent project's version is processed; such is the case no matter from which directory the Maven command is issued. Use the* `'-DprocessModule'` *flag if module also needs to be processed.*
+*Caution: By default, only the parent project's version is processed, no matter from which directory the plugin's Maven command is issued. Use the* `'-DprocessModule'` *flag if module also needs to be processed.*
 
 From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located:
 
