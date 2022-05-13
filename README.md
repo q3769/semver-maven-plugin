@@ -43,10 +43,9 @@ In pom.xml
 
 ## Use it...
 
-*Caution, by default, only the parent project's version is processed. Use the* `'-DprocessModule'` *flag if module
-needs to be processed; such is the case no matter from which directory the Maven command is issued.*
+*Caution: By default, only the parent project's version is processed; such is the case no matter from which directory the Maven command is issued. Use the* `'-DprocessModule'` *flag if module also needs to be processed.*
 
-From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located
+From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located:
 
 ### Hard set
 
