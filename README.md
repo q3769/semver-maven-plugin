@@ -146,13 +146,13 @@ the merge is centered around the current POM's version. Other than the SemVer sp
 purposes of the current POM version will dominate the merge process. First, figure out the newer between the current 
 POM version and the given version to merge, per SemVer spec precedence. If the current POM version is newer, no 
 change will be made and the current POM version is the merge result. Otherwise, if the given version to merge is 
-newer, then it is to be incremented on the intended change category - `major`, `minor`, or `patch` - of the 
-*current POM version*; lastly, the current POM version's pre-release and build metadata labels, if any exist, always
-stay and serve as the final merged version's labels.
+newer, then, to form the merge result, the given version is to be incremented on the intended change category - 
+`major`, `minor`, or `patch` - of the *current POM version*; lastly, the current POM version's pre-release and build 
+metadata labels, if any exist, always stay and serve as the final merged version's labels.
 
 In this case, the given version `1.3.10-HOTFIX` is newer, so it is to be incremented to form the merge result. The
-intended change category of the current POM version - `1.2.0-SNAPSHOT+chi.1` - is `minor`, so the given
-version `1.3.10-HOTFIX` is incremented on its `minor` category, resulting in `1.4.0` per SemVer spec. Lastly, the
+intended change category of the current POM version `1.2.0-SNAPSHOT+chi.1` is `minor`, so the given version 
+`1.3.10-HOTFIX` is incremented on its own `minor` category, resulting in `1.4.0` per SemVer spec. Lastly, the
 current POM version's labels (in this case `SNAPSHOT` and `chi.1`), if any exist, always stay as they are. Thus, for
 the final merged version, we have `1.4.0-SNAPSHOT+chi.1`.
 
