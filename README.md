@@ -16,10 +16,11 @@ Unlike some other Maven versioning plugins, this one does not include or combine
 version change. E.g., in and of itself, it does not communicate with any version control system or artifact repository.
 The plugin has one single concern on the project's definition - its version in the local `pom.xml` file.
 
-The motivation of the effort is to facilitate using CICD pipeline code/script to automate versions increments. Manual
-version updates by developers would only be needed in rare scenarios such as changing the major version. The hope of the
-simple design is a cleaner separation of concerns. Instead of going beyond the concern of project version definition,
-this plugin serves as an atomic and composable action in whatever work flow code/script you may care to set up.
+What prompted the effort of this plugin is to facilitate using CICD pipeline code/script to automate version increments.
+Manual version updates by developers would only be needed in rare scenarios such as changing the major version. The 
+hope of such a simple design is a cleaner separation of concerns: Instead of going beyond the concern of Project Object
+Model (POM), this plugin remain focused on the concern of versioning alone. As an atomic and composable action/step, it
+suits whatever work flow you may care to set up in the pipeline code/script.
 
 ## Prerequisite
 
