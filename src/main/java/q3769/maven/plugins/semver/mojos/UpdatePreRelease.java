@@ -17,36 +17,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver.mojos;
+package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import qt.maven.plugins.semver.Updater;
+import q3769.maven.plugins.semver.LabelUpdater;
 
 /**
- * Mojo to strip off all additional labels of the SemVer, leaving the normal numbers untouched for final
- * version.
+ * Mojo to increment pre-release portion of the SemVer text. If, however, the <code>set</code> parameter is passed in,
+ * then its value will be used to set as the pre-release label.
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "finalize-current", defaultPhase = LifecyclePhase.NONE)
-public class FinalizeCurrent extends Updater {
+@Mojo(name = "update-pre-release", defaultPhase = LifecyclePhase.NONE)
+public class UpdatePreRelease extends LabelUpdater {
 
-    /**
-     * @param original to finalize
-     * @return final SemVer version of the original, all meta info stripped
-     * @throws MojoFailureException if the original SemVer is already without additional labels
-     */
     @Override
-    protected Version update(Version original) throws MojoFailureException {
-        if (StringUtils.isBlank(original.getPreReleaseVersion()) && StringUtils.isBlank(original.getBuildMetadata())) {
-            getLog().info("Current version: " + original + " is already final, so no change.");
-            return original;
-        }
-        return Version.forIntegers(original.getMajorVersion(), original.getMinorVersion(), original.getPatchVersion());
+    protected Version setLabel(Version version, String label) {
+        return version.setPreReleaseVersion(label);
     }
 
+    @Override
+    protected Version incrementLabel(Version version) {
+        return version.incrementPreReleaseVersion();
+    }
 }

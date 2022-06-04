@@ -17,24 +17,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver.mojos;
+package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import qt.maven.plugins.semver.Updater;
+import q3769.maven.plugins.semver.Updater;
 
 /**
- * Increment major
+ * Mojo to strip off all additional labels of the SemVer, leaving the normal numbers untouched for final
+ * version.
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "increment-major", defaultPhase = LifecyclePhase.NONE)
-public class IncrementMajor extends Updater {
+@Mojo(name = "finalize-current", defaultPhase = LifecyclePhase.NONE)
+public class FinalizeCurrent extends Updater {
 
+    /**
+     * @param original to finalize
+     * @return final SemVer version of the original, all meta info stripped
+     * @throws MojoFailureException if the original SemVer is already without additional labels
+     */
     @Override
-    protected Version update(Version original) {
-        return original.incrementMajorVersion();
+    protected Version update(Version original) throws MojoFailureException {
+        if (StringUtils.isBlank(original.getPreReleaseVersion()) && StringUtils.isBlank(original.getBuildMetadata())) {
+            getLog().info("Current version: " + original + " is already final, so no change.");
+            return original;
+        }
+        return Version.forIntegers(original.getMajorVersion(), original.getMinorVersion(), original.getPatchVersion());
     }
 
 }

@@ -17,7 +17,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver;
+package q3769.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.execution.MavenSession;
@@ -58,6 +58,20 @@ public abstract class SemverMojo extends AbstractMojo {
      * @throws MojoFailureException   on build error
      */
     @Override public void execute() throws MojoExecutionException, MojoFailureException {
+        if (project.hasParent()) {
+            String moduleName = project.getName();
+            if (!processModule) {
+                getLog().warn("Module " + moduleName
+                        + "'s version will not be updated. By default, only parent project's version is processed; if otherwise desired, use the `-DprocessModule` CLI flag");
+                return;
+            }
+            String moduleVersion = project.getOriginalModel().getVersion();
+            if (moduleVersion == null) {
+                getLog().warn("Module " + moduleName
+                        + "'s version is inherited from parent, will not be update independently");
+                return;
+            }
+        }
         updatePomFile(getUpdatedVersion().toString());
     }
 
@@ -77,11 +91,6 @@ public abstract class SemverMojo extends AbstractMojo {
         if (version.equals(original)) {
             getLog().info(
                     "Original POM version: " + original + " remains unchanged after executing goal: " + executedGoal);
-            return;
-        }
-        if (project.hasParent() && !processModule) {
-            getLog().warn(
-                    "No module will be processed; by default, only the parent project's version is processed. If otherwise desired, use the `-DprocessModule` flag");
             return;
         }
         executeMojo(plugin(groupId("org.codehaus.mojo"), artifactId("versions-maven-plugin"), version("2.10.0")),

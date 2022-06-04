@@ -17,40 +17,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver.mojos;
+package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import qt.maven.plugins.semver.Updater;
+import q3769.maven.plugins.semver.LabelUpdater;
 
 /**
- * Compares this POM's version with another SemVer passed in as parameter, and pick the newer of the two versions as the
- * updated POM version.
+ * Mojo to increment build meta info portion of the SemVer text. If, however, the <code>set</code> parameter is passed
+ * in, its value will be used to set as the build metadata label.
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "pick-newer", defaultPhase = LifecyclePhase.NONE)
-public class PickNewer extends Updater {
-
-    /**
-     * The other SemVer to be merged with current local POM's version
-     */
-    @Parameter(property = "semver", defaultValue = "NOT_SET", required = true)
-    protected String otherSemVer;
+@Mojo(name = "update-build-metadata", defaultPhase = LifecyclePhase.NONE)
+public class UpdateBuildMetadata extends LabelUpdater {
 
     @Override
-    protected Version update(Version original) throws MojoFailureException {
-        getLog().info("Taking the newer of current version: " + original + " and version: " + otherSemVer);
-        final Version other = requireValidSemVer(otherSemVer);
-        if (original.greaterThanOrEqualTo(other)) {
-            getLog().info("Current version: " + original + " is picked");
-            return original;
-        }
-        getLog().info("New version: " + otherSemVer + " is picked");
-        return other;
+    protected Version incrementLabel(Version version) {
+        return version.incrementBuildMetadata();
+    }
+
+    @Override
+    protected Version setLabel(Version version, String label) {
+        return version.setBuildMetadata(label);
     }
 
 }

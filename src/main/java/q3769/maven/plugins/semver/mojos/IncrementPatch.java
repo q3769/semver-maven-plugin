@@ -17,46 +17,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver.mojos;
+package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
+import q3769.maven.plugins.semver.Updater;
 
 /**
- * VerifyCurrent the current POM version is a valid SemVer
+ * Increment patch
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "verify-current", defaultPhase = LifecyclePhase.NONE)
-public class VerifyCurrent extends AbstractMojo {
-
-    /**
-     * Current Maven POM
-     */
-    @Parameter(property = "project", defaultValue = "${project}", readonly = true, required = true)
-    protected MavenProject project;
-
-    @Parameter(property = "force-stdout", defaultValue = "false", required = false)
-    protected boolean forceStdOut;
+@Mojo(name = "increment-patch", defaultPhase = LifecyclePhase.NONE)
+public class IncrementPatch extends Updater {
 
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        final String version = project.getVersion();
-        try {
-            Version.valueOf(version);
-            getLog().info("Original POM version: " + version + " is a valid SemVer.");
-            if (forceStdOut)
-                System.out.println(version);
-        } catch (Exception ex) {
-            getLog().error("Original POM version: " + version + " is not a valid SemVer");
-            throw ex;
-        }
+    protected Version update(Version original) {
+        return original.incrementPatchVersion();
     }
 
 }

@@ -17,38 +17,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver.mojos;
+package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import qt.maven.plugins.semver.Updater;
+import org.apache.maven.plugins.annotations.Parameter;
+import q3769.maven.plugins.semver.SemverMojo;
 
 /**
- * Increments major version to current calendar date in basic ISO format. If the resulting version is newer than the
- * original POM version, up the POM version to the new one. Otherwise errors out.
- *
+ * Hard-sets to new SemVer, ignoring current version in POM
+ * 
  * @author Qingtian Wang
  */
-@Mojo(name = "calendar-major", defaultPhase = LifecyclePhase.NONE) public class CalendarMajor extends Updater {
+@Mojo(name = "set-current", defaultPhase = LifecyclePhase.NONE)
+public class SetCurrent extends SemverMojo {
 
     /**
-     * @param original POM project version whose major number is to be incremented
-     * @return New semver version whose major number is incremented to current date in basic ISO format. Error out
+     * Expected to be passed in as a -D parameter in CLI. Needs to be in valid SemVer format.
      */
-    @Override protected Version update(Version original) throws MojoFailureException {
-        Version newVersion =
-                new Version.Builder(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + ".0.0").build();
-        if (original.greaterThan(newVersion)) {
-            throw new MojoFailureException(
-                    "Original POM version: " + original + " is already newer than the intended update: " + newVersion);
-        }
-        return newVersion;
+    @Parameter(property = "semver", defaultValue = "", required = true)
+    protected String semver;
+
+    /**
+     * @return target SemVer per user CLI parameter
+     * @throws MojoFailureException if input target version is malformed per SemVer spec
+     */
+    @Override
+    protected Version getUpdatedVersion() throws MojoFailureException {
+        return requireValidSemVer(semver);
     }
 
 }

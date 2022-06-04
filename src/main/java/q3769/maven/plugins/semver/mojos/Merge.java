@@ -17,7 +17,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver.mojos;
+package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.commons.lang3.StringUtils;
@@ -25,8 +25,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import qt.maven.plugins.semver.SemverCategory;
-import qt.maven.plugins.semver.Updater;
+import q3769.maven.plugins.semver.SemverCategory;
+import q3769.maven.plugins.semver.Updater;
 
 /**
  * Merge this POM's version with another SemVer passed in as parameter, and set the merge result as the updated POM

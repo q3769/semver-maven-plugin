@@ -18,7 +18,7 @@
  * THE SOFTWARE.
  */
 
-package qt.maven.plugins.semver;
+package q3769.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 

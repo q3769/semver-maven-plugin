@@ -17,36 +17,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package qt.maven.plugins.semver.mojos;
+package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import qt.maven.plugins.semver.SemverMojo;
+import q3769.maven.plugins.semver.Updater;
 
 /**
- * Hard-sets to new SemVer, ignoring current version in POM
+ * Increment major
  * 
  * @author Qingtian Wang
  */
-@Mojo(name = "set-current", defaultPhase = LifecyclePhase.NONE)
-public class SetCurrent extends SemverMojo {
+@Mojo(name = "increment-major", defaultPhase = LifecyclePhase.NONE)
+public class IncrementMajor extends Updater {
 
-    /**
-     * Expected to be passed in as a -D parameter in CLI. Needs to be in valid SemVer format.
-     */
-    @Parameter(property = "semver", defaultValue = "", required = true)
-    protected String semver;
-
-    /**
-     * @return target SemVer per user CLI parameter
-     * @throws MojoFailureException if input target version is malformed per SemVer spec
-     */
     @Override
-    protected Version getUpdatedVersion() throws MojoFailureException {
-        return requireValidSemVer(semver);
+    protected Version update(Version original) {
+        return original.incrementMajorVersion();
     }
 
 }
