@@ -13,14 +13,10 @@ according to the Semantic Versioning 2.0.0 specifications, by issuing a Maven co
 ### Notes
 
 Unlike some other Maven versioning plugins, this one does not include or combine any extra functionalities beyond local
-POM version change. E.g., in and of itself, it does not communicate with any version control system or artifact
-repository. The plugin has one single concern on the Maven project - its version in the local `pom.xml` file.
-
-What prompted the effort of this plugin is to facilitate using CICD pipeline code/script to automate version increments.
-Manual version updates by developers would only be needed in rare scenarios such as changing the major version. The 
-hope of such a simple design is a cleaner separation of concerns: Instead of going beyond the concern of Project Object
-Model (POM), this plugin remain focused on the concern of versioning alone. As an atomic and composable action/step, it
-suits whatever work flow you may care to set up in the pipeline code/script.
+POM version change. E.g., in and of itself, the plugin does not communicate with any version control system or artifact
+repository. It has one single concern on the Maven project - its version in the local `pom.xml` file. As an atomic and 
+composable action/step, the plugin aims to suit whatever work flow you may care to set up in the code/script of your 
+CI/CD pipeline.
 
 ## Prerequisite
 
