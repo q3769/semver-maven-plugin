@@ -21,7 +21,6 @@ package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -30,11 +29,10 @@ import org.apache.maven.project.MavenProject;
 
 /**
  * VerifyCurrent the current POM version is a valid SemVer
- * 
+ *
  * @author Qingtian Wang
  */
-@Mojo(name = "verify-current", defaultPhase = LifecyclePhase.NONE)
-public class VerifyCurrent extends AbstractMojo {
+@Mojo(name = "verify-current", defaultPhase = LifecyclePhase.NONE) public class VerifyCurrent extends AbstractMojo {
 
     /**
      * Current Maven POM
@@ -42,21 +40,18 @@ public class VerifyCurrent extends AbstractMojo {
     @Parameter(property = "project", defaultValue = "${project}", readonly = true, required = true)
     protected MavenProject project;
 
-    @Parameter(property = "force-stdout", defaultValue = "false", required = false)
-    protected boolean forceStdOut;
+    @Parameter(property = "force-stdout", defaultValue = "false") protected boolean forceStdOut;
 
-    @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
+    @Override public void execute() throws MojoFailureException {
         final String version = project.getVersion();
         try {
             Version.valueOf(version);
-            getLog().info("Original POM version: " + version + " is a valid SemVer.");
-            if (forceStdOut)
-                System.out.println(version);
-        } catch (Exception ex) {
-            getLog().error("Original POM version: " + version + " is not a valid SemVer");
-            throw ex;
+        } catch (Exception e) {
+            throw new MojoFailureException("Invalid SemVer '" + version + "'", e);
         }
+        getLog().info("POM version '" + version + "' is a valid SemVer");
+        if (forceStdOut)
+            System.out.println(version);
     }
 
 }

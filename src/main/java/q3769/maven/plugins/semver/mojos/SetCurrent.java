@@ -28,24 +28,21 @@ import q3769.maven.plugins.semver.SemverMojo;
 
 /**
  * Hard-sets to new SemVer, ignoring current version in POM
- * 
+ *
  * @author Qingtian Wang
  */
-@Mojo(name = "set-current", defaultPhase = LifecyclePhase.NONE)
-public class SetCurrent extends SemverMojo {
+@Mojo(name = "set-current", defaultPhase = LifecyclePhase.NONE) public class SetCurrent extends SemverMojo {
 
     /**
      * Expected to be passed in as a -D parameter in CLI. Needs to be in valid SemVer format.
      */
-    @Parameter(property = "semver", defaultValue = "", required = true)
-    protected String semver;
+    @Parameter(property = "semver", required = true) protected String semver;
 
     /**
      * @return target SemVer per user CLI parameter
      * @throws MojoFailureException if input target version is malformed per SemVer spec
      */
-    @Override
-    protected Version getUpdatedVersion() throws MojoFailureException {
+    @Override protected Version getUpdatedVersion() throws MojoFailureException {
         return requireValidSemVer(semver);
     }
 

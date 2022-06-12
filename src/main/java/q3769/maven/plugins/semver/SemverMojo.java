@@ -102,7 +102,7 @@ public abstract class SemverMojo extends AbstractMojo {
     }
 
     /**
-     * @param version text that is supposed to be valid in terms of SemVer spec
+     * @param version text that is supposed to be valid per SemVer spec
      * @return A valid SemVer
      * @throws MojoFailureException if input version text is malformed per SemVer spec
      */
@@ -110,10 +110,7 @@ public abstract class SemverMojo extends AbstractMojo {
         try {
             return Version.valueOf(version);
         } catch (Exception ex) {
-            final String error = "Error forming SemVer from version: " + version;
-            getLog().error(error, ex);
-            throw new MojoFailureException(error,
-                    new IllegalArgumentException("Not a valid SemVer text: " + version, ex));
+            throw new MojoFailureException("Error parsing '" + version + "' as a SemVer", ex);
         }
     }
 
