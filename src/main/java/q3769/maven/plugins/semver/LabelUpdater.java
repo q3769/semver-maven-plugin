@@ -33,27 +33,19 @@ public abstract class LabelUpdater extends Updater {
     /**
      * If passed in, will be used to set as either one of the two SemVer labels.
      */
-    @Parameter(property = "set", defaultValue = "", required = false)
-    protected String set;
+    @Parameter(property = "set") protected String set;
 
-    @Override
-    protected Version update(Version original) throws MojoFailureException {
-        final String updatePreReleaseOrBuildMetadata = mojo.getGoal();
+    @Override protected Version update(Version original) throws MojoFailureException {
         if (StringUtils.isBlank(set)) {
-            getLog().info("Incrementing label of version: " + original + " in goal: "
-                    + updatePreReleaseOrBuildMetadata);
+            getLog().info("Incrementing label of version: " + original);
             try {
                 return incrementLabel(original);
             } catch (Exception ex) {
-                final String error = "Failed to increment label of original version: " + original
-                        + ", the target label in goal: " + updatePreReleaseOrBuildMetadata
-                        + " needs to exist and conform to SemVer format before increment";
-                getLog().error(error, ex);
-                throw new MojoFailureException(error, ex);
+                throw new MojoFailureException("Failed to increment label of original version '" + original
+                        + "', it needs to exist and conform to SemVer format before increment", ex);
             }
         }
-        getLog().info("Setting label of version: " + original + " in goal: " + updatePreReleaseOrBuildMetadata
-                + " into: " + set);
+        getLog().info("Setting label of version '" + original + "' into '" + set + "'...");
         return setLabel(original, set);
     }
 

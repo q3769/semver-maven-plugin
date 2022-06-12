@@ -14,8 +14,8 @@ according to the Semantic Versioning 2.0.0 specifications, by issuing a Maven co
 
 Unlike some other Maven versioning plugins, this one does not include or combine any extra functionalities beyond local
 POM version change. E.g., in and of itself, the plugin does not communicate with any version control system or artifact
-repository. It has one single concern on the Maven project - its version in the local `pom.xml` file. As an atomic and 
-composable action/step, the plugin aims to suit whatever work flow you may care to set up in the code/script of your 
+repository. It has one single concern on the Maven project - its version in the local `pom.xml` file. As an atomic and
+composable action/step, the plugin aims to suit whatever work flow you may care to set up in the code/script of your
 CI/CD pipeline.
 
 ## Prerequisite
@@ -33,14 +33,15 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20220509.0.3</version>
+                <version>20220509.0.4</version>
             </plugin>
             ...
 ```            
 
 ## Use it...
 
-*Caution: By default, only the parent project's version is processed, module versions are not. Use the **`-DprocessModule`** command flag if you also wish to process modules.*
+*Caution: By default, only the parent project's version is processed, module versions are not. Use
+the **`-DprocessModule`** command flag if you also wish to process modules.*
 
 From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located:
 
@@ -56,7 +57,8 @@ errors out because `blah` is not a valid SemVer
 mvn semver:set-current -Dsemver=1.2.3-beta
 ```
 
-sets the value of the version element of the pom.xml file to be `1.2.3-beta`, regardless of the original POM version's value
+sets the value of the version element of the pom.xml file to be `1.2.3-beta`, regardless of the original POM version's
+value
 
 ### Increment normal version number
 
@@ -127,7 +129,7 @@ mvn semver:pick-newer -Dsemver=1.3.8-HOTFIX
 ```
 
 updates the original POM's `1.2.3` version to `1.3.8-HOTFIX` because `1.3.8-HOTFIX` is a newer version than `1.2.3`.
-However, if the original POM version is `1.3.8`, then no change will be made because, according to the SemVer 
+However, if the original POM version is `1.3.8`, then no change will be made because, according to the SemVer
 precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
 
 ### Merge with another SemVer
@@ -138,24 +140,24 @@ mvn semver:merge -Dsemver=1.3.10-HOTFIX
 
 updates `1.2.0-SNAPSHOT+chi.1` into `1.4.0-SNAPSHOT+chi.1`
 
-Note that the merge strategy here is opinionated; SemVer spec itself does not mention merging. In fact, with 
-this plugin, merge can be done in various ways of your choosing: It's just a matter of issuing one or multiple 
-Maven commands. 
+Note that the merge strategy here is opinionated; SemVer spec itself does not mention merging. In fact, with
+this plugin, merge can be done in various ways of your choosing: It's just a matter of issuing one or multiple
+Maven commands.
 
-The basic idea here, though, is to center the merge around the current POM version. Other than the SemVer specified 
-precedence, the intents and purposes of the current POM version will dominate in the merge process. 
+The basic idea here, though, is to center the merge around the current POM version. Other than the SemVer specified
+precedence, the intents and purposes of the current POM version will dominate in the merge process.
 
 1. Take the newer of the current POM version and the given version to merge, according to the SemVer precedence.
 
-2. If the current POM version is newer, no change will be made and the current POM version is the merge result. 
-Otherwise, if the given version to merge is newer, then, to form the merge result, the given version is to be 
-incremented on the **intended change category of the current POM version** - `major`, `minor`, or `patch`.
+2. If the current POM version is newer, no change will be made and the current POM version is the merge result.
+   Otherwise, if the given version to merge is newer, then, to form the merge result, the given version is to be
+   incremented on the **intended change category of the current POM version** - `major`, `minor`, or `patch`.
 
 3. The current POM version's pre-release and build metadata labels, if any exist, always stay and serve as the final
-merged version's labels.
+   merged version's labels.
 
 In this case, the given version `1.3.10-HOTFIX` is newer, so it is to be incremented to form the merge result. The
-intended change category of the current POM version `1.2.0-SNAPSHOT+chi.1` is `minor`, so the given version 
+intended change category of the current POM version `1.2.0-SNAPSHOT+chi.1` is `minor`, so the given version
 `1.3.10-HOTFIX` is incremented on its own `minor` category, resulting in `1.4.0` per SemVer spec. Lastly, the
 current POM version's labels (in this case `SNAPSHOT` and `chi.1`), if any exist, always stay as they are. Thus, for
 the final merged version, we have `1.4.0-SNAPSHOT+chi.1`.

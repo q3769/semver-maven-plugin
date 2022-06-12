@@ -21,8 +21,13 @@ package q3769.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.plugin.BuildPluginManager;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
+
+import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 
 /**
  * Updates POM version, based on current value
@@ -39,12 +44,17 @@ public abstract class Updater extends SemverMojo {
      * from CLI.
      */
     @Parameter(property = "snapshot", defaultValue = "false") protected boolean snapshot;
+    @Component protected BuildPluginManager pluginManager;
+
+    @Override protected void doExecute() throws MojoExecutionException, MojoFailureException {
+        updatePomFile(getUpdatedVersion().toString());
+    }
 
     /**
      * @return The incremented SemVer
      * @throws MojoFailureException if original version in POM is malformed
      */
-    @Override protected Version getUpdatedVersion() throws MojoFailureException {
+    private Version getUpdatedVersion() throws MojoFailureException {
         Version updated = update(requireValidSemVer(project.getVersion()));
         if (!snapshot) {
             return updated;
@@ -69,4 +79,23 @@ public abstract class Updater extends SemverMojo {
      */
     protected abstract Version update(Version original) throws MojoFailureException;
 
+    /**
+     * @param version New version to be set in the POM file
+     * @throws MojoExecutionException if unexpected error occurred while updating the POM file
+     */
+    private void updatePomFile(String version) throws MojoExecutionException {
+        String original = project.getVersion();
+        final String executedGoal = mojo.getGoal();
+        if (version.equals(original)) {
+            getLog().info(
+                    "Original POM version: " + original + " remains unchanged after executing goal: " + executedGoal);
+            return;
+        }
+        executeMojo(plugin(groupId("org.codehaus.mojo"), artifactId("versions-maven-plugin"), version("2.10.0")),
+                goal("set"),
+                configuration(element(name("generateBackupPoms"), "false"), element(name("newVersion"), version)),
+                executionEnvironment(project, session, pluginManager));
+        getLog().info("Updated original POM version: " + original + " into: " + version + " after executing goal: "
+                + executedGoal);
+    }
 }

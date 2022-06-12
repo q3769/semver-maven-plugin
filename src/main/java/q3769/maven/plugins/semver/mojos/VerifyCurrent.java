@@ -19,33 +19,25 @@
  */
 package q3769.maven.plugins.semver.mojos;
 
-import com.github.zafarkhaja.semver.Version;
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
+import q3769.maven.plugins.semver.SemverMojo;
 
 /**
  * VerifyCurrent the current POM version is a valid SemVer
  *
  * @author Qingtian Wang
  */
-@Mojo(name = "verify-current", defaultPhase = LifecyclePhase.NONE) public class VerifyCurrent extends AbstractMojo {
-
-    /**
-     * Current Maven POM
-     */
-    @Parameter(property = "project", defaultValue = "${project}", readonly = true, required = true)
-    protected MavenProject project;
+@Mojo(name = "verify-current", defaultPhase = LifecyclePhase.NONE) public class VerifyCurrent extends SemverMojo {
 
     @Parameter(property = "force-stdout", defaultValue = "false") protected boolean forceStdOut;
 
-    @Override public void execute() throws MojoFailureException {
-        final String version = project.getVersion();
+    @Override protected void doExecute() throws MojoFailureException {
+        final String version = originalPomVersion();
         try {
-            Version.valueOf(version);
+            requireValidSemVer(version);
         } catch (Exception e) {
             throw new MojoFailureException("Invalid SemVer '" + version + "'", e);
         }
