@@ -141,8 +141,8 @@ mvn semver:merge -Dsemver=1.3.10-HOTFIX
 updates `1.2.0-SNAPSHOT+chi.1` into `1.4.0-SNAPSHOT+chi.1`
 
 Note that the merge strategy here is opinionated; SemVer spec itself does not mention merging. In fact, with
-this plugin, merge can be done in various ways of your choosing: It's just a matter of issuing one or multiple
-Maven commands.
+this plugin, merge can be done in various ways of your choosing - rest assured the merge result will abide by the 
+SemVer spec.
 
 The basic idea here, though, is to center the merge around the current POM version. Other than the SemVer specified
 precedence, the intents and purposes of the current POM version will dominate in the merge process.
