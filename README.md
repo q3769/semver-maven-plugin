@@ -140,7 +140,7 @@ mvn semver:merge -Dsemver=1.3.10-HOTFIX
 
 updates `1.2.0-SNAPSHOT+chi.1` into `1.4.0-SNAPSHOT+chi.1`
 
-Note that the merge strategy here is opinionated; SemVer spec itself does not mention merging. 
+*Note: The merge strategy here is opinionated. SemVer spec itself does not mention merging.*
 
 The basic idea here is to center the merge around the current POM version. Other than the SemVer specified 
 precedence, the intents and purposes of the current POM version will dominate in the merge process.
