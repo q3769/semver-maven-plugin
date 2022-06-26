@@ -129,8 +129,8 @@ mvn semver:pick-newer -Dsemver=1.3.8-HOTFIX
 ```
 
 updates the original POM's `1.2.3` version to `1.3.8-HOTFIX` because `1.3.8-HOTFIX` is a newer version than `1.2.3`.
-However, if the original POM version is `1.3.8`, then no change will be made because, according to the SemVer
-precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
+However, if the original POM version were `1.3.8`, then no change would have been made because, according to the 
+SemVer precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
 
 ### Merge with another SemVer
 
