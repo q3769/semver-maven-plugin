@@ -10,13 +10,11 @@ specifications of [Semantic Versioning 2.0.0](https://semver.org/)
 As a user of this Maven Plugin, I want to update the value of the `version` element in the local `pom.xml` file
 according to the Semantic Versioning 2.0.0 specifications, by issuing a Maven command from CLI or scripting.
 
-### Notes
-
-Unlike some other Maven versioning plugins, this one does not include or combine any extra functionalities beyond local
-POM version change. E.g., in and of itself, the plugin does not communicate with any version control system or artifact
-repository. It has one single concern on the Maven project - its version in the local `pom.xml` file. As an atomic and
-composable action/step, the plugin aims to suit whatever work flow you may care to set up in the code/script of your
-CI/CD pipeline.
+Note: Unlike some other Maven versioning plugins, this one does not include or combine any extra functionalities 
+beyond local POM version change. In and of itself e.g. the plugin does not communicate with any version control 
+system or artifact repository. It has one single concern on the Maven project - its version in the local `pom.xml`
+file. As an atomic and composable action/step, the plugin aims to suit whatever work flow you may care to set up
+in the code/script of your CI/CD pipeline.
 
 ## Prerequisite
 
@@ -129,8 +127,8 @@ mvn semver:pick-newer -Dsemver=1.3.8-HOTFIX
 ```
 
 updates the original POM's `1.2.3` version to `1.3.8-HOTFIX` because `1.3.8-HOTFIX` is a newer version than `1.2.3`.
-However, if the original POM version is `1.3.8`, then no change will be made because, according to the SemVer
-precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
+However, if the original POM version were `1.3.8`, then no change would have been made because, according to the 
+SemVer precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
 
 ### Merge with another SemVer
 
@@ -138,14 +136,12 @@ precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
 mvn semver:merge -Dsemver=1.3.10-HOTFIX
 ```
 
-updates `1.2.0-SNAPSHOT+chi.1` into `1.4.0-SNAPSHOT+chi.1`
+updates `1.2.0-SNAPSHOT+chi.1` into `1.4.0-SNAPSHOT+chi.1`, where `1.2.0-SNAPSHOT+chi.1` is the current POM version.
 
-Note that the merge strategy here is opinionated; SemVer spec itself does not mention merging. In fact, with
-this plugin, merge can be done in various ways of your choosing: It's just a matter of issuing one or multiple
-Maven commands.
+*Note: The merge strategy here is opinionated. SemVer spec itself does not mention merging.*
 
-The basic idea here, though, is to center the merge around the current POM version. Other than the SemVer specified
-precedence, the intents and purposes of the current POM version will dominate in the merge process.
+The basic idea here is to center the merge process around the current POM version. I.e., the intents and purposes of the 
+current POM version will dominate the merge.
 
 1. Take the newer of the current POM version and the given version to merge, according to the SemVer precedence.
 
