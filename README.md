@@ -10,12 +10,12 @@ specifications of [Semantic Versioning 2.0.0](https://semver.org/)
 As a user of this Maven Plugin, I want to update the value of the `version` element in the local pom.xml file according
 to the Semantic Versioning 2.0.0 specifications, by issuing a Maven command from CLI or scripting.
 
-Note:
+Notes:
 
 - Unlike some other Maven versioning plugins, this one does not include or combine any extra functionalities beyond
   local POM version change. In and of itself e.g. the plugin does not communicate with any version control system or
-  artifact repository. It has one single concern on the Maven project - its version in the local pom.xml file. As an
-  atomic and composable action/step, the plugin aims to suit whatever work flow you may care to set up in the
+  artifact repository. It has one single concern on the Maven project - its version in the local pom.xml file.
+- As an atomic and composable action/step, the plugin aims to suit whatever work flow you may care to set up in the
   code/script of your CI/CD pipeline.
 
 ## Prerequisite
