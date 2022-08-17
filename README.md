@@ -16,8 +16,8 @@ Notes:
   local POM version change. In and of itself e.g. the plugin does not communicate with any version control system or
   artifact repository. The plugin has one single concern on the Maven project - the project's version as defined in its
   local pom.xml file.
-- As an atomic and composable action/step, the plugin aims to suit whatever work flow you may care to set up in the
-  code/script of your CI/CD pipeline.
+- Invokable as an atomic and composable action/step, the plugin aims to suit whatever workflow you may care to set up in
+  the code/script of your CI/CD pipeline.
 
 ## Prerequisite
 
