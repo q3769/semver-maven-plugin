@@ -12,10 +12,10 @@ to the Semantic Versioning 2.0.0 specifications, by issuing a Maven command from
 
 Notes:
 
-- Unlike some other Maven versioning plugins, this one does not include or combine any extra functionalities beyond
-  local POM version change. In and of itself e.g. the plugin does not communicate with any version control system or
-  artifact repository. The plugin has one single concern on the Maven project - the project's version as defined in its
-  local pom.xml file.
+- Unlike some other Maven versioning plugins, this one does not try to include or combine any extra functionalities
+  beyond local POM version change. In and of itself e.g. the plugin does not communicate with any version control system
+  or artifact repository. The plugin has one single concern on the Maven project - the project's version as defined in
+  its local pom.xml file.
 - Invokable as an atomic and composable action/step, the plugin aims to suit whatever workflow you may care to set up in
   the code/script of your CI/CD pipeline.
 
