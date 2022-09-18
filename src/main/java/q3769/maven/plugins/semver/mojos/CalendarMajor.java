@@ -38,13 +38,15 @@ import java.time.format.DateTimeFormatter;
  *
  * @author Qingtian Wang
  */
-@Mojo(name = "calendar-major", defaultPhase = LifecyclePhase.NONE) public class CalendarMajor extends Updater {
+@Mojo(name = "calendar-major", defaultPhase = LifecyclePhase.NONE)
+public class CalendarMajor extends Updater {
 
     /**
      * @param original POM project version whose major number is to be incremented
      * @return New semver version whose major number is incremented to current date in basic ISO format. Error out
      */
-    @Override protected Version update(Version original) throws MojoFailureException {
+    @Override
+    protected Version update(Version original) throws MojoFailureException {
         Version newVersion =
                 new Version.Builder(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + ".0.0").build();
         if (original.greaterThan(newVersion)) {

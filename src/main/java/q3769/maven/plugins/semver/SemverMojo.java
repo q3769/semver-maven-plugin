@@ -52,9 +52,11 @@ public abstract class SemverMojo extends AbstractMojo {
     @Parameter(property = "session", defaultValue = "${session}", readonly = true, required = true)
     protected MavenSession session;
 
-    @Parameter(defaultValue = "${mojoExecution}", readonly = true) protected MojoExecution mojo;
+    @Parameter(defaultValue = "${mojoExecution}", readonly = true)
+    protected MojoExecution mojo;
 
-    @Parameter(property = "processModule", defaultValue = FALSE) protected String processModule;
+    @Parameter(property = "processModule", defaultValue = FALSE)
+    protected String processModule;
 
     /**
      * @param version text that is supposed to be valid per SemVer spec
@@ -72,7 +74,8 @@ public abstract class SemverMojo extends AbstractMojo {
      * @throws MojoExecutionException on execution error
      * @throws MojoFailureException   on build error
      */
-    @Override public void execute() throws MojoExecutionException, MojoFailureException {
+    @Override
+    public void execute() throws MojoExecutionException, MojoFailureException {
         String projectName = project.getName();
         String pomVersion = originalPomVersion();
         getLog().info("Goal '" + this.mojo.getGoal() + "' processing project '" + projectName + "' with POM version '"

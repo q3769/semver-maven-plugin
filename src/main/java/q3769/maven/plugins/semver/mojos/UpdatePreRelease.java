@@ -34,14 +34,16 @@ import q3769.maven.plugins.semver.LabelUpdater;
  *
  * @author Qingtian Wang
  */
-@Mojo(name = "update-pre-release", defaultPhase = LifecyclePhase.NONE) public class UpdatePreRelease
-        extends LabelUpdater {
+@Mojo(name = "update-pre-release", defaultPhase = LifecyclePhase.NONE)
+public class UpdatePreRelease extends LabelUpdater {
 
-    @Override protected Version setLabel(Version version, String label) {
+    @Override
+    protected Version setLabel(Version version, String label) {
         return version.setPreReleaseVersion(label);
     }
 
-    @Override protected Version incrementLabel(Version version) {
+    @Override
+    protected Version incrementLabel(Version version) {
         return version.incrementPreReleaseVersion();
     }
 }

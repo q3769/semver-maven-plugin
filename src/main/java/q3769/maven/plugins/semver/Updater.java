@@ -47,10 +47,13 @@ public abstract class Updater extends SemverMojo {
      * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in as a -D parameter
      * from CLI.
      */
-    @Parameter(property = "snapshot", defaultValue = "false") protected boolean snapshot;
-    @Component protected BuildPluginManager pluginManager;
+    @Parameter(property = "snapshot", defaultValue = "false")
+    protected boolean snapshot;
+    @Component
+    protected BuildPluginManager pluginManager;
 
-    @Override protected void doExecute() throws MojoExecutionException, MojoFailureException {
+    @Override
+    protected void doExecute() throws MojoExecutionException, MojoFailureException {
         updatePomFile(getUpdatedVersion().toString());
     }
 

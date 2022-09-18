@@ -35,14 +35,16 @@ import q3769.maven.plugins.semver.Updater;
  *
  * @author Qingtian Wang
  */
-@Mojo(name = "finalize-current", defaultPhase = LifecyclePhase.NONE) public class FinalizeCurrent extends Updater {
+@Mojo(name = "finalize-current", defaultPhase = LifecyclePhase.NONE)
+public class FinalizeCurrent extends Updater {
 
     /**
      * @param original to finalize
      * @return final SemVer version of the original, all meta info stripped
      * @throws MojoFailureException if the original SemVer is already without additional labels
      */
-    @Override protected Version update(Version original) throws MojoFailureException {
+    @Override
+    protected Version update(Version original) throws MojoFailureException {
         if (StringUtils.isBlank(original.getPreReleaseVersion()) && StringUtils.isBlank(original.getBuildMetadata())) {
             getLog().info("Current version: " + original + " is already final, so no change.");
             return original;

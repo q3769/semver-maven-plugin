@@ -36,14 +36,17 @@ import q3769.maven.plugins.semver.Updater;
  *
  * @author Qingtian Wang
  */
-@Mojo(name = "pick-newer", defaultPhase = LifecyclePhase.NONE) public class PickNewer extends Updater {
+@Mojo(name = "pick-newer", defaultPhase = LifecyclePhase.NONE)
+public class PickNewer extends Updater {
 
     /**
      * The other SemVer to be merged with current local POM version
      */
-    @Parameter(property = "semver", defaultValue = "NOT_SET", required = true) protected String otherSemVer;
+    @Parameter(property = "semver", defaultValue = "NOT_SET", required = true)
+    protected String otherSemVer;
 
-    @Override protected Version update(Version original) throws MojoFailureException {
+    @Override
+    protected Version update(Version original) throws MojoFailureException {
         getLog().info("Taking the newer of current version '" + original + "' and version '" + otherSemVer + "'...");
         final Version other = requireValidSemVer(otherSemVer);
         if (original.greaterThanOrEqualTo(other)) {

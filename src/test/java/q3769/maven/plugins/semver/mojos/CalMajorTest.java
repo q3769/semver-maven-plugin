@@ -46,14 +46,16 @@ class CalMajorTest {
     private static final Version EXPECTED_RESULT = new Version.Builder(TODAY + ".0.0").build();
     private final CalendarMajor instance = new CalendarMajor();
 
-    @Test void testShouldIncrementMojorToToday() throws MojoFailureException {
+    @Test
+    void testShouldIncrementMajorToToday() throws MojoFailureException {
         final int someDayEarlier = Integer.parseInt(TODAY) - 10000;
         Version original = new Version.Builder(someDayEarlier + ".2.3").build();
         Version result = instance.update(original);
         assertEquals(EXPECTED_RESULT, result);
     }
 
-    @Test void testShouldErrorOutIfOriginalMajorVersionIsHigher() {
+    @Test
+    void testShouldErrorOutIfOriginalMajorVersionIsHigher() {
         final int someLaterDay = Integer.parseInt(TODAY) + 10000;
         Version original = new Version.Builder(someLaterDay + ".2.3").build();
         MojoFailureException assertThrows =

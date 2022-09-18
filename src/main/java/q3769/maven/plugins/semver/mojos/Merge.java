@@ -41,12 +41,14 @@ import q3769.maven.plugins.semver.Updater;
  *
  * @author Qingtian Wang
  */
-@Mojo(name = "merge", defaultPhase = LifecyclePhase.NONE) public class Merge extends Updater {
+@Mojo(name = "merge", defaultPhase = LifecyclePhase.NONE)
+public class Merge extends Updater {
 
     /**
      * The other SemVer to be merged with current local POM's version
      */
-    @Parameter(property = "semver", defaultValue = "NOT_SET") protected String otherSemVer;
+    @Parameter(property = "semver", defaultValue = "NOT_SET")
+    protected String otherSemVer;
 
     private static Version setLabels(Version version, String preReleaseLabel, String buildMetadataLabel) {
         Version withLabels = version;
@@ -71,7 +73,8 @@ import q3769.maven.plugins.semver.Updater;
         }
     }
 
-    @Override protected Version update(Version original) throws MojoFailureException {
+    @Override
+    protected Version update(Version original) throws MojoFailureException {
         getLog().info("Merging current version: " + original + " with version: " + otherSemVer
                 + ", result will keep labels of the current...");
         final Version other = requireValidSemVer(otherSemVer);

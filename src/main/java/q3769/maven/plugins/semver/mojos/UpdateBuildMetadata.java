@@ -34,14 +34,16 @@ import q3769.maven.plugins.semver.LabelUpdater;
  *
  * @author Qingtian Wang
  */
-@Mojo(name = "update-build-metadata", defaultPhase = LifecyclePhase.NONE) public class UpdateBuildMetadata
-        extends LabelUpdater {
+@Mojo(name = "update-build-metadata", defaultPhase = LifecyclePhase.NONE)
+public class UpdateBuildMetadata extends LabelUpdater {
 
-    @Override protected Version incrementLabel(Version version) {
+    @Override
+    protected Version incrementLabel(Version version) {
         return version.incrementBuildMetadata();
     }
 
-    @Override protected Version setLabel(Version version, String label) {
+    @Override
+    protected Version setLabel(Version version, String label) {
         return version.setBuildMetadata(label);
     }
 

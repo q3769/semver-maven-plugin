@@ -34,11 +34,14 @@ import q3769.maven.plugins.semver.SemverMojo;
  *
  * @author Qingtian Wang
  */
-@Mojo(name = "verify-current", defaultPhase = LifecyclePhase.NONE) public class VerifyCurrent extends SemverMojo {
+@Mojo(name = "verify-current", defaultPhase = LifecyclePhase.NONE)
+public class VerifyCurrent extends SemverMojo {
 
-    @Parameter(property = "force-stdout", defaultValue = "false") protected boolean forceStdOut;
+    @Parameter(property = "force-stdout", defaultValue = "false")
+    protected boolean forceStdOut;
 
-    @Override protected void doExecute() throws MojoFailureException {
+    @Override
+    protected void doExecute() throws MojoFailureException {
         final String version = originalPomVersion();
         try {
             requireValidSemVer(version);
