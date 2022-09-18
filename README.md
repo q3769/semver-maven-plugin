@@ -73,8 +73,9 @@ increments `1.2.3-beta.1` into `2.0.0`, where `1.2.3-beta.1` is the original POM
 mvn semver:increment-minor -Dsnapshot=true
 ```
 
-increments `1.2.3 into 1.3.0-SNAPSHOT`. Note that `snapshot` is just a convenience flag to set `SNAPSHOT` as the
-pre-release label, which is compliant with the SemVer spec and works with all three types of normal version increment.
+increments `1.2.3 into 1.3.0-SNAPSHOT`. Note that `snapshot` is just a convenience flag to set the target pre-release
+label as `SNAPSHOT`; this works with all three types of normal version increment. To set pre-release label to other
+verbiage, see corresponding examples below.
 
 ```
 mvn semver:increment-patch
