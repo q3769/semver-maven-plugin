@@ -34,7 +34,7 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Increments major version to current calendar date in basic ISO format. If the resulting version is newer than the
- * original POM version, up the POM version to the new one. Otherwise errors out.
+ * original POM version, up the POM version to the new one. Otherwise, errors out.
  *
  * @author Qingtian Wang
  */
@@ -49,11 +49,11 @@ public class CalendarMajor extends Updater {
     protected Version update(Version original) throws MojoFailureException {
         Version newVersion =
                 new Version.Builder(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + ".0.0").build();
-        if (original.greaterThan(newVersion)) {
+        if (original.equals(newVersion) || original.greaterThan(newVersion)) {
             throw new MojoFailureException(
-                    "Original POM version: " + original + " is already newer than the intended update: " + newVersion);
+                    "Original POM version: " + original + " is already the same as or newer than the intended update: "
+                            + newVersion);
         }
         return newVersion;
     }
-
 }
