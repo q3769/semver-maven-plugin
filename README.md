@@ -1,5 +1,3 @@
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.q3769/semver-maven-plugin.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.q3769%22%20AND%20a:%22semver-maven-plugin%22)
-
 # semver-maven-plugin
 
 A simple Maven Plugin to update current project's version in the local POM file, via CLI or scripting, according to the
@@ -24,6 +22,8 @@ Notes:
 Maven 3.5.4 or better
 
 ## Get it...
+
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.q3769/semver-maven-plugin.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.q3769%22%20AND%20a:%22semver-maven-plugin%22)
 
 In pom.xml
 
