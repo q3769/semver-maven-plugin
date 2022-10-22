@@ -24,6 +24,7 @@
 package q3769.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
+import elf4j.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.BuildPluginManager;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -39,18 +40,15 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
  * @author Qingtian Wang
  */
 public abstract class Updater extends SemverMojo {
-
     protected static final String HYPHEN = "-";
     protected static final String SNAPSHOT_SUFFIX = "SNAPSHOT";
-
+    private static final Logger logger = Logger.instance(Updater.class);
     /**
      * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in as a -D parameter
      * from CLI.
      */
-    @Parameter(property = "snapshot", defaultValue = "false")
-    protected boolean snapshot;
-    @Component
-    protected BuildPluginManager pluginManager;
+    @Parameter(property = "snapshot", defaultValue = "false") protected boolean snapshot;
+    @Component protected BuildPluginManager pluginManager;
 
     @Override
     protected void doExecute() throws MojoExecutionException, MojoFailureException {
@@ -66,6 +64,7 @@ public abstract class Updater extends SemverMojo {
         if (!snapshot) {
             return updated;
         }
+        logger.atInfo().log("labeling version {} as a SNAPSHOT...", updated);
         final String preReleaseLabel = updated.getPreReleaseVersion();
         final String buildMetadataLabel = updated.getBuildMetadata();
         if (StringUtils.isBlank(preReleaseLabel)) {

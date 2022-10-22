@@ -24,14 +24,13 @@
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
+import elf4j.Logger;
 import org.apache.maven.plugin.MojoFailureException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -40,10 +39,9 @@ import static junit.framework.Assert.assertEquals;
  */
 class CalMajorTest {
 
-    private static final Logger LOG = Logger.getLogger(CalMajorTest.class.getName());
-
     private static final String TODAY = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE);
     private static final Version EXPECTED_RESULT = new Version.Builder(TODAY + ".0.0").build();
+    private static final Logger log = Logger.instance(CalMajorTest.class);
     private final CalendarMajor instance = new CalendarMajor();
 
     @Test
@@ -60,7 +58,6 @@ class CalMajorTest {
         Version original = new Version.Builder(someLaterDay + ".2.3").build();
         MojoFailureException assertThrows =
                 Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
-        LOG.log(Level.INFO, "Expected message: {0}", assertThrows.getMessage());
+        log.atInfo().log("Expected message: {}", assertThrows.getMessage());
     }
-
 }

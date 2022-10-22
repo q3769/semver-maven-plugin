@@ -46,5 +46,4 @@ public class UpdateBuildMetadata extends LabelUpdater {
     protected Version setLabel(Version version, String label) {
         return version.setBuildMetadata(label);
     }
-
 }

@@ -37,8 +37,7 @@ import q3769.maven.plugins.semver.SemverMojo;
 @Mojo(name = "verify-current", defaultPhase = LifecyclePhase.NONE)
 public class VerifyCurrent extends SemverMojo {
 
-    @Parameter(property = "force-stdout", defaultValue = "false")
-    protected boolean forceStdOut;
+    @Parameter(property = "force-stdout", defaultValue = "false") protected boolean forceStdOut;
 
     @Override
     protected void doExecute() throws MojoFailureException {
@@ -49,8 +48,8 @@ public class VerifyCurrent extends SemverMojo {
             throw new MojoFailureException("Invalid SemVer '" + version + "'", e);
         }
         getLog().info("POM version '" + version + "' is a valid SemVer");
-        if (forceStdOut)
+        if (forceStdOut) {
             System.out.println(version);
+        }
     }
-
 }

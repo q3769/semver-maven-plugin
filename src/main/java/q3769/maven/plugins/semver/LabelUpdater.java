@@ -37,8 +37,7 @@ public abstract class LabelUpdater extends Updater {
     /**
      * If passed in, will be used to set as either one of the two SemVer labels.
      */
-    @Parameter(property = "set")
-    protected String set;
+    @Parameter(property = "set") protected String set;
 
     @Override
     protected Version update(Version original) throws MojoFailureException {
@@ -58,5 +57,4 @@ public abstract class LabelUpdater extends Updater {
     protected abstract Version incrementLabel(Version version);
 
     protected abstract Version setLabel(Version version, String label);
-
 }

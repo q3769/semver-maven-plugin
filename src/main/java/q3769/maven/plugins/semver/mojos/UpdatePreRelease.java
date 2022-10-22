@@ -38,12 +38,12 @@ import q3769.maven.plugins.semver.LabelUpdater;
 public class UpdatePreRelease extends LabelUpdater {
 
     @Override
-    protected Version setLabel(Version version, String label) {
-        return version.setPreReleaseVersion(label);
+    protected Version incrementLabel(Version version) {
+        return version.incrementPreReleaseVersion();
     }
 
     @Override
-    protected Version incrementLabel(Version version) {
-        return version.incrementPreReleaseVersion();
+    protected Version setLabel(Version version, String label) {
+        return version.setPreReleaseVersion(label);
     }
 }

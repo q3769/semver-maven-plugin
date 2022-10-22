@@ -41,8 +41,7 @@ public class SetCurrent extends Updater {
     /**
      * SemVer to be set in pom.xml. Needs to be in valid SemVer format.
      */
-    @Parameter(property = "semver", required = true)
-    protected String semver;
+    @Parameter(property = "semver", required = true) protected String semver;
 
     @Override
     protected Version update(Version original) throws MojoFailureException {

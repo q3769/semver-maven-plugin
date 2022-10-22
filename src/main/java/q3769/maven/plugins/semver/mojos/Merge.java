@@ -47,15 +47,16 @@ public class Merge extends Updater {
     /**
      * The other SemVer to be merged with current local POM's version
      */
-    @Parameter(property = "semver", defaultValue = "NOT_SET")
-    protected String otherSemVer;
+    @Parameter(property = "semver", defaultValue = "NOT_SET") protected String otherSemVer;
 
     private static Version setLabels(Version version, String preReleaseLabel, String buildMetadataLabel) {
         Version withLabels = version;
-        if (StringUtils.isNotBlank(preReleaseLabel))
+        if (StringUtils.isNotBlank(preReleaseLabel)) {
             withLabels = version.setPreReleaseVersion(preReleaseLabel);
-        if (StringUtils.isNotBlank(buildMetadataLabel))
+        }
+        if (StringUtils.isNotBlank(buildMetadataLabel)) {
             withLabels = version.setBuildMetadata(buildMetadataLabel);
+        }
         return withLabels;
     }
 
@@ -82,7 +83,7 @@ public class Merge extends Updater {
             getLog().info("Current POM version: " + original + " is newer than given version: " + other);
             return original;
         }
-        getLog().info("Provided version: " + other + " is new than current POM version: " + original);
+        getLog().info("Provided version: " + other + " is newer than current POM version: " + original);
         Version result = increment(other, SemverCategory.getIntendedChangeCategory(original));
         result = setLabels(result, original.getPreReleaseVersion(), original.getBuildMetadata());
         getLog().info("Final merged version: " + result);

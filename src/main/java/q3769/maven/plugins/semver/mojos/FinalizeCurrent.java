@@ -51,5 +51,4 @@ public class FinalizeCurrent extends Updater {
         }
         return Version.forIntegers(original.getMajorVersion(), original.getMinorVersion(), original.getPatchVersion());
     }
-
 }

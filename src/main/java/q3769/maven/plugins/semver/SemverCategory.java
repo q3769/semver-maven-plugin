@@ -37,13 +37,15 @@ public enum SemverCategory {
         final int major = version.getMajorVersion();
         final int minor = version.getMinorVersion();
         final int patch = version.getPatchVersion();
-        if (major == 0 && minor == 0 && patch == 0)
+        if (major == 0 && minor == 0 && patch == 0) {
             throw new IllegalArgumentException("At least one normal number is expected to be non-zero: " + version);
-        if (minor == 0 && patch == 0)
+        }
+        if (minor == 0 && patch == 0) {
             return MAJOR;
-        if (patch == 0)
+        }
+        if (patch == 0) {
             return MINOR;
+        }
         return PATCH;
     }
-
 }

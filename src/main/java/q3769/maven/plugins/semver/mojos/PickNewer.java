@@ -42,8 +42,7 @@ public class PickNewer extends Updater {
     /**
      * The other SemVer to be merged with current local POM version
      */
-    @Parameter(property = "semver", defaultValue = "NOT_SET", required = true)
-    protected String otherSemVer;
+    @Parameter(property = "semver", defaultValue = "NOT_SET", required = true) protected String otherSemVer;
 
     @Override
     protected Version update(Version original) throws MojoFailureException {
@@ -56,5 +55,4 @@ public class PickNewer extends Updater {
         getLog().info("CLI provided version '" + otherSemVer + "' is picked");
         return other;
     }
-
 }

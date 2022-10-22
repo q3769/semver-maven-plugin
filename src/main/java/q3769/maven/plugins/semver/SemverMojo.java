@@ -24,6 +24,7 @@
 package q3769.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
+import elf4j.Logger;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
@@ -38,8 +39,8 @@ import org.apache.maven.project.MavenProject;
  * @author Qingtian Wang
  */
 public abstract class SemverMojo extends AbstractMojo {
-
     public static final String FALSE = "false";
+    private static final Logger logger = Logger.instance(SemverMojo.class);
     /**
      * Current Maven POM
      */
@@ -52,11 +53,9 @@ public abstract class SemverMojo extends AbstractMojo {
     @Parameter(property = "session", defaultValue = "${session}", readonly = true, required = true)
     protected MavenSession session;
 
-    @Parameter(defaultValue = "${mojoExecution}", readonly = true)
-    protected MojoExecution mojo;
+    @Parameter(defaultValue = "${mojoExecution}", readonly = true) protected MojoExecution mojo;
 
-    @Parameter(property = "processModule", defaultValue = FALSE)
-    protected String processModule;
+    @Parameter(property = "processModule", defaultValue = FALSE) protected String processModule;
 
     /**
      * @param version text that is supposed to be valid per SemVer spec
@@ -81,6 +80,7 @@ public abstract class SemverMojo extends AbstractMojo {
         getLog().info("Goal '" + this.mojo.getGoal() + "' processing project '" + projectName + "' with POM version '"
                 + pomVersion + "'...");
         if (project.hasParent()) {
+            logger.atInfo().log("current project {} is a module of {}", projectName, project.getParent().getName());
             if (FALSE.equalsIgnoreCase(processModule)) {
                 getLog().warn("Version of module '" + projectName
                         + "' will not be processed. By default, only parent project is processed; if otherwise desired, use the `-DprocessModule` CLI flag");
@@ -100,5 +100,4 @@ public abstract class SemverMojo extends AbstractMojo {
     }
 
     protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
-
 }

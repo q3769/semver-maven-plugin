@@ -40,5 +40,4 @@ public class IncrementMinor extends Updater {
     protected Version update(Version original) {
         return original.incrementMinorVersion();
     }
-
 }
