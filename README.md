@@ -41,8 +41,10 @@ In pom.xml
 
 ## Use it...
 
-*Caution: By default, only the parent project's version is processed, module versions are not. Use
-the **`-DprocessModule`** command flag if you also wish to process modules.*
+Note: 
+
+- By default, only the parent project's version is processed, module versions are not. Use
+the `-DprocessModule` command flag if you also wish to process modules.
 
 From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located:
 
@@ -137,13 +139,15 @@ SemVer precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
 
 ### Merge with another SemVer
 
+Note: 
+
+- This merge strategy is opinionated. SemVer spec itself does not mention merging.
+
 ```
 mvn semver:merge -Dsemver=1.3.10-HOTFIX
 ```
 
 updates `1.2.0-SNAPSHOT+chi.1` into `1.4.0-SNAPSHOT+chi.1`, where `1.2.0-SNAPSHOT+chi.1` is the current POM version.
-
-*Note: This merge strategy is opinionated. SemVer spec itself does not mention merging.*
 
 The basic idea here is to center the merge process around the current version in the pom.xml file. I.e., the intents and
 purposes of the current POM version will dominate those of the given SemVer to merge.
