@@ -41,10 +41,8 @@ In pom.xml
 
 ## Use it...
 
-Note: 
-
-- By default, only the parent project's version is processed, module versions are not. Use
-the `-DprocessModule` command flag if you also wish to process modules.
+- By default, only the parent project's version is processed, module versions are not. Use the `-DprocessModule` command
+  flag if you also wish to process modules.
 
 From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located:
 
@@ -138,8 +136,6 @@ However, if the original POM version were `1.3.8`, then no change would have bee
 SemVer precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
 
 ### Merge with another SemVer
-
-Note: 
 
 - This merge strategy is opinionated. SemVer spec itself does not mention merging.
 
