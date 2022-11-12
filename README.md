@@ -34,7 +34,7 @@ In pom.xml
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>grab_latest_from_maven_central</version>
+                <version>${latest_from_maven_central}</version>
             </plugin>
             ...
 ```            
