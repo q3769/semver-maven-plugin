@@ -125,7 +125,7 @@ mvn semver:update-build-metadata -Dset=build.reno
 
 updates `1.2.3-alpha` into `1.2.3-alpha+build.reno`
 
-### Pick the newer of the POM version and another SemVer
+### Pick the newer between the POM version and another SemVer
 
 ```
 mvn semver:pick-newer -Dsemver=1.3.8-HOTFIX
@@ -145,13 +145,13 @@ updates `1.2.0-SNAPSHOT+chi.1` into `1.4.0-SNAPSHOT+chi.1`, where `1.2.0-SNAPSHO
 
 *Note: This merge strategy is opinionated. SemVer spec itself does not mention merging.*
 
-The basic idea here is to center the merge process around the current POM version. I.e., the intents and purposes of the
-current POM version will dominate the merge.
+The basic idea here is to center the merge process around the current version in the pom.xml file. I.e., the intents and
+purposes of the current POM version will dominate those of the given SemVer to merge.
 
-1. Take the newer of the current POM version and the given version to merge, according to the SemVer precedence.
+1. Take the newer between the current POM version and the given version to merge, according to the SemVer precedence.
 
 2. If the current POM version is newer, no change will be made and the current POM version is the merge result.
-   Otherwise, if the given version to merge is newer, then, to form the merge result, the given version is to be
+   Otherwise, if the given version to merge is newer, then to form the merge result, the given version is to be
    incremented on the **intended change category of the current POM version** - `major`, `minor`, or `patch`.
 
 3. The current POM version's pre-release and build metadata labels, if any exist, always stay and serve as the final
