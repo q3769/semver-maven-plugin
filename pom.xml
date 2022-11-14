@@ -35,7 +35,7 @@
 
     <name>semver-maven-plugin</name>
     <description>
-        A simple Maven Plugin to make local POM file version updates in compliance with Semantic Versioning 2.0.0
+        A Maven Plugin to update local POM version in compliance with Semantic Versioning 2.0.0
     </description>
     <url>https://github.com/q3769/semver-maven-plugin</url>
 
