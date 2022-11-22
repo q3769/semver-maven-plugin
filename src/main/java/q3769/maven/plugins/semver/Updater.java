@@ -40,14 +40,13 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
  * @author Qingtian Wang
  */
 public abstract class Updater extends SemverMojo {
-    protected static final String HYPHEN = "-";
-    protected static final String SNAPSHOT_SUFFIX = "SNAPSHOT";
+    private static final String SNAPSHOT = "SNAPSHOT";
     private static final Logger logger = Logger.instance(Updater.class);
     /**
      * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in as a -D parameter
      * from CLI.
      */
-    @Parameter(property = "snapshot", defaultValue = "false") protected boolean snapshot;
+    @Parameter(property = "snapshot", defaultValue = "false") protected boolean addingSnapshotLabel;
     @Component protected BuildPluginManager pluginManager;
 
     @Override
@@ -61,21 +60,15 @@ public abstract class Updater extends SemverMojo {
      */
     private Version getUpdatedVersion() throws MojoFailureException {
         Version updated = update(requireValidSemVer(project.getVersion()));
-        if (!snapshot) {
+        if (!addingSnapshotLabel) {
             return updated;
+        }
+        if (!StringUtils.isBlank(updated.getPreReleaseVersion()) || !StringUtils.isBlank(updated.getBuildMetadata())) {
+            throw new MojoFailureException("snapshot labeling requested for updated semver " + updated
+                    + " but not honored, because snapshot flag only works with normal version number increments with no labels");
         }
         logger.atInfo().log("labeling version {} as a SNAPSHOT...", updated);
-        final String preReleaseLabel = updated.getPreReleaseVersion();
-        final String buildMetadataLabel = updated.getBuildMetadata();
-        if (StringUtils.isBlank(preReleaseLabel)) {
-            updated = updated.setPreReleaseVersion(SNAPSHOT_SUFFIX);
-        } else if (!preReleaseLabel.contains(SNAPSHOT_SUFFIX)) {
-            updated = updated.setPreReleaseVersion(preReleaseLabel + HYPHEN + SNAPSHOT_SUFFIX);
-        }
-        if (StringUtils.isBlank(buildMetadataLabel)) {
-            return updated;
-        }
-        return updated.setBuildMetadata(buildMetadataLabel);
+        return updated.setPreReleaseVersion(SNAPSHOT);
     }
 
     /**
