@@ -1,6 +1,6 @@
 # semver-maven-plugin
 
-A simple Maven Plugin to make local POM file version updates in compliance
+A Maven Plugin to update local POM version updates in compliance
 with [Semantic Versioning 2.0.0](https://semver.org/)
 
 ## User story
