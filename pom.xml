@@ -126,8 +126,8 @@
         </dependency>
         <dependency>
             <groupId>io.github.elf4j</groupId>
-            <artifactId>elf4j-jul</artifactId>
-            <version>3.0.0</version>
+            <artifactId>elf4j-tinylog</artifactId>
+            <version>8.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
