@@ -32,6 +32,7 @@ import q3769.maven.plugins.semver.SemverCategory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static q3769.maven.plugins.semver.SemverCategory.MINOR;
 
 class MergeTest {
 
@@ -55,13 +56,14 @@ class MergeTest {
         void whenOriginalVersionIsOlder() throws MojoFailureException {
             Version original = Version.valueOf("1.2.0-SNAPSHOT");
             Version toMerge = Version.valueOf("1.3.4-hotfix");
-            assertTrue(original.compareTo(toMerge) < 0);
             mergeMojo.otherSemVer = toMerge.toString();
+            assertTrue(original.compareTo(toMerge) < 0);
+            assertEquals(MINOR, SemverCategory.getIntendedChangeCategory(original));
 
             Version updated = mergeMojo.update(original);
 
-            assertEquals(SemverCategory.MINOR, SemverCategory.getIntendedChangeCategory(original));
-            assertEquals(toMerge.incrementMinorVersion().setPreReleaseVersion("SNAPSHOT"), updated);
+            assertEquals(toMerge.incrementMinorVersion().setPreReleaseVersion(original.getPreReleaseVersion()),
+                    updated);
         }
     }
 }
