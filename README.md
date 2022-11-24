@@ -58,8 +58,7 @@ errors out because `blah` is not a valid SemVer
 mvn semver:set-current -Dsemver=1.2.3-beta
 ```
 
-sets the value of the version element of the pom.xml file to be `1.2.3-beta`, regardless of the original POM version's
-value
+sets the new value of the version element of the pom.xml file to be `1.2.3-beta`, regardless of the old value
 
 ### Increment normal version number
 
@@ -131,9 +130,9 @@ updates `1.2.3-alpha` into `1.2.3-alpha+build.reno`
 mvn semver:pick-newer -Dsemver=1.3.8-HOTFIX
 ```
 
-updates the original POM's `1.2.3` version to `1.3.8-HOTFIX` because `1.3.8-HOTFIX` is a newer version than `1.2.3`.
-However, if the original POM version were `1.3.8`, then no change would have been made because, according to the
-SemVer precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
+updates the original POM version `1.2.3` to `1.3.8-HOTFIX` because `1.3.8-HOTFIX` is a newer version than `1.2.3`.
+However, if the original version were `1.3.8`, then no change would have been made because, according to the SemVer
+precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
 
 ### Merge with another SemVer
 
