@@ -26,16 +26,16 @@ Maven 3.5.4 or better
 
 In pom.xml
 
-```
-    ...
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>io.github.q3769</groupId>
-                <artifactId>semver-maven-plugin</artifactId>
-                <version>${latest_from_maven_central}</version>
-            </plugin>
-            ...
+```xml
+...
+<build>
+    <plugins>
+        <plugin>
+            <groupId>io.github.q3769</groupId>
+            <artifactId>semver-maven-plugin</artifactId>
+            <version>${latest_from_maven_central}</version>
+        </plugin>
+        ...
 ```            
 
 ## Use it...
@@ -47,13 +47,13 @@ From CLI, assuming you are in the Maven project's default root directory where t
 
 ### Hard set
 
-```
+```shell
 mvn semver:set-current -Dsemver=blah
 ```
 
 errors out because `blah` is not a valid SemVer
 
-```
+```shell
 mvn semver:set-current -Dsemver=1.2.3-beta
 ```
 
@@ -61,13 +61,13 @@ sets the new value of the version element of the pom.xml file to be `1.2.3-beta`
 
 ### Increment normal version number
 
-```
+```shell
 mvn semver:increment-major
 ```
 
 increments `1.2.3-beta.1` into `2.0.0`, where `1.2.3-beta.1` is the original POM value
 
-```
+```shell
 mvn semver:increment-minor -Dsnapshot=true
 ```
 
@@ -75,13 +75,13 @@ increments `1.2.3 into 1.3.0-SNAPSHOT`. Note that `snapshot` is a convenience fl
 as `SNAPSHOT`; this only works as a shorthand after a normal version increment - major, minor, or patch. To set
 pre-release label to other verbiage, see examples in the Pre-release and Build Metadata labels section.
 
-```
+```shell
 mvn semver:increment-patch
 ```
 
 increments `1.2.3-beta.1` into `1.2.4`
 
-```
+```shell
 mvn semver:calendar-major
 ```
 
@@ -91,7 +91,7 @@ POM.
 
 ### Finalize current version
 
-```
+```shell
 mvn semver:finalize-current
 ```
 
@@ -99,25 +99,25 @@ changes `1.2.3-SNAPSHOT` or `1.2.3-beta.1+build.10` into `1.2.3`, stripping off 
 
 ### Pre-release and Build Metadata labels
 
-```
+```shell
 mvn semver:update-pre-release
 ```
 
 increments `1.2.3-beta` into `1.2.3-beta.1`
 
-```
+```shell
 mvn semver:update-build-metadata
 ```
 
 increments `1.2.3-beta.1+build.10` into `1.2.3-beta.1+build.11`
 
-```
+```shell
 mvn semver:update-pre-release -Dset=beta
 ```
 
 updates `1.2.3-alpha+build.7` into `1.2.3-beta`
 
-```
+```shell
 mvn semver:update-build-metadata -Dset=build.reno
 ```
 
@@ -125,7 +125,7 @@ updates `1.2.3-alpha` into `1.2.3-alpha+build.reno`
 
 ### Pick the newer between the POM version and another SemVer
 
-```
+```shell
 mvn semver:pick-newer -Dsemver=1.3.8-HOTFIX
 ```
 
@@ -137,7 +137,7 @@ precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
 
 - This merge strategy is opinionated. SemVer spec itself does not mention merging.
 
-```
+```shell
 mvn semver:merge -Dsemver=1.3.10-HOTFIX
 ```
 
@@ -163,13 +163,13 @@ the final merged version, we have `1.4.0-SNAPSHOT+chi.1`.
 
 ### Verify the current POM version
 
-```
+```shell
 mvn semver:verify-current
 ```
 
 prints confirmation message if the current version of the local POM is in valid SemVer format, errors otherwise.
 
-```
+```shell
 mvn semver:verify-current -Dforce-stdout -q
 ```
 
