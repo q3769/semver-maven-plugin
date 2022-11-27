@@ -71,8 +71,8 @@ increments `1.2.3-beta.1` into `2.0.0`, where `1.2.3-beta.1` is the original POM
 mvn semver:increment-minor -Dsnapshot=true
 ```
 
-increments `1.2.3 into 1.3.0-SNAPSHOT`. Note that `snapshot` is just a convenience flag to set the target pre-release
-label as `SNAPSHOT`; this works with all three types of normal version increment - major, minor, and patch. To set
+increments `1.2.3 into 1.3.0-SNAPSHOT`. Note that `snapshot` is a convenience flag to set the target pre-release label
+as `SNAPSHOT`; this only works as a shorthand after a normal version increment - major, minor, or patch. To set
 pre-release label to other verbiage, see examples in the Pre-release and Build Metadata labels section.
 
 ```
