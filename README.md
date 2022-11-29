@@ -4,7 +4,7 @@ A Maven Plugin to update local POM version in compliance with [Semantic Versioni
 
 ## User story
 
-As a user of this Maven Plugin, I want to update my Maven project's version defined in the local pom.xml file, according
+As a user of this Maven Plugin, I want to update my project's version in the local pom.xml file according
 to the Semantic Versioning 2.0.0 specifications, by issuing Maven commands from CLI or build script/code.
 
 Notes:
