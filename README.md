@@ -150,7 +150,7 @@ purposes of the current POM version will dominate those of the given SemVer to m
 
 2. If the current POM version is newer, no change will be made and the current POM version is the merge result.
    Otherwise, if the given version to merge is newer, then to form the merge result, the given version is to be
-   incremented on the **intended change category of the current POM version** - `major`, `minor`, or `patch`.
+   incremented on the **intended change category of the current POM version** - major, minor, or patch.
 
 3. The current POM version's pre-release and build metadata labels, if any exist, always stay and serve as the final
    merged version's labels.
