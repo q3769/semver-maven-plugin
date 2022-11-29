@@ -14,7 +14,7 @@ Notes:
   or artifact repository. The plugin has one single concern on the Maven project - the project's version as defined in
   its local pom.xml file.
 - Invokable as an atomic and composable action/step, the plugin aims to suit whatever CI/CD pipeline workflow one may
-  care to set up in by script/code.
+  care to set up by script/code.
 
 ## Prerequisite
 
