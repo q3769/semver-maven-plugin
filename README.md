@@ -1,3 +1,5 @@
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.q3769/semver-maven-plugin.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.q3769%22%20AND%20a:%22semver-maven-plugin%22)
+
 # semver-maven-plugin
 
 A Maven Plugin to update local POM version in compliance with [Semantic Versioning 2.0.0](https://semver.org/)
