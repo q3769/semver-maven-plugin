@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Qingtian Wang
+ * Copyright (c) 2023 Qingtian Wang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,6 +44,14 @@ class CalMajorTest {
     private final CalendarMajor instance = new CalendarMajor();
 
     @Test
+    void testShouldErrorOutIfOriginalMajorVersionIsHigher() {
+        final int someLaterDay = Integer.parseInt(TODAY) + 10000;
+        Version original = new Version.Builder(someLaterDay + ".2.3").build();
+
+        Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
+    }
+
+    @Test
     void testShouldIncrementMajorToToday() throws MojoFailureException {
         final int someDayEarlier = Integer.parseInt(TODAY) - 10000;
         Version original = new Version.Builder(someDayEarlier + ".2.3").build();
@@ -51,13 +59,5 @@ class CalMajorTest {
         Version result = instance.update(original);
 
         assertEquals(EXPECTED_RESULT, result);
-    }
-
-    @Test
-    void testShouldErrorOutIfOriginalMajorVersionIsHigher() {
-        final int someLaterDay = Integer.parseInt(TODAY) + 10000;
-        Version original = new Version.Builder(someLaterDay + ".2.3").build();
-
-        Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
     }
 }

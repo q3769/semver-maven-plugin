@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Qingtian Wang
+ * Copyright (c) 2023 Qingtian Wang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,6 +39,10 @@ public abstract class LabelUpdater extends Updater {
      */
     @Parameter(property = "set") protected String set;
 
+    protected abstract Version incrementLabel(Version version);
+
+    protected abstract Version setLabel(Version version, String label);
+
     @Override
     protected Version update(Version original) throws MojoFailureException {
         if (StringUtils.isBlank(set)) {
@@ -53,8 +57,4 @@ public abstract class LabelUpdater extends Updater {
         getLog().info("Setting label of version '" + original + "' into '" + set + "'...");
         return setLabel(original, set);
     }
-
-    protected abstract Version incrementLabel(Version version);
-
-    protected abstract Version setLabel(Version version, String label);
 }

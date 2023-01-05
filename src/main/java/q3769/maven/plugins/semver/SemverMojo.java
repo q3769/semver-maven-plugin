@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Qingtian Wang
+ * Copyright (c) 2023 Qingtian Wang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,21 +41,18 @@ import org.apache.maven.project.MavenProject;
 public abstract class SemverMojo extends AbstractMojo {
     public static final String FALSE = "false";
     private static final Logger logger = Logger.instance(SemverMojo.class);
+    @Parameter(defaultValue = "${mojoExecution}", readonly = true) protected MojoExecution mojo;
+    @Parameter(property = "processModule", defaultValue = FALSE) protected String processModule;
     /**
      * Current Maven POM
      */
     @Parameter(property = "project", defaultValue = "${project}", readonly = true, required = true)
     protected MavenProject project;
-
     /**
      * Default session
      */
     @Parameter(property = "session", defaultValue = "${session}", readonly = true, required = true)
     protected MavenSession session;
-
-    @Parameter(defaultValue = "${mojoExecution}", readonly = true) protected MojoExecution mojo;
-
-    @Parameter(property = "processModule", defaultValue = FALSE) protected String processModule;
 
     /**
      * @param version text that is supposed to be valid per SemVer spec
@@ -68,6 +65,8 @@ public abstract class SemverMojo extends AbstractMojo {
             throw new IllegalArgumentException("Error parsing '" + version + "' as a SemVer", ex);
         }
     }
+
+    protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 
     /**
      * @throws MojoExecutionException on execution error
@@ -98,6 +97,4 @@ public abstract class SemverMojo extends AbstractMojo {
     protected String originalPomVersion() {
         return project.getOriginalModel().getVersion();
     }
-
-    protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 }

@@ -3,7 +3,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2022 Qingtian Wang
+  ~ Copyright (c) 2023 Qingtian Wang
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>20221011.0.3</version>
+    <version>20221011.0.4</version>
     <packaging>maven-plugin</packaging>
 
     <name>semver-maven-plugin</name>
@@ -122,12 +122,12 @@
         <dependency>
             <groupId>io.github.elf4j</groupId>
             <artifactId>elf4j-api</artifactId>
-            <version>8.0.0</version>
+            <version>9.0.1</version>
         </dependency>
         <dependency>
             <groupId>io.github.elf4j</groupId>
             <artifactId>elf4j-tinylog</artifactId>
-            <version>9.0.0</version>
+            <version>9.1.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -201,7 +201,7 @@
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20221011.0.3</version>
+                <version>20221011.0.4</version>
             </plugin>
         </plugins>
     </build>
