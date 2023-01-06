@@ -24,7 +24,6 @@
 package q3769.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import elf4j.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.BuildPluginManager;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -41,7 +40,6 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
  */
 public abstract class Updater extends SemverMojo {
     private static final String SNAPSHOT = "SNAPSHOT";
-    private static final Logger debug = Logger.instance(Updater.class);
     /**
      * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in as a -D parameter
      * from CLI.
@@ -67,7 +65,7 @@ public abstract class Updater extends SemverMojo {
             throw new MojoFailureException("snapshot labeling requested for updated semver " + updated
                     + " but not honored, because snapshot flag only works with normal version number increments with no labels");
         }
-        debug.log("labeling version {} as a SNAPSHOT...", updated);
+        getLog().info("labeling version " + updated + " as a SNAPSHOT...");
         return updated.setPreReleaseVersion(SNAPSHOT);
     }
 

@@ -24,7 +24,6 @@
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import elf4j.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -44,8 +43,6 @@ import q3769.maven.plugins.semver.Updater;
  */
 @Mojo(name = "merge", defaultPhase = LifecyclePhase.NONE)
 public class Merge extends Updater {
-    private static final Logger debug = Logger.instance(Merge.class).atDebug();
-
     /**
      * The other SemVer to be merged with current local POM's version
      */
@@ -63,7 +60,7 @@ public class Merge extends Updater {
     }
 
     private Version increment(Version version, SemverCategory category) {
-        debug.log("Incrementing version {} on category {}...", version, category);
+        getLog().debug("Incrementing version " + version + " on category " + category);
         switch (category) {
             case MAJOR:
                 return version.incrementMajorVersion();
@@ -78,15 +75,14 @@ public class Merge extends Updater {
 
     @Override
     protected Version update(Version original) throws MojoFailureException {
-        debug.log("Merging current version {} with version {}, result will keep labels of the current...",
-                original,
-                otherSemVer);
+        getLog().debug("Merging current version " + original + " with version " + otherSemVer
+                + ", result will keep labels of the current...");
         final Version other = requireValidSemVer(otherSemVer);
         if (original.greaterThan(other)) {
-            debug.log("Current POM version {} is newer than given version {}", original, other);
+            getLog().debug("Current POM version " + original + " is newer than given version " + other);
             return original;
         }
-        debug.log("Provided version {} is newer than current POM version {}", original, original);
+        getLog().debug("Provided version " + other + " is newer than current POM version " + original);
         Version result = increment(other, SemverCategory.getIntendedChangeCategory(original));
         result = setLabels(result, original.getPreReleaseVersion(), original.getBuildMetadata());
         getLog().info("Final merged version: " + result);

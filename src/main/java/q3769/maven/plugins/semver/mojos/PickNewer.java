@@ -24,7 +24,6 @@
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import elf4j.Logger;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -39,7 +38,6 @@ import q3769.maven.plugins.semver.Updater;
  */
 @Mojo(name = "pick-newer", defaultPhase = LifecyclePhase.NONE)
 public class PickNewer extends Updater {
-    private static final Logger debug = Logger.instance(PickNewer.class).atDebug();
 
     /**
      * The other SemVer to be merged with current local POM version
@@ -48,13 +46,13 @@ public class PickNewer extends Updater {
 
     @Override
     protected Version update(Version original) throws MojoFailureException {
-        debug.log("Taking the newer between current version {} and given version {}...", original, otherSemVer);
+        getLog().debug("Taking the newer between current version " + original + " and given version " + otherSemVer);
         final Version other = requireValidSemVer(otherSemVer);
         if (original.greaterThanOrEqualTo(other)) {
-            debug.log("Current POM version {} is newer and being picked", original);
+            getLog().debug("Current POM version " + original + " is newer and being picked");
             return original;
         }
-        debug.log("CLI provided version {} is newer and being picked", otherSemVer);
+        getLog().debug("CLI provided version " + otherSemVer + " is newer and being picked");
         return other;
     }
 }

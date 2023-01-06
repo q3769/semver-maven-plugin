@@ -30,7 +30,7 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>20221011.0.4</version>
+    <version>20221011.0.5</version>
     <packaging>maven-plugin</packaging>
 
     <name>semver-maven-plugin</name>
@@ -121,13 +121,8 @@
         </dependency>
         <dependency>
             <groupId>io.github.elf4j</groupId>
-            <artifactId>elf4j-api</artifactId>
-            <version>9.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.elf4j</groupId>
             <artifactId>elf4j-tinylog</artifactId>
-            <version>9.1.1</version>
+            <version>9.1.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -201,7 +196,7 @@
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20221011.0.4</version>
+                <version>20221011.0.5</version>
             </plugin>
         </plugins>
     </build>
