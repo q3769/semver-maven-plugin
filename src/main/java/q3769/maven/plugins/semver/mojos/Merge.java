@@ -48,7 +48,7 @@ public class Merge extends Updater {
      */
     @Parameter(property = "semver", defaultValue = "NOT_SET") protected String otherSemVer;
 
-    private static Version setLabels(Version version, String preReleaseLabel, String buildMetadataLabel) {
+    private static Version setLabels(final Version version, String preReleaseLabel, String buildMetadataLabel) {
         Version withLabels = version;
         if (StringUtils.isNotBlank(preReleaseLabel)) {
             withLabels = version.setPreReleaseVersion(preReleaseLabel);
@@ -60,7 +60,6 @@ public class Merge extends Updater {
     }
 
     private Version increment(Version version, SemverCategory category) {
-        getLog().debug("Incrementing version " + version + " on category " + category);
         switch (category) {
             case MAJOR:
                 return version.incrementMajorVersion();
@@ -74,18 +73,22 @@ public class Merge extends Updater {
     }
 
     @Override
-    protected Version update(Version original) throws MojoFailureException {
-        getLog().debug("Merging current version " + original + " with version " + otherSemVer
-                + ", result will keep labels of the current...");
+    protected Version update(final Version original) throws MojoFailureException {
+        getLog().debug("Merging current POM version " + original + " with provided version " + otherSemVer);
         final Version other = requireValidSemVer(otherSemVer);
         if (original.greaterThan(other)) {
-            getLog().debug("Current POM version " + original + " is newer than given version " + other);
+            getLog().debug("Current POM version " + original + " is newer than provided version " + other
+                    + ", current unchanged is the merge result: " + original);
             return original;
         }
         getLog().debug("Provided version " + other + " is newer than current POM version " + original);
-        Version result = increment(other, SemverCategory.getIntendedChangeCategory(original));
+        SemverCategory intendedChangeCategoryOfCurrentPom = SemverCategory.getIntendedChangeCategory(original);
+        getLog().debug("Intended change category of current POM version is " + intendedChangeCategoryOfCurrentPom);
+        Version result = increment(other, intendedChangeCategoryOfCurrentPom);
+        getLog().debug("Incremented provided version " + other + " on POM change category "
+                + intendedChangeCategoryOfCurrentPom + ", provisional merge result: " + result);
         result = setLabels(result, original.getPreReleaseVersion(), original.getBuildMetadata());
-        getLog().info("Final merged version: " + result);
+        getLog().debug("Kept labels of current POM version: " + original + ", final merge result: " + result);
         return result;
     }
 }
