@@ -158,9 +158,10 @@ purposes of the current POM version will dominate those of the given SemVer to m
 
 In this case, the given version `1.3.10-HOTFIX` is newer, so it is to be incremented to form the merge result. The
 intended change category of the current POM version `1.2.0-SNAPSHOT+chi.1` is `minor`, so the given version
-`1.3.10-HOTFIX` is incremented on its own `minor` category, resulting in `1.4.0` per SemVer spec. Lastly, the
-current POM version's labels (in this case `SNAPSHOT` and `chi.1`), if any exist, always stay as they are. Thus, for
-the final merged version, we have `1.4.0-SNAPSHOT+chi.1`.
+`1.3.10-HOTFIX` is incremented on its own `minor` category, resulting in `1.4.0` per SemVer spec. Note that the given
+version `1.3.10-HOTFIX`'s intended change category is `patch` but that does not matter per the merge rules, anyway.
+Lastly, the current POM version's labels (in this case `SNAPSHOT` and `chi.1`), if any exist, always stay as they are.
+Thus, for the final merged version, we have `1.4.0-SNAPSHOT+chi.1`.
 
 ### Verify the current POM version
 
