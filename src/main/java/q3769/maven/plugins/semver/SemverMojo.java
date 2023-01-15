@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2023 Qingtian Wang
+ * Copyright (c) 2020 Qingtian Wang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,8 +64,6 @@ public abstract class SemverMojo extends AbstractMojo {
         }
     }
 
-    protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
-
     /**
      * @throws MojoExecutionException on execution error
      * @throws MojoFailureException   on build error
@@ -91,6 +89,8 @@ public abstract class SemverMojo extends AbstractMojo {
         }
         doExecute();
     }
+
+    protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 
     protected String originalPomVersion() {
         return project.getOriginalModel().getVersion();

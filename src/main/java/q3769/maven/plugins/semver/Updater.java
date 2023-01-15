@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2023 Qingtian Wang
+ * Copyright (c) 2020 Qingtian Wang
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -53,6 +53,13 @@ public abstract class Updater extends SemverMojo {
     }
 
     /**
+     * @param original SemVer to be updated
+     * @return the incremented result SemVer
+     * @throws MojoFailureException on build error
+     */
+    protected abstract Version update(Version original) throws MojoFailureException;
+
+    /**
      * @return The incremented SemVer
      * @throws MojoFailureException if original version in POM is malformed
      */
@@ -68,13 +75,6 @@ public abstract class Updater extends SemverMojo {
         getLog().info("labeling version " + updated + " as a SNAPSHOT...");
         return updated.setPreReleaseVersion(SNAPSHOT);
     }
-
-    /**
-     * @param original SemVer to be updated
-     * @return the incremented result SemVer
-     * @throws MojoFailureException on build error
-     */
-    protected abstract Version update(Version original) throws MojoFailureException;
 
     /**
      * @param version New version to be set in the POM file
