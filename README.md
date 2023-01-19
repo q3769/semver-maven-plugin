@@ -28,7 +28,7 @@ Maven 3.5.4 or better
 
 In pom.xml
 
-```xml
+```
 ...
 <build>
     <plugins>
@@ -36,7 +36,7 @@ In pom.xml
             <groupId>io.github.q3769</groupId>
             <artifactId>semver-maven-plugin</artifactId>
         </plugin>
-        ...
+...
 ```            
 
 ## Use it...
@@ -58,7 +58,8 @@ errors out because `blah` is not a valid SemVer
 mvn semver:set-current -Dsemver=1.2.3-beta
 ```
 
-sets the new value of the version element of the pom.xml file to be `1.2.3-beta`, regardless of the old value
+sets the new value of the version element of the pom.xml file to be `1.2.3-beta`, regardless of the original value in
+POM
 
 ### Increment normal version number
 
@@ -73,8 +74,8 @@ mvn semver:increment-minor -Dsnapshot=true
 ```
 
 increments `1.2.3 into 1.3.0-SNAPSHOT`. Note that `snapshot` is a convenience flag to set the target pre-release label
-as `SNAPSHOT`; this only works as a shorthand after a normal version increment - major, minor, or patch. To set
-pre-release label to other verbiage, see examples in the Pre-release and Build Metadata labels section.
+as `SNAPSHOT` with no build meta label. This labeling shorthand only works with a normal version increment - major,
+minor, or patch. To set the labels other ways, see examples in the Pre-release and Build Metadata labels section.
 
 ```shell
 mvn semver:increment-patch
@@ -176,4 +177,5 @@ mvn semver:verify-current -Dforce-stdout -q
 ```
 
 prints the current POM version and nothing else (e.g. `1.2.3-beta.4+build.5`) in std out if it is a valid SemVer. Note
-that, to produce the clean current SemVer only, you need `-q` or `--quiet` option to suppress the usual Maven messages.
+that, to produce the clean current SemVer only with nothing else, you need `-q` or `--quiet` option to suppress the
+usual Maven messages.
