@@ -91,7 +91,7 @@ mvn semver:calendar-major
 
 increments `1.23.4` or `20201231.2.3-beta.1` into `20210131.0.0`, assuming today is Jan 31, 2021. A convenience command
 to use calendar date as the SemVer major number. If the original POM version is already the same as or newer
-than `<today>.0.0` per the SemVer spec, the command errors out and no update will be performed to the POM.
+than `<today>.0.0` according to the SemVer spec, the command errors out and no update will be performed to the POM.
 
 ### Finalize current version
 
@@ -139,7 +139,8 @@ precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
 
 ### Merge with another SemVer
 
-- This merge strategy is opinionated. SemVer spec itself does not mention merging.
+- This merge strategy is opinionated. The SemVer spec itself only defines the order of precedence among versions, and
+  does not mention merging.
 
 ```shell
 mvn semver:merge -Dsemver=1.3.10-HOTFIX
