@@ -179,6 +179,6 @@ prints confirmation message if the current version of the local POM is in valid 
 mvn semver:verify-current -Dforce-stdout -q
 ```
 
-prints the current POM version and nothing else (e.g. `1.2.3-beta.4+build.5`) in std out if it is a valid SemVer. Note
-that, to produce the clean current SemVer only with nothing else, you need `-q` or `--quiet` option to suppress the
-usual Maven messages.
+prints the current POM version and nothing else (e.g. `1.2.3-beta.4+build.5`) in std out if it is a valid SemVer. To
+print the current SemVer clean and with nothing else, you need the `-q` or `--quiet` option to suppress the usual Maven
+messages.
