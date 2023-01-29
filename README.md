@@ -140,14 +140,14 @@ precedence, the original `1.3.8` is newer than the given `1.3.8-HOTFIX`.
 
 ### Merge with another SemVer
 
-- This merge strategy is opinionated. The SemVer spec itself only defines the order of precedence among versions, and
-  does not mention merging.
-
 ```shell
 mvn semver:merge -Dsemver=1.3.10-HOTFIX
 ```
 
 updates `1.2.0-SNAPSHOT+chi.1` into `1.4.0-SNAPSHOT+chi.1`, where `1.2.0-SNAPSHOT+chi.1` is the current POM version.
+
+- This merge strategy is opinionated. The SemVer spec itself only defines the order of precedence among versions, and
+  does not mention merging.
 
 The basic idea here is to center the merge process around the current version in the pom.xml file. I.e., the intents and
 purposes of the current POM version will dominate those of the given SemVer to merge.
