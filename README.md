@@ -135,9 +135,9 @@ mvn semver:pick-newer -Dsemver=1.3.0-HOTFIX
 
 updates the original POM version `1.2.3` to `1.3.0-HOTFIX` because `1.3.0-HOTFIX` is a newer version than `1.2.3`.
 However, if the original version were `1.3.0`, then no change would have been made because, according to the SemVer
-precedence, the original `1.3.0` is newer than the given `1.3.0-HOTFIX`. Note that a final SemVer is always newer than
+precedence, the original `1.3.0` is newer than the given `1.3.0-HOTFIX`. (Note that a final SemVer is always newer than
 any counterpart with labels, regardless the labels' semantics. i.e. The final "hot fix" SemVer of `1.3.0` would
-be `1.3.1`, not `1.3.0-HOTFIX`.
+be `1.3.1`, not `1.3.0-HOTFIX`.)
 
 ### Merge with another SemVer
 
