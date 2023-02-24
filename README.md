@@ -1,11 +1,9 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.q3769/semver-maven-plugin.svg?label=semver-maven-plugin)](https://search.maven.org/search?q=g:%22io.github.q3769%22%20AND%20a:%22semver-maven-plugin%22)
 
-# semver-maven-plugin
-
 A [Maven Plugin](https://maven.apache.org/plugins/index.html) to update local POM version in compliance
 with [Semantic Versioning 2.0.0](https://semver.org/)
 
-## User Story
+# User Story
 
 As a user of this Maven Plugin, I want to update my project's version in the local pom.xml file according
 to the Semantic Versioning 2.0.0 specifications, by issuing Maven commands from CLI or build script/code.
@@ -19,14 +17,14 @@ Notes:
 - Invokable as an atomic and composable action/step, the plugin aims to suit whatever CI/CD pipeline workflow one may
   care to set up by script/code.
 
-## Prerequisite
+# Prerequisite
 
 Maven 3.5.4 or better
 
-## Get It...
+# Get It...
 
 Available
-at: [![Maven Central](https://img.shields.io/maven-central/v/io.github.q3769/semver-maven-plugin.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.q3769%22%20AND%20a:%22semver-maven-plugin%22)
+at [![Maven Central](https://img.shields.io/maven-central/v/io.github.q3769/semver-maven-plugin.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.q3769%22%20AND%20a:%22semver-maven-plugin%22)
 
 To include in pom.xml:
 
@@ -41,14 +39,14 @@ To include in pom.xml:
 ...
 ```            
 
-## Use It...
+# Use It...
 
 - By default, only the parent project's version is processed, module versions are not. Use the `-DprocessModule` command
   flag if you also wish to process modules.
 
 From CLI, assuming you are in the Maven project's default root directory where the pom.xml file is located:
 
-### Hard Set
+## Hard Set
 
 ```shell
 mvn semver:set-current -Dsemver=blah
@@ -63,7 +61,7 @@ mvn semver:set-current -Dsemver=1.2.3-beta
 sets the new value of the version element of the pom.xml file to be `1.2.3-beta`, regardless of the original value in
 POM
 
-### Increment Normal Version Number
+## Increment Normal Version Number
 
 ```shell
 mvn semver:increment-major
@@ -93,7 +91,7 @@ increments `1.23.4` or `20201231.2.3-beta.1` into `20210131.0.0`, assuming today
 to use calendar date as the SemVer major number. If the original POM version is already the same as or newer
 than `<today>.0.0` according to the SemVer spec, then the command errors out and no update will be performed to the POM.
 
-### Finalize Current Version
+## Finalize Current Version
 
 ```shell
 mvn semver:finalize-current
@@ -101,7 +99,7 @@ mvn semver:finalize-current
 
 changes `1.2.3-SNAPSHOT` or `1.2.3-beta.1+build.10` into `1.2.3`, stripping off all additional labels
 
-### Pre-release And Build Metadata Labels
+## Pre-release And Build Metadata Labels
 
 ```shell
 mvn semver:update-pre-release
@@ -127,7 +125,7 @@ mvn semver:update-build-metadata -Dset=build.reno
 
 updates `1.2.3-alpha` into `1.2.3-alpha+build.reno`
 
-### Pick The Newer Between The POM Version And Another SemVer
+## Pick The Newer Between The POM Version And Another SemVer
 
 ```shell
 mvn semver:pick-newer -Dsemver=1.3.0-HOTFIX
@@ -139,7 +137,7 @@ precedence, the original `1.3.0` is newer than the given `1.3.0-HOTFIX`. (Note t
 any labeled counterpart, regardless the label's semantics. That is, the final "hot fix" SemVer of `1.3.0` would
 be `1.3.1`, not `1.3.0-HOTFIX`.)
 
-### Merge With Another SemVer
+## Merge With Another SemVer
 
 ```shell
 mvn semver:merge -Dsemver=1.3.10-HOTFIX
@@ -169,7 +167,7 @@ version `1.3.10-HOTFIX`'s intended change category is `patch` but that does not 
 Lastly, the current POM version's labels (in this case `SNAPSHOT` and `chi.1`), if any exist, always stay as they are.
 Thus, for the final merged version, we have `1.4.0-SNAPSHOT+chi.1`.
 
-### Verify The Current POM Version
+## Verify The Current POM Version
 
 ```shell
 mvn semver:verify-current
