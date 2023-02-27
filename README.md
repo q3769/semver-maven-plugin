@@ -1,3 +1,5 @@
+[![](https://img.shields.io/static/v1?label=github&message=repo&color=blue)](https://github.com/q3769/semver-maven-plugin)
+
 A [Maven Plugin](https://maven.apache.org/plugins/index.html) to update local POM version in compliance
 with [Semantic Versioning 2.0.0](https://semver.org/)
 
