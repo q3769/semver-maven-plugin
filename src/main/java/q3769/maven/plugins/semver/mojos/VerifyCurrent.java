@@ -30,7 +30,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import q3769.maven.plugins.semver.SemverMojo;
 
 /**
- * VerifyCurrent the current POM version is a valid SemVer
+ * Verifies the current POM version is a valid SemVer
  *
  * @author Qingtian Wang
  */

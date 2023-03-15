@@ -47,18 +47,6 @@ public abstract class Updater extends SemverMojo {
     @Parameter(property = "snapshot", defaultValue = "false") protected boolean addingSnapshotLabel;
     @Component protected BuildPluginManager pluginManager;
 
-    @Override
-    protected void doExecute() throws MojoExecutionException, MojoFailureException {
-        updatePomFile(getUpdatedVersion().toString());
-    }
-
-    /**
-     * @param original SemVer to be updated
-     * @return the incremented result SemVer
-     * @throws MojoFailureException on build error
-     */
-    protected abstract Version update(Version original) throws MojoFailureException;
-
     /**
      * @return The incremented SemVer
      * @throws MojoFailureException if original version in POM is malformed
@@ -95,4 +83,16 @@ public abstract class Updater extends SemverMojo {
         getLog().info("Updated original POM version: " + original + " into: " + version + " after executing goal: "
                 + executedGoal);
     }
+
+    @Override
+    protected void doExecute() throws MojoExecutionException, MojoFailureException {
+        updatePomFile(getUpdatedVersion().toString());
+    }
+
+    /**
+     * @param original SemVer to be updated
+     * @return the incremented result SemVer
+     * @throws MojoFailureException on build error
+     */
+    protected abstract Version update(Version original) throws MojoFailureException;
 }
