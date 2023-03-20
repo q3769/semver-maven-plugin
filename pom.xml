@@ -122,7 +122,7 @@
         <dependency>
             <groupId>io.github.elf4j</groupId>
             <artifactId>elf4j-tinylog</artifactId>
-            <version>11.0.3</version>
+            <version>11.0.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
