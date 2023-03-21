@@ -31,10 +31,23 @@ import com.github.zafarkhaja.semver.Version;
  */
 public enum SemverCategory {
 
+    /**
+     *
+     */
     MAJOR,
+    /**
+     *
+     */
     MINOR,
+    /**
+     *
+     */
     PATCH;
 
+    /**
+     * @param version to check
+     * @return the change category the specified version intends to make
+     */
     public static SemverCategory getIntendedChangeCategory(Version version) {
         final int major = version.getMajorVersion();
         final int minor = version.getMinorVersion();

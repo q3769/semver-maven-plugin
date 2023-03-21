@@ -38,8 +38,14 @@ import org.apache.maven.project.MavenProject;
  * @author Qingtian Wang
  */
 public abstract class SemverMojo extends AbstractMojo {
-    public static final String FALSE = "false";
+    private static final String FALSE = "false";
+    /**
+     *
+     */
     @Parameter(defaultValue = "${mojoExecution}", readonly = true) protected MojoExecution mojo;
+    /**
+     *
+     */
     @Parameter(property = "processModule", defaultValue = FALSE) protected String processModule;
     /**
      * Current Maven POM
@@ -63,6 +69,14 @@ public abstract class SemverMojo extends AbstractMojo {
             throw new IllegalArgumentException("Error parsing '" + version + "' as a SemVer", ex);
         }
     }
+
+    /**
+     * @throws MojoExecutionException if an unexpected problem occurs. Throwing this exception causes a "BUILD ERROR"
+     *                                message to be displayed.
+     * @throws MojoFailureException   if an expected problem (such as a compilation failure) occurs. Throwing this
+     *                                exception causes a "BUILD FAILURE" message to be displayed.
+     */
+    protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 
     /**
      * @throws MojoExecutionException on execution error
@@ -90,8 +104,9 @@ public abstract class SemverMojo extends AbstractMojo {
         doExecute();
     }
 
-    protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
-
+    /**
+     * @return original version in pom.xml
+     */
     protected String originalPomVersion() {
         return project.getOriginalModel().getVersion();
     }

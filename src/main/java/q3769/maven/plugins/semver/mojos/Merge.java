@@ -59,19 +59,6 @@ public class Merge extends Updater {
         return withLabels;
     }
 
-    private Version increment(Version version, SemverCategory category) {
-        switch (category) {
-            case MAJOR:
-                return version.incrementMajorVersion();
-            case MINOR:
-                return version.incrementMinorVersion();
-            case PATCH:
-                return version.incrementPatchVersion();
-            default:
-                throw new IllegalStateException("Unexpected category: " + category);
-        }
-    }
-
     @Override
     protected Version update(final Version original) throws MojoFailureException {
         getLog().debug("Merging current POM version " + original + " with provided version " + otherSemVer);
@@ -90,5 +77,18 @@ public class Merge extends Updater {
         result = setLabels(result, original.getPreReleaseVersion(), original.getBuildMetadata());
         getLog().debug("Kept labels of current POM version: " + original + ", final merge result: " + result);
         return result;
+    }
+
+    private Version increment(Version version, SemverCategory category) {
+        switch (category) {
+            case MAJOR:
+                return version.incrementMajorVersion();
+            case MINOR:
+                return version.incrementMinorVersion();
+            case PATCH:
+                return version.incrementPatchVersion();
+            default:
+                throw new IllegalStateException("Unexpected category: " + category);
+        }
     }
 }

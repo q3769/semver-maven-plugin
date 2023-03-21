@@ -39,8 +39,17 @@ public abstract class LabelUpdater extends Updater {
      */
     @Parameter(property = "set") protected String set;
 
+    /**
+     * @param version to increment
+     * @return incremented
+     */
     protected abstract Version incrementLabel(Version version);
 
+    /**
+     * @param version to be set with new label
+     * @param label   new label to set
+     * @return version with newly set label
+     */
     protected abstract Version setLabel(Version version, String label);
 
     @Override
