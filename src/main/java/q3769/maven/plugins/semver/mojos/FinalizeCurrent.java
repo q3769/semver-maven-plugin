@@ -39,9 +39,11 @@ import q3769.maven.plugins.semver.Updater;
 public class FinalizeCurrent extends Updater {
 
     /**
-     * @param original to finalize
+     * @param original
+     *         to finalize
      * @return final SemVer version of the original, all meta info stripped
-     * @throws MojoFailureException if the original SemVer is already without additional labels
+     * @throws MojoFailureException
+     *         if the original SemVer is already without additional labels
      */
     @Override
     protected Version update(Version original) throws MojoFailureException {

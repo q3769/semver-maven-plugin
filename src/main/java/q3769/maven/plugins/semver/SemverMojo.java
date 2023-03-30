@@ -59,7 +59,8 @@ public abstract class SemverMojo extends AbstractMojo {
     protected MavenSession session;
 
     /**
-     * @param version text that is supposed to be valid per SemVer spec
+     * @param version
+     *         text that is supposed to be valid per SemVer spec
      * @return A valid SemVer
      */
     public static Version requireValidSemVer(String version) {
@@ -71,16 +72,19 @@ public abstract class SemverMojo extends AbstractMojo {
     }
 
     /**
-     * @throws MojoExecutionException if an unexpected problem occurs. Throwing this exception causes a "BUILD ERROR"
-     *                                message to be displayed.
-     * @throws MojoFailureException   if an expected problem (such as a compilation failure) occurs. Throwing this
-     *                                exception causes a "BUILD FAILURE" message to be displayed.
+     * @throws MojoExecutionException
+     *         if an unexpected problem occurs. Throwing this exception causes a "BUILD ERROR" message to be displayed.
+     * @throws MojoFailureException
+     *         if an expected problem (such as a compilation failure) occurs. Throwing this exception causes a "BUILD
+     *         FAILURE" message to be displayed.
      */
     protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 
     /**
-     * @throws MojoExecutionException on execution error
-     * @throws MojoFailureException   on build error
+     * @throws MojoExecutionException
+     *         on execution error
+     * @throws MojoFailureException
+     *         on build error
      */
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {

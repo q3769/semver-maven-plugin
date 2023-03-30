@@ -45,7 +45,8 @@ public enum SemverCategory {
     PATCH;
 
     /**
-     * @param version to check
+     * @param version
+     *         to check
      * @return the change category the specified version intends to make
      */
     public static SemverCategory getIntendedChangeCategory(Version version) {

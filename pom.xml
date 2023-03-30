@@ -30,7 +30,7 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>20221011.0.9</version>
+    <version>20221011.0.10</version>
     <packaging>maven-plugin</packaging>
 
     <name>semver-maven-plugin</name>
@@ -97,12 +97,6 @@
             <artifactId>maven-plugin-annotations</artifactId>
             <version>3.8.1</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugin-testing</groupId>
-            <artifactId>maven-plugin-testing-harness</artifactId>
-            <version>3.3.0</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.zafarkhaja</groupId>
@@ -196,7 +190,7 @@
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20221011.0.9</version>
+                <version>20221011.0.10</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
