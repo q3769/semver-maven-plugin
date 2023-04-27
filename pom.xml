@@ -116,7 +116,7 @@
         <dependency>
             <groupId>io.github.elf4j</groupId>
             <artifactId>elf4j-provider</artifactId>
-            <version>4.2.4</version>
+            <version>5.0.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
