@@ -21,32 +21,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
 import q3769.maven.plugins.semver.SemverCategory;
-import q3769.maven.plugins.semver.Updater;
+
+import javax.annotation.Nonnull;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 /**
- * Increments major of the original semver version to int representing current datetime in UTC time zone, up to the day
- * of the month (preferred) or hour of the day if such int is large enough for the orginal semver to be incremented to.
- * If the original semver major int is already too large for such increment, error is thrown.
  *
- * @author Qingtian Wang
  */
-@Mojo(name = "calendar-major", defaultPhase = LifecyclePhase.NONE)
-public class CalendarMajor extends Updater {
+public class CalendarSemverUtils {
+
+    private static final DateTimeFormatter TO_UTC_DAY =
+            DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);
+
+    private CalendarSemverUtils() {
+    }
 
     /**
+     * Assumes version ints represent datetime in UTC zone
+     *
      * @param original
-     *         POM project version whose major number is to be incremented
-     * @return New semver version whose major number is incremented to current date in basic ISO format. Error out
+     *         pom version
+     * @param targetCategory
+     *         to increment
+     * @return new instance incremented
+     * @throws MojoFailureException
+     *         if the original version's target category version is newer than one hour from now
      */
-    @Override
-    protected Version update(Version original) throws MojoFailureException {
-        return CalendarSemverUtils.calendarIncrement(original, SemverCategory.MAJOR);
+    public static Version calendarIncrement(Version original, @Nonnull SemverCategory targetCategory)
+            throws MojoFailureException {
+        int target = targetCategory.getNormalInt(original);
+        Instant now = Instant.now();
+        int today = Integer.parseInt(TO_UTC_DAY.format(now));
+        if (today > target) {
+            return targetCategory.incrementTo(today, original);
+        }
+        throw new MojoFailureException(new UnsupportedOperationException(
+                "Target " + targetCategory + " version " + target + " in original semver " + original
+                        + " is not supported for calendar style increment - it has to be older than current date in UTC zone"));
     }
 }

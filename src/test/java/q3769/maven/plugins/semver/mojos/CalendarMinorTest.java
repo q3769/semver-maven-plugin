@@ -25,24 +25,30 @@ package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import q3769.maven.plugins.semver.SemverCategory;
-import q3769.maven.plugins.semver.Updater;
+import org.junit.jupiter.api.Test;
+
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Qingtian Wang
  */
-@Mojo(name = "calendar-minor", defaultPhase = LifecyclePhase.NONE)
-public class CalendarMinor extends Updater {
+class CalendarMinorTest {
+    private static final DateTimeFormatter TO_UTC_DAY_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);
 
-    /**
-     * @param original
-     *         POM project version whose major number is to be incremented
-     * @return New semver version whose major number is incremented to current date in basic ISO format. Error out
-     */
-    @Override
-    protected Version update(Version original) throws MojoFailureException {
-        return CalendarSemverUtils.calendarIncrement(original, SemverCategory.MINOR);
+    CalendarMinor calendarMinor = new CalendarMinor();
+
+    @Test
+    void ok() throws MojoFailureException {
+        Version orginal = Version.forIntegers(1, 2, 3);
+
+        Version incremented = calendarMinor.update(orginal);
+
+        assertEquals(Version.forIntegers(1, Integer.parseInt(TO_UTC_DAY_FORMATTER.format(Instant.now())), 0),
+                incremented);
     }
 }

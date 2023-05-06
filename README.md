@@ -86,18 +86,24 @@ increments `1.2.3-beta.1` into `1.2.4`
 mvn semver:calendar-major
 ```
 
-increments `1.23.4` or `20201231.2.3-beta.1` into `20210131.0.0`, assuming today is Jan 31, 2021. A convenience command
-to use calendar date as the SemVer major number. If the original POM version is already the same as or newer
-than `<today>.0.0` according to the SemVer spec, then the command errors out and no update will be performed to the POM.
+increments `1.23.4` or `20201231.2.3-beta.1` into `20210131.0.0`, assuming today Jan 31, 2021 in UTC time zone. A
+convenience command to use calendar datetime as the SemVer major number. The original major version integer in the POM
+semver has to be smaller than the current time translated into current date (with the pattern `yyyyMMdd`) in UTC time
+zone; otherwise the command errors out and no update will be performed to the POM.
 
 ```shell
 mvn semver:calendar-minor
 ```
 
-increments `1.0.0` or `1.0.20201231.2.3-beta.1` into `1.0.20210131`, assuming today is Jan 31, 2021. A convenience
-command to use calendar date as the SemVer minor number. If the original POM version is already the same as or newer
-than the targeted result version according to the SemVer spec, then the command errors out and no update will be
-performed to the POM.
+increments `1.23.4` or `1.20201231.4-beta.1` into `1.20210131.0`, assuming today is Jan 31, 2021 in UTC time zone.
+Similar constraints apply as with `semver:calendar-major`.
+
+```shell
+mvn semver:calendar-patch
+```
+
+increments `1.23.4` or `1.23.20201231-beta.1` into `1.23.20210131`, assuming today is Jan 31, 2021 in UTC time zone.
+Similar constraints apply as with `semver:calendar-major`.
 
 ### Finalize Current Version
 

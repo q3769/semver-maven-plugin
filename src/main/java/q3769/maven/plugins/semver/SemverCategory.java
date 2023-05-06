@@ -26,6 +26,8 @@ package q3769.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 
+import javax.annotation.Nonnull;
+
 /**
  * @author Qingtian Wang
  */
@@ -34,22 +36,63 @@ public enum SemverCategory {
     /**
      *
      */
-    MAJOR,
+    MAJOR {
+        @Override
+        public int getNormalInt(Version semver) {
+            return semver.getMajorVersion();
+        }
+
+        @Override
+        public Version incrementTo(int target, Version semver) {
+            if (semver.getMajorVersion() >= target) {
+                throw new IllegalArgumentException(this + incrementTargetError(target, semver));
+            }
+            return Version.forIntegers(target);
+        }
+    },
+
     /**
      *
      */
-    MINOR,
+    MINOR {
+        @Override
+        public int getNormalInt(Version semver) {
+            return semver.getMinorVersion();
+        }
+
+        @Override
+        public Version incrementTo(int target, Version semver) {
+            if (semver.getMinorVersion() >= target) {
+                throw new IllegalArgumentException(this + incrementTargetError(target, semver));
+            }
+            return Version.forIntegers(semver.getMajorVersion(), target);
+        }
+    },
+
     /**
      *
      */
-    PATCH;
+    PATCH {
+        @Override
+        public int getNormalInt(Version semver) {
+            return semver.getPatchVersion();
+        }
+
+        @Override
+        public Version incrementTo(int target, Version semver) {
+            if (semver.getPatchVersion() >= target) {
+                throw new IllegalArgumentException(this + incrementTargetError(target, semver));
+            }
+            return Version.forIntegers(semver.getMajorVersion(), semver.getMinorVersion(), target);
+        }
+    };
 
     /**
      * @param version
      *         to check
      * @return the change category the specified version intends to make
      */
-    public static SemverCategory getIntendedChangeCategory(Version version) {
+    public static @Nonnull SemverCategory getIntendedChangeCategory(@Nonnull Version version) {
         final int major = version.getMajorVersion();
         final int minor = version.getMinorVersion();
         final int patch = version.getPatchVersion();
@@ -64,4 +107,24 @@ public enum SemverCategory {
         }
         return PATCH;
     }
+
+    private static @Nonnull String incrementTargetError(int target, Version semver) {
+        return " version " + target + " too small to increment " + semver;
+    }
+
+    /**
+     * @param semver
+     *         to get category int from
+     * @return the int version of the corresponding category of the specified semver
+     */
+    public abstract int getNormalInt(Version semver);
+
+    /**
+     * @param target
+     *         intended target
+     * @param semver
+     *         original version
+     * @return new version instance with corresponding category number incremented to the specified target
+     */
+    public abstract Version incrementTo(int target, Version semver);
 }

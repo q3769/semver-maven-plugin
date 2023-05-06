@@ -28,7 +28,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,28 +37,36 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Qingtian Wang
  */
-class CalMinorTest {
+class CalendarMajorTest {
 
-    private static final String TODAY = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE);
-    private static final Version EXPECTED_RESULT = new Version.Builder("1.1." + TODAY).build();
-
-    private final CalendarMinor instance = new CalendarMinor();
+    private static final DateTimeFormatter TO_UTC_DAY_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);
+    private final CalendarMajor instance = new CalendarMajor();
 
     @Test
-    void testShouldErrorOutIfOriginalMajorVersionIsHigher() {
-        final int someLaterDay = Integer.parseInt(TODAY) + 10000;
-        Version original = new Version.Builder("1.1." + someLaterDay).build();
+    void testShouldErrorOutIfOriginalMajorVersionDateIsHigher() {
+        final int futureDate = Integer.MAX_VALUE;
+        Version original = new Version.Builder(futureDate + ".2.3").build();
 
         Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
     }
 
     @Test
-    void testShouldIncrementMajorToToday() throws MojoFailureException {
-        final int someDayEarlier = Integer.parseInt(TODAY) - 10000;
-        Version original = new Version.Builder("1.1." + someDayEarlier).build();
+    void testShouldErrorOutIfOriginalMajorVersionDateIsToday() {
+        final int futureDate = Integer.parseInt(TO_UTC_DAY_FORMATTER.format(Instant.now()));
+        Version original = new Version.Builder(futureDate + ".2.3").build();
+
+        Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original)).printStackTrace();
+    }
+
+    @Test
+    void testShouldIncrementMajorToNowWithNoHours() throws MojoFailureException {
+        String expectedMajor = TO_UTC_DAY_FORMATTER.format(Instant.now());
+        final int someDayEarlier = Integer.parseInt(expectedMajor) - 10000;
+        Version original = new Version.Builder(someDayEarlier + ".2.3").build();
 
         Version result = instance.update(original);
 
-        assertEquals(EXPECTED_RESULT, result);
+        assertEquals(new Version.Builder(expectedMajor + ".0.0").build(), result);
     }
 }

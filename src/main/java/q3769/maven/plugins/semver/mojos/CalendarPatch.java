@@ -25,39 +25,24 @@ package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import q3769.maven.plugins.semver.SemverCategory;
+import q3769.maven.plugins.semver.Updater;
 
 /**
  * @author Qingtian Wang
  */
-class CalMajorTest {
+@Mojo(name = "calendar-patch", defaultPhase = LifecyclePhase.NONE)
+public class CalendarPatch extends Updater {
 
-    private static final String TODAY = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE);
-    private static final Version EXPECTED_RESULT = new Version.Builder(TODAY + ".0.0").build();
-
-    private final CalendarMajor instance = new CalendarMajor();
-
-    @Test
-    void testShouldErrorOutIfOriginalMajorVersionIsHigher() {
-        final int someLaterDay = Integer.parseInt(TODAY) + 10000;
-        Version original = new Version.Builder(someLaterDay + ".2.3").build();
-
-        Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
-    }
-
-    @Test
-    void testShouldIncrementMajorToToday() throws MojoFailureException {
-        final int someDayEarlier = Integer.parseInt(TODAY) - 10000;
-        Version original = new Version.Builder(someDayEarlier + ".2.3").build();
-
-        Version result = instance.update(original);
-
-        assertEquals(EXPECTED_RESULT, result);
+    /**
+     * @param original
+     *         POM project version whose major number is to be incremented
+     * @return New semver version whose major number is incremented to current date in basic ISO format. Error out
+     */
+    @Override
+    protected Version update(Version original) throws MojoFailureException {
+        return CalendarSemverUtils.calendarIncrement(original, SemverCategory.PATCH);
     }
 }
