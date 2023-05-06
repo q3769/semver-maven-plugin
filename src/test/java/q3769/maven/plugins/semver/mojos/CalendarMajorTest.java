@@ -56,7 +56,7 @@ class CalendarMajorTest {
         final int futureDate = Integer.parseInt(TO_UTC_DAY_FORMATTER.format(Instant.now()));
         Version original = new Version.Builder(futureDate + ".2.3").build();
 
-        Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original)).printStackTrace();
+        Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
     }
 
     @Test
