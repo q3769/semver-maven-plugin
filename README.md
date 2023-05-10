@@ -87,9 +87,9 @@ mvn semver:calendar-major
 ```
 
 increments `1.23.4` or `20201231.2.3-beta.1` into `20210131.0.0`, assuming today Jan 31, 2021 in UTC time zone. A
-convenience command to use calendar datetime as the SemVer major number. The original major version integer in the POM
-semver has to be smaller than the current time translated into current date (with the pattern `yyyyMMdd`) in UTC time
-zone; otherwise the command errors out and no update will be performed to the POM.
+convenience command to use calendar date as the SemVer major number. The original major version integer in the POM
+semver has to be smaller than the current time translated into date (with the pattern `yyyyMMdd`) in UTC time zone;
+otherwise the command errors out and no update will be performed to the POM.
 
 ```shell
 mvn semver:calendar-minor
