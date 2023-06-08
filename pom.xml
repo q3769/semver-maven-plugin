@@ -30,7 +30,7 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>20221011.20230506.0</version>
+    <version>20221011.20230506.20230608</version>
     <packaging>maven-plugin</packaging>
 
     <name>semver-maven-plugin</name>
@@ -121,7 +121,7 @@
         <dependency>
             <groupId>io.github.elf4j</groupId>
             <artifactId>elf4j-provider</artifactId>
-            <version>9.0.0</version>
+            <version>10.0.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -162,7 +162,10 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.1.2</version>
+                    <configuration>
+                        <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory"/>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -195,7 +198,7 @@
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20221011.20230506.0</version>
+                <version>20221011.20230506.20230608</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
