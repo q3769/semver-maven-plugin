@@ -26,9 +26,7 @@ package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
 import elf4j.Logger;
-import elf4j.engine.service.LogServiceManager;
 import org.apache.maven.plugin.MojoFailureException;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import q3769.maven.plugins.semver.SemverCategory;
@@ -41,11 +39,6 @@ class MergeTest {
     static final Logger info = Logger.instance().atInfo();
 
     Merge mergeMojo = new Merge();
-
-    @AfterAll
-    static void cleanup() {
-        LogServiceManager.INSTANCE.stop();
-    }
 
     @Nested
     class update {
