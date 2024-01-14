@@ -24,8 +24,6 @@
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import q3769.maven.plugins.semver.Updater;
@@ -42,15 +40,14 @@ public class FinalizeCurrent extends Updater {
      * @param original
      *         to finalize
      * @return final SemVer version of the original, all meta info stripped
-     * @throws MojoFailureException
-     *         if the original SemVer is already without additional labels
      */
     @Override
-    protected Version update(Version original) throws MojoFailureException {
-        if (StringUtils.isBlank(original.getPreReleaseVersion()) && StringUtils.isBlank(original.getBuildMetadata())) {
-            getLog().info("Current version: " + original + " is already final, so no change.");
+    protected Version update(Version original) {
+        if (!original.preReleaseVersion().isPresent()
+                && !original.buildMetadata().isPresent()) {
+            getLog().info("Current version: " + original + " contains only normal version numbers, so no change.");
             return original;
         }
-        return Version.forIntegers(original.getMajorVersion(), original.getMinorVersion(), original.getPatchVersion());
+        return Version.of(original.majorVersion(), original.minorVersion(), original.patchVersion());
     }
 }

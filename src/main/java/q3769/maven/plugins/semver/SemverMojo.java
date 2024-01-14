@@ -42,11 +42,13 @@ public abstract class SemverMojo extends AbstractMojo {
     /**
      *
      */
-    @Parameter(defaultValue = "${mojoExecution}", readonly = true) protected MojoExecution mojo;
+    @Parameter(defaultValue = "${mojoExecution}", readonly = true)
+    protected MojoExecution mojo;
     /**
      *
      */
-    @Parameter(property = "processModule", defaultValue = FALSE) protected String processModule;
+    @Parameter(property = "processModule", defaultValue = FALSE)
+    protected String processModule;
     /**
      * Current Maven POM
      */
@@ -65,7 +67,7 @@ public abstract class SemverMojo extends AbstractMojo {
      */
     public static Version requireValidSemVer(String version) {
         try {
-            return Version.valueOf(version);
+            return Version.parse(version);
         } catch (Exception ex) {
             throw new IllegalArgumentException("Error parsing '" + version + "' as a SemVer", ex);
         }
@@ -93,10 +95,12 @@ public abstract class SemverMojo extends AbstractMojo {
         getLog().info("Goal '" + this.mojo.getGoal() + "' processing project '" + projectName + "' with POM version '"
                 + pomVersion + "'...");
         if (project.hasParent()) {
-            getLog().info("current project " + projectName + " is a module of " + project.getParent().getName());
+            getLog().info("current project " + projectName + " is a module of "
+                    + project.getParent().getName());
             if (FALSE.equalsIgnoreCase(processModule)) {
-                getLog().warn("Version of module '" + projectName
-                        + "' will not be processed. By default, only parent project is processed; if otherwise desired, use the `-DprocessModule` CLI flag");
+                getLog().warn(
+                                "Version of module '" + projectName
+                                        + "' will not be processed. By default, only parent project is processed; if otherwise desired, use the `-DprocessModule` CLI flag");
                 return;
             }
             if (pomVersion == null) {

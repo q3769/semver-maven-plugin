@@ -25,13 +25,11 @@ package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
-
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Qingtian Wang
@@ -44,11 +42,10 @@ class CalendarPatchTest {
 
     @Test
     void ok() throws MojoFailureException {
-        Version orginal = Version.forIntegers(1, 2, 3);
+        Version original = Version.of(1, 2, 3);
 
-        Version incremented = calendarMinor.update(orginal);
+        Version incremented = calendarMinor.update(original);
 
-        assertEquals(Version.forIntegers(1, 2, Integer.parseInt(TO_UTC_DAY_FORMATTER.format(Instant.now()))),
-                incremented);
+        assertEquals(Version.of(1, 2, Integer.parseInt(TO_UTC_DAY_FORMATTER.format(Instant.now()))), incremented);
     }
 }

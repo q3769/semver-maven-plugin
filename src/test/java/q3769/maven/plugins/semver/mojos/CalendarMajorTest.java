@@ -26,13 +26,11 @@ package q3769.maven.plugins.semver.mojos;
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
 import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
-
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Qingtian Wang
@@ -46,7 +44,7 @@ class CalendarMajorTest {
     @Test
     void testShouldErrorOutIfOriginalMajorVersionDateIsHigher() {
         final int futureDate = Integer.MAX_VALUE;
-        Version original = new Version.Builder(futureDate + ".2.3").build();
+        Version original = Version.parse(futureDate + ".2.3");
 
         Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
     }
@@ -54,7 +52,7 @@ class CalendarMajorTest {
     @Test
     void testShouldErrorOutIfOriginalMajorVersionDateIsToday() {
         final int futureDate = Integer.parseInt(TO_UTC_DAY_FORMATTER.format(Instant.now()));
-        Version original = new Version.Builder(futureDate + ".2.3").build();
+        Version original = Version.parse(futureDate + ".2.3");
 
         Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
     }
@@ -63,10 +61,10 @@ class CalendarMajorTest {
     void testShouldIncrementMajorToNowWithNoHours() throws MojoFailureException {
         String expectedMajor = TO_UTC_DAY_FORMATTER.format(Instant.now());
         final int someDayEarlier = Integer.parseInt(expectedMajor) - 10000;
-        Version original = new Version.Builder(someDayEarlier + ".2.3").build();
+        Version original = Version.parse(someDayEarlier + ".2.3");
 
         Version result = instance.update(original);
 
-        assertEquals(new Version.Builder(expectedMajor + ".0.0").build(), result);
+        assertEquals(Version.parse(expectedMajor + ".0.0"), result);
     }
 }

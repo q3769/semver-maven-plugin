@@ -38,6 +38,6 @@ public class IncrementMinor extends Updater {
 
     @Override
     protected Version update(Version original) {
-        return original.incrementMinorVersion();
+        return original.nextMinorVersion();
     }
 }

@@ -24,13 +24,12 @@
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import q3769.maven.plugins.semver.SemverCategory;
+import q3769.maven.plugins.semver.SemverNormalVersion;
 import q3769.maven.plugins.semver.Updater;
+import java.util.Optional;
 
 /**
  * Merge this POM's version with another SemVer passed in as parameter, and set the merge result as the updated POM
@@ -46,47 +45,49 @@ public class Merge extends Updater {
     /**
      * The other SemVer to be merged with current local POM's version
      */
-    @Parameter(property = "semver", defaultValue = "NOT_SET") protected String otherSemVer;
-
-    private static Version setLabels(final Version version, String preReleaseLabel, String buildMetadataLabel) {
-        Version withLabels = version;
-        if (StringUtils.isNotBlank(preReleaseLabel)) {
-            withLabels = version.setPreReleaseVersion(preReleaseLabel);
-        }
-        if (StringUtils.isNotBlank(buildMetadataLabel)) {
-            withLabels = version.setBuildMetadata(buildMetadataLabel);
-        }
-        return withLabels;
-    }
+    @Parameter(property = "semver", defaultValue = "NOT_SET")
+    protected String otherSemVer;
 
     @Override
-    protected Version update(final Version original) throws MojoFailureException {
+    protected Version update(final Version original) {
         getLog().debug("Merging current POM version " + original + " with provided version " + otherSemVer);
         final Version other = requireValidSemVer(otherSemVer);
-        if (original.greaterThan(other)) {
+        if (original.isHigherThan(other)) {
             getLog().debug("Current POM version " + original + " is newer than provided version " + other
                     + ", current unchanged is the merge result: " + original);
             return original;
         }
         getLog().debug("Provided version " + other + " is newer than current POM version " + original);
-        SemverCategory intendedChangeCategoryOfCurrentPom = SemverCategory.getIntendedChangeCategory(original);
+        SemverNormalVersion intendedChangeCategoryOfCurrentPom =
+                SemverNormalVersion.getIncrementedNormalVersion(original);
         getLog().debug("Intended change category of current POM version is " + intendedChangeCategoryOfCurrentPom);
         Version result = increment(other, intendedChangeCategoryOfCurrentPom);
         getLog().debug("Incremented provided version " + other + " on POM change category "
                 + intendedChangeCategoryOfCurrentPom + ", provisional merge result: " + result);
-        result = setLabels(result, original.getPreReleaseVersion(), original.getBuildMetadata());
+        Optional<String> originalPreReleaseVersion = original.preReleaseVersion();
+        if (originalPreReleaseVersion.isPresent()) {
+            result = Version.of(
+                    result.majorVersion(),
+                    result.minorVersion(),
+                    result.patchVersion(),
+                    originalPreReleaseVersion.get());
+        }
+        Optional<String> originalBuildMetadata = original.buildMetadata();
+        if (originalBuildMetadata.isPresent()) {
+            result = result.withBuildMetadata(originalBuildMetadata.get());
+        }
         getLog().debug("Kept labels of current POM version: " + original + ", final merge result: " + result);
         return result;
     }
 
-    private Version increment(Version version, SemverCategory category) {
+    private Version increment(Version version, SemverNormalVersion category) {
         switch (category) {
             case MAJOR:
-                return version.incrementMajorVersion();
+                return version.nextMajorVersion();
             case MINOR:
-                return version.incrementMinorVersion();
+                return version.nextMinorVersion();
             case PATCH:
-                return version.incrementPatchVersion();
+                return version.nextPatchVersion();
             default:
                 throw new IllegalStateException("Unexpected category: " + category);
         }

@@ -24,13 +24,11 @@
 package q3769.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.BuildPluginManager;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
-
 import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 
 /**
@@ -44,11 +42,13 @@ public abstract class Updater extends SemverMojo {
      * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in as a -D parameter
      * from CLI.
      */
-    @Parameter(property = "snapshot", defaultValue = "false") protected boolean addingSnapshotLabel;
+    @Parameter(property = "snapshot", defaultValue = "false")
+    protected boolean addingSnapshotLabel;
     /**
      *
      */
-    @Component protected BuildPluginManager pluginManager;
+    @Component
+    protected BuildPluginManager pluginManager;
 
     /**
      * @param original
@@ -74,12 +74,13 @@ public abstract class Updater extends SemverMojo {
         if (!addingSnapshotLabel) {
             return updated;
         }
-        if (!StringUtils.isBlank(updated.getPreReleaseVersion()) || !StringUtils.isBlank(updated.getBuildMetadata())) {
-            throw new MojoFailureException("snapshot labeling requested for updated semver " + updated
-                    + " but not honored, because snapshot flag only works with normal version number increments with no labels");
+        if (updated.preReleaseVersion().isPresent() || updated.buildMetadata().isPresent()) {
+            throw new MojoFailureException(
+                    "snapshot labeling requested for updated semver " + updated
+                            + " but not honored, because snapshot flag only supports normal version number increments with no labels");
         }
         getLog().info("labeling version " + updated + " as a SNAPSHOT...");
-        return updated.setPreReleaseVersion(SNAPSHOT);
+        return updated.nextPreReleaseVersion(SNAPSHOT);
     }
 
     /**
@@ -92,11 +93,12 @@ public abstract class Updater extends SemverMojo {
         String original = project.getVersion();
         final String executedGoal = mojo.getGoal();
         if (version.equals(original)) {
-            getLog().info(
-                    "Original POM version: " + original + " remains unchanged after executing goal: " + executedGoal);
+            getLog().info("Original POM version: " + original + " remains unchanged after executing goal: "
+                    + executedGoal);
             return;
         }
-        executeMojo(plugin(groupId("org.codehaus.mojo"), artifactId("versions-maven-plugin"), version("2.10.0")),
+        executeMojo(
+                plugin(groupId("org.codehaus.mojo"), artifactId("versions-maven-plugin"), version("2.16.2")),
                 goal("set"),
                 configuration(element(name("generateBackupPoms"), "false"), element(name("newVersion"), version)),
                 executionEnvironment(project, session, pluginManager));

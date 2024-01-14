@@ -27,7 +27,7 @@ import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import q3769.maven.plugins.semver.SemverCategory;
+import q3769.maven.plugins.semver.SemverNormalVersion;
 import q3769.maven.plugins.semver.Updater;
 
 /**
@@ -43,6 +43,6 @@ public class CalendarMinor extends Updater {
      */
     @Override
     protected Version update(Version original) throws MojoFailureException {
-        return CalendarSemverUtils.calendarIncrement(original, SemverCategory.MINOR);
+        return CalendarSemverUtils.calendarIncrement(original, SemverNormalVersion.MINOR);
     }
 }

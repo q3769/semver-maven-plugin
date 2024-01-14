@@ -26,8 +26,7 @@ package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
-import q3769.maven.plugins.semver.SemverCategory;
-
+import q3769.maven.plugins.semver.SemverNormalVersion;
 import javax.annotation.Nonnull;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -41,30 +40,27 @@ public class CalendarSemverUtils {
     private static final DateTimeFormatter TO_UTC_DAY =
             DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);
 
-    private CalendarSemverUtils() {
-    }
+    private CalendarSemverUtils() {}
 
     /**
      * Assumes version ints represent datetime in UTC zone
      *
-     * @param original
-     *         pom version
-     * @param targetCategory
-     *         to increment
+     * @param original pom version
+     * @param targetCategory to increment
      * @return new instance incremented
-     * @throws MojoFailureException
-     *         if the original version's target category version is newer than one hour from now
+     * @throws MojoFailureException if the original version's target category version is newer than one hour from now
      */
-    public static Version calendarIncrement(Version original, @Nonnull SemverCategory targetCategory)
+    public static Version calendarIncrement(Version original, @Nonnull SemverNormalVersion targetCategory)
             throws MojoFailureException {
-        int target = targetCategory.getNormalInt(original);
+        long target = targetCategory.getNormalVersionNumber(original);
         Instant now = Instant.now();
         int today = Integer.parseInt(TO_UTC_DAY.format(now));
         if (today > target) {
             return targetCategory.incrementTo(today, original);
         }
-        throw new MojoFailureException(new UnsupportedOperationException(
-                "Target " + targetCategory + " version " + target + " in original semver " + original
-                        + " is not supported for calendar style increment - it has to be older than current date in UTC zone"));
+        throw new MojoFailureException(
+                new UnsupportedOperationException(
+                        "Target " + targetCategory + " version " + target + " in original semver " + original
+                                + " is not supported for calendar style increment - it has to be older than current date in UTC zone"));
     }
 }

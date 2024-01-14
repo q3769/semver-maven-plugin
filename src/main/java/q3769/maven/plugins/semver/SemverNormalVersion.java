@@ -25,29 +25,28 @@
 package q3769.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-
 import javax.annotation.Nonnull;
 
 /**
  * @author Qingtian Wang
  */
-public enum SemverCategory {
+public enum SemverNormalVersion {
 
     /**
      *
      */
     MAJOR {
         @Override
-        public int getNormalInt(Version semver) {
-            return semver.getMajorVersion();
+        public long getNormalVersionNumber(Version semver) {
+            return semver.majorVersion();
         }
 
         @Override
-        public Version incrementTo(int target, Version semver) {
-            if (semver.getMajorVersion() >= target) {
-                throw new IllegalArgumentException(this + incrementTargetError(target, semver));
+        public Version incrementTo(long target, Version semver) {
+            if (semver.majorVersion() >= target) {
+                throw incrementError(this, target, semver);
             }
-            return Version.forIntegers(target);
+            return Version.of(target);
         }
     },
 
@@ -56,16 +55,16 @@ public enum SemverCategory {
      */
     MINOR {
         @Override
-        public int getNormalInt(Version semver) {
-            return semver.getMinorVersion();
+        public long getNormalVersionNumber(Version semver) {
+            return semver.minorVersion();
         }
 
         @Override
-        public Version incrementTo(int target, Version semver) {
-            if (semver.getMinorVersion() >= target) {
-                throw new IllegalArgumentException(this + incrementTargetError(target, semver));
+        public Version incrementTo(long target, Version semver) {
+            if (semver.minorVersion() >= target) {
+                throw SemverNormalVersion.incrementError(this, target, semver);
             }
-            return Version.forIntegers(semver.getMajorVersion(), target);
+            return Version.of(semver.majorVersion(), target);
         }
     },
 
@@ -74,28 +73,32 @@ public enum SemverCategory {
      */
     PATCH {
         @Override
-        public int getNormalInt(Version semver) {
-            return semver.getPatchVersion();
+        public long getNormalVersionNumber(Version semver) {
+            return semver.patchVersion();
         }
 
         @Override
-        public Version incrementTo(int target, Version semver) {
-            if (semver.getPatchVersion() >= target) {
-                throw new IllegalArgumentException(this + incrementTargetError(target, semver));
+        public Version incrementTo(long target, Version semver) {
+            if (semver.patchVersion() >= target) {
+                throw SemverNormalVersion.incrementError(this, target, semver);
             }
-            return Version.forIntegers(semver.getMajorVersion(), semver.getMinorVersion(), target);
+            return Version.of(semver.majorVersion(), semver.minorVersion(), target);
         }
     };
 
+    private static IllegalArgumentException incrementError(
+            SemverNormalVersion semverNormalVersion, long target, Version semver) {
+        return new IllegalArgumentException(semverNormalVersion + " version of " + semver
+                + " is already higher than its increment target " + target);
+    }
     /**
-     * @param version
-     *         to check
-     * @return the change category the specified version intends to make
+     * @param version to check
+     * @return the normal version to which the specified semver was incremented from its previous semver
      */
-    public static @Nonnull SemverCategory getIntendedChangeCategory(@Nonnull Version version) {
-        final int major = version.getMajorVersion();
-        final int minor = version.getMinorVersion();
-        final int patch = version.getPatchVersion();
+    public static @Nonnull SemverNormalVersion getIncrementedNormalVersion(@Nonnull Version version) {
+        final long major = version.majorVersion();
+        final long minor = version.minorVersion();
+        final long patch = version.patchVersion();
         if (major == 0 && minor == 0 && patch == 0) {
             throw new IllegalArgumentException("At least one normal number is expected to be non-zero: " + version);
         }
@@ -108,23 +111,16 @@ public enum SemverCategory {
         return PATCH;
     }
 
-    private static @Nonnull String incrementTargetError(int target, Version semver) {
-        return " version " + target + " too small to increment " + semver;
-    }
-
     /**
-     * @param semver
-     *         to get category int from
+     * @param semver to get category int from
      * @return the int version of the corresponding category of the specified semver
      */
-    public abstract int getNormalInt(Version semver);
+    public abstract long getNormalVersionNumber(Version semver);
 
     /**
-     * @param target
-     *         intended target
-     * @param semver
-     *         original version
+     * @param target intended target
+     * @param semver original version
      * @return new version instance with corresponding category number incremented to the specified target
      */
-    public abstract Version incrementTo(int target, Version semver);
+    public abstract Version incrementTo(long target, Version semver);
 }

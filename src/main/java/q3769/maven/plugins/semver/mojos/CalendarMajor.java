@@ -27,12 +27,12 @@ import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import q3769.maven.plugins.semver.SemverCategory;
+import q3769.maven.plugins.semver.SemverNormalVersion;
 import q3769.maven.plugins.semver.Updater;
 
 /**
  * Increments major of the original semver version to int representing current datetime in UTC time zone, up to the day
- * of the month (preferred) or hour of the day if such int is large enough for the orginal semver to be incremented to.
+ * of the month (preferred) or hour of the day if such int is large enough for the original semver to be incremented to.
  * If the original semver major int is already too large for such increment, error is thrown.
  *
  * @author Qingtian Wang
@@ -47,6 +47,6 @@ public class CalendarMajor extends Updater {
      */
     @Override
     protected Version update(Version original) throws MojoFailureException {
-        return CalendarSemverUtils.calendarIncrement(original, SemverCategory.MAJOR);
+        return CalendarSemverUtils.calendarIncrement(original, SemverNormalVersion.MAJOR);
     }
 }

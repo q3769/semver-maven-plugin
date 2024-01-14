@@ -39,11 +39,11 @@ public class UpdatePreRelease extends LabelUpdater {
 
     @Override
     protected Version incrementLabel(Version version) {
-        return version.incrementPreReleaseVersion();
+        return version.nextPreReleaseVersion();
     }
 
     @Override
     protected Version setLabel(Version version, String label) {
-        return version.setPreReleaseVersion(label);
+        return version.nextPreReleaseVersion(label);
     }
 }
