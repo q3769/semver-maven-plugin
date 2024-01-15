@@ -30,7 +30,7 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>20240115.2024.0</version>
+    <version>20240116.0.0</version>
     <packaging>maven-plugin</packaging>
 
     <name>semver-maven-plugin</name>
