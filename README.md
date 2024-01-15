@@ -60,7 +60,7 @@ mvn semver:set-current -Dsemver=1.2.3-beta
 sets the new value of the version element of the pom.xml file to be `1.2.3-beta`, regardless of the original value in
 POM
 
-### Increment Normal Version Number
+### Increment normal version number
 
 ```shell
 mvn semver:increment-major
