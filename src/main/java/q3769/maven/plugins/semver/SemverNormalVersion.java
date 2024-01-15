@@ -95,7 +95,7 @@ public enum SemverNormalVersion {
      * @param version to check
      * @return the normal version to which the specified semver was incremented from its previous semver
      */
-    public static @Nonnull SemverNormalVersion getIncrementedNormalVersion(@Nonnull Version version) {
+    public static @Nonnull SemverNormalVersion getLastIncrementedNormalVersion(@Nonnull Version version) {
         final long major = version.majorVersion();
         final long minor = version.minorVersion();
         final long patch = version.patchVersion();

@@ -24,6 +24,8 @@
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
+import lombok.NonNull;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -39,8 +41,8 @@ import q3769.maven.plugins.semver.Updater;
  *
  * @author Qingtian Wang
  */
-@Mojo(name = "merge", defaultPhase = LifecyclePhase.NONE)
-public class Merge extends Updater {
+@Mojo(name = "merge-calendar", defaultPhase = LifecyclePhase.NONE)
+public class MergeCalendar extends Updater {
     /**
      * The other SemVer to be merged with current local POM's version
      */
@@ -48,7 +50,7 @@ public class Merge extends Updater {
     protected String otherSemVer;
 
     @Override
-    protected Version update(final Version original) {
+    protected Version update(@NonNull final Version original) throws MojoFailureException {
         getLog().debug("Merging current POM version " + original + " with provided version " + otherSemVer);
         final Version other = requireValidSemVer(otherSemVer);
         if (original.isHigherThan(other)) {
@@ -59,7 +61,8 @@ public class Merge extends Updater {
         getLog().debug("Provided version " + other + " is newer than current POM version " + original);
         SemverNormalVersion pomIncrementedNormalVersion = SemverNormalVersion.getLastIncrementedNormalVersion(original);
         getLog().debug("Last incremented normal version of current pom semver is " + pomIncrementedNormalVersion);
-        Version.Builder versionBuilder = increment(other, pomIncrementedNormalVersion).toBuilder();
+        Version.Builder versionBuilder =
+                CalendarVersionFormatter.calendarIncrement(other, pomIncrementedNormalVersion).toBuilder();
         getLog().debug("Incrementing provided version " + other + " on POM semver incremented normal version "
                 + pomIncrementedNormalVersion + ", provisional merge version: " + versionBuilder.build());
         original.preReleaseVersion().ifPresent(versionBuilder::setPreReleaseVersion);
@@ -67,18 +70,5 @@ public class Merge extends Updater {
         getLog().debug("Keeping all label(s) of POM semver " + original + ", final merge version: "
                 + versionBuilder.build());
         return versionBuilder.build();
-    }
-
-    private Version increment(Version version, SemverNormalVersion targetNormalVersion) {
-        switch (targetNormalVersion) {
-            case MAJOR:
-                return version.nextMajorVersion();
-            case MINOR:
-                return version.nextMinorVersion();
-            case PATCH:
-                return version.nextPatchVersion();
-            default:
-                throw new IllegalStateException("Unexpected targetNormalVersion: " + targetNormalVersion);
-        }
     }
 }

@@ -25,42 +25,61 @@
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
+import lombok.NonNull;
 import org.apache.maven.plugin.MojoFailureException;
 import q3769.maven.plugins.semver.SemverNormalVersion;
 import javax.annotation.Nonnull;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.EnumSet;
 
-/**
- *
- */
-public class CalendarSemverUtils {
+enum CalendarVersionFormatter {
+    TO_YEAR("yyyy"),
+    TO_MONTH("yyyyMM"),
+    TO_DAY("yyyyMMdd"),
+    TO_HOUR("yyyyMMddHH"),
+    TO_MINUTE("yyyyMMddHHmm"),
+    TO_SECOND("yyyyMMddHHmmss"),
+    TO_MILLISECOND("yyyyMMddHHmmssSSS");
 
-    private static final DateTimeFormatter TO_UTC_DAY =
-            DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);
+    private final String pattern;
+    private transient DateTimeFormatter dateTimeFormatter;
 
-    private CalendarSemverUtils() {}
+    CalendarVersionFormatter(String pattern) {
+        this.pattern = pattern;
+    }
 
     /**
-     * Assumes version ints represent datetime in UTC zone
-     *
      * @param original pom version
-     * @param targetCategory to increment
+     * @param targetNormalVersion to increment
      * @return new instance incremented
      * @throws MojoFailureException if the original version's target category version is newer than one hour from now
      */
-    public static Version calendarIncrement(Version original, @Nonnull SemverNormalVersion targetCategory)
+    public static Version calendarIncrement(Version original, @Nonnull SemverNormalVersion targetNormalVersion)
             throws MojoFailureException {
-        long target = targetCategory.getNormalVersionNumber(original);
+        long target = targetNormalVersion.getNormalVersionNumber(original);
         Instant now = Instant.now();
-        int today = Integer.parseInt(TO_UTC_DAY.format(now));
-        if (today > target) {
-            return targetCategory.incrementTo(today, original);
+        for (CalendarVersionFormatter formatter : EnumSet.allOf(CalendarVersionFormatter.class)) {
+            long updatedNormalVersion = formatter.format(now);
+            if (updatedNormalVersion > target) {
+                return targetNormalVersion.incrementTo(updatedNormalVersion, original);
+            }
         }
         throw new MojoFailureException(
                 new UnsupportedOperationException(
-                        "Target " + targetCategory + " version " + target + " in original semver " + original
+                        "Target " + targetNormalVersion + " version " + target + " in original semver " + original
                                 + " is not supported for calendar style increment - it has to be older than current date in UTC zone"));
+    }
+
+    private DateTimeFormatter getDateTimeFormatter() {
+        if (this.dateTimeFormatter == null) {
+            this.dateTimeFormatter = DateTimeFormatter.ofPattern(this.pattern);
+        }
+        return this.dateTimeFormatter;
+    }
+
+    long format(@NonNull Instant instant) {
+        return Long.parseLong(getDateTimeFormatter().format(instant.atZone(ZoneOffset.UTC)));
     }
 }

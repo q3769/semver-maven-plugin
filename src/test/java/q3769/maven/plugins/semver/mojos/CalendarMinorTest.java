@@ -28,15 +28,11 @@ import org.apache.maven.plugin.MojoFailureException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 
 /**
  * @author Qingtian Wang
  */
 class CalendarMinorTest {
-    private static final DateTimeFormatter TO_UTC_DAY_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);
 
     CalendarMinor calendarMinor = new CalendarMinor();
 
@@ -46,6 +42,6 @@ class CalendarMinorTest {
 
         Version incremented = calendarMinor.update(original);
 
-        assertEquals(Version.of(1, Integer.parseInt(TO_UTC_DAY_FORMATTER.format(Instant.now())), 0), incremented);
+        assertEquals(Version.of(1, CalendarVersionFormatter.TO_YEAR.format(Instant.now()), 0), incremented);
     }
 }

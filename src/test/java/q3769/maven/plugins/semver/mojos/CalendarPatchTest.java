@@ -46,6 +46,6 @@ class CalendarPatchTest {
 
         Version incremented = calendarMinor.update(original);
 
-        assertEquals(Version.of(1, 2, Integer.parseInt(TO_UTC_DAY_FORMATTER.format(Instant.now()))), incremented);
+        assertEquals(Version.of(1, 2, CalendarVersionFormatter.TO_YEAR.format(Instant.now())), incremented);
     }
 }

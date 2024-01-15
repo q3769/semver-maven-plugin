@@ -56,17 +56,17 @@ class MergeTest {
 
         @Test
         void whenOriginalVersionIsOlder() {
-            Version original = Version.parse("1.2.0-originalPreReleaseVersion+originalBuildMetaData");
+            Version original = Version.parse("1.2.0-pre-release.1+build.metadata");
             Version toMerge = Version.parse("1.3.4-hotfix");
             info.log("Merging " + toMerge + " to " + original);
             mergeMojo.otherSemVer = toMerge.toString();
             assertTrue(original.compareTo(toMerge) < 0);
-            assertEquals(MINOR, SemverNormalVersion.getIncrementedNormalVersion(original));
+            assertEquals(MINOR, SemverNormalVersion.getLastIncrementedNormalVersion(original));
 
             Version updated = mergeMojo.update(original);
             info.log("Merge result: " + updated);
 
-            assertEquals(Version.parse("1.4.0-originalPreReleaseVersion+originalBuildMetaData"), updated);
+            assertEquals(Version.parse("1.4.0-pre-release.1+build.metadata"), updated);
         }
     }
 }

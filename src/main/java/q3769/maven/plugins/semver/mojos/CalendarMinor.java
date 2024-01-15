@@ -43,6 +43,6 @@ public class CalendarMinor extends Updater {
      */
     @Override
     protected Version update(Version original) throws MojoFailureException {
-        return CalendarSemverUtils.calendarIncrement(original, SemverNormalVersion.MINOR);
+        return CalendarVersionFormatter.calendarIncrement(original, SemverNormalVersion.MINOR);
     }
 }

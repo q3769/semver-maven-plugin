@@ -27,6 +27,7 @@ import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.MojoFailureException;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -43,18 +44,29 @@ class CalendarMajorTest {
 
     @Test
     void testShouldErrorOutIfOriginalMajorVersionDateIsHigher() {
-        final int futureDate = Integer.MAX_VALUE;
+        final long futureDate = Long.MAX_VALUE;
         Version original = Version.parse(futureDate + ".2.3");
 
         Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
     }
 
     @Test
-    void testShouldErrorOutIfOriginalMajorVersionDateIsToday() {
-        final int futureDate = Integer.parseInt(TO_UTC_DAY_FORMATTER.format(Instant.now()));
+    void testShouldIncludeHourIfOriginalMajorVersionDateIsToday() throws MojoFailureException {
+        Instant now = Instant.now();
+        final int futureDate = Integer.parseInt(TO_UTC_DAY_FORMATTER.format(now));
         Version original = Version.parse(futureDate + ".2.3");
 
-        Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
+        Version update = instance.update(original);
+
+        String updatedMajorText = String.valueOf(update.majorVersion());
+        String originalMajorText = String.valueOf(original.majorVersion());
+        assertTrue(updatedMajorText.startsWith(originalMajorText));
+        String nowHourText = String.valueOf(now.atZone(ZoneOffset.UTC).getHour());
+        assertEquals(
+                now.atZone(ZoneOffset.UTC).getHour(),
+                Long.parseLong(updatedMajorText.substring(updatedMajorText.length() - 2)));
+        assertEquals(0, update.minorVersion());
+        assertEquals(0, update.patchVersion());
     }
 
     @Test
