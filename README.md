@@ -91,10 +91,10 @@ mvn semver:calendar-major
 increments `1.2.3` into `2021.0.0`; `20201225.2.3-beta.1` into `20210131.0.0`; `2021.2.3`
 into `202101.0.0`; `20210131.2.3` into `2021013113.0.0`, etc...
 
-This goal uses the current calendar datetime as the target `major` number: It tries to increase the accuracy
+This goal uses the current calendar datetime as the target `major` number: It tries to increase the precision
 of the current time stamp until the value is larger than the original `major` version number; then uses that
 time stamp value as the replacement. If the original `major` number is too large to replace even when increasing
-the current time accuracy to milliseconds, then the goal errors out and no update will be performed to the POM.
+the current time precision to milliseconds, then the goal errors out and no update will be performed to the POM.
 
 ```shell
 mvn semver:calendar-minor
