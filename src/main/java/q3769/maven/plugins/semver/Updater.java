@@ -52,11 +52,9 @@ public abstract class Updater extends SemverMojo {
     protected BuildPluginManager pluginManager;
 
     /**
-     * @param original
-     *         SemVer to be updated
+     * @param original SemVer to be updated
      * @return the incremented result SemVer
-     * @throws MojoFailureException
-     *         on build error
+     * @throws MojoFailureException on build error
      */
     protected abstract Version update(Version original) throws MojoFailureException;
 
@@ -67,8 +65,7 @@ public abstract class Updater extends SemverMojo {
 
     /**
      * @return The incremented SemVer
-     * @throws MojoFailureException
-     *         if original version in POM is malformed
+     * @throws MojoFailureException if original version in POM is malformed
      */
     private Version getUpdatedVersion() throws MojoFailureException {
         Version updated = update(requireValidSemVer(project.getVersion()));
@@ -81,14 +78,12 @@ public abstract class Updater extends SemverMojo {
                             + " but not honored, because snapshot flag only supports normal version number increments with no labels");
         }
         getLog().info("labeling version " + updated + " as a SNAPSHOT...");
-        return updated.nextPreReleaseVersion(SNAPSHOT);
+        return updated.toBuilder().setPreReleaseVersion(SNAPSHOT).build();
     }
 
     /**
-     * @param version
-     *         New version to be set in the POM file
-     * @throws MojoExecutionException
-     *         if unexpected error occurred while updating the POM file
+     * @param version New version to be set in the POM file
+     * @throws MojoExecutionException if unexpected error occurred while updating the POM file
      */
     private void updatePomFile(String version) throws MojoExecutionException {
         String original = project.getVersion();
