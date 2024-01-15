@@ -88,11 +88,13 @@ Assuming now is 1PM on Jan 31, 2021 in UTC time zone, then:
 mvn semver:calendar-major
 ```
 
-increments `1.23.4` into `2021.0.0`; or `20201225.2.3-beta.1` into `20210131.0.0`; `2021.2.3`
-into `202101.0.0`; `20210131.2.3` into `2021013113.0.0`. A convenience command to use calendar date as the SemVer major
-number. The updated major tries to increase the accuracy of the current time stamp until the value is larger than the
-original. If the original major number is too large even when increasing the current time accuracy to milliseconds, then
-the command errors out and no update will be performed to the POM.
+increments `1.2.3` into `2021.0.0`; `20201225.2.3-beta.1` into `20210131.0.0`; `2021.2.3`
+into `202101.0.0`; `20210131.2.3` into `2021013113.0.0`, etc... 
+
+This goal uses the current calendar datetime as the target `major` number: It tries to increase the accuracy 
+of the current time stamp until the value is larger than the original `major` version number; then uses that
+time stamp value as the replacement. If the original `major` number is too large to replace even when increasing 
+the current time accuracy to milliseconds, then the goal errors out and no update will be performed to the POM.
 
 ```shell
 mvn semver:calendar-minor
@@ -108,15 +110,7 @@ mvn semver:calendar-patch
 applies similar manipulations as with `semver:calendar-major`, to the `patch` normal version number of the original
 semver.
 
-### Finalize current version
-
-```shell
-mvn semver:finalize-current
-```
-
-changes `1.2.3-SNAPSHOT` or `1.2.3-beta.1+build.10` into `1.2.3`, stripping off all additional labels
-
-### Pre-release and build metadata labels
+### Update pre-release version and build metadata
 
 ```shell
 mvn semver:update-pre-release
@@ -128,20 +122,23 @@ increments `1.2.3-beta` into `1.2.3-beta.1`
 mvn semver:update-build-metadata
 ```
 
-increments `1.2.3-beta.1+build.10` into `1.2.3-beta.1+build.11`. This is deprecated as build metadata label has no
-precedence definition in SemVer spec.
+increments `1.2.3-beta.1+build.10` into `1.2.3-beta.1+build.11`. 
+
+Using this goal alone, without the `Dset=...` parameter (mentioned later), is deprecated as SemVer spec 
+excludes using build metadata for precedence or equavalance comparison; thus, there is no definitive way
+to increment build metadata.
 
 ```shell
 mvn semver:update-pre-release -Dset=beta
 ```
 
-updates `1.2.3-alpha+build.7` into `1.2.3-beta`
+updates/sets `1.2.3-alpha+build.7` into `1.2.3-beta`
 
 ```shell
 mvn semver:update-build-metadata -Dset=build.reno
 ```
 
-updates `1.2.3-alpha` into `1.2.3-alpha+build.reno`
+updates/sets `1.2.3-alpha` into `1.2.3-alpha+build.reno`
 
 ### Pick the newer between the pom version and another semver
 
@@ -151,9 +148,9 @@ mvn semver:pick-newer -Dsemver=1.3.0-HOTFIX
 
 updates the original POM version `1.2.3` to `1.3.0-HOTFIX` because `1.3.0-HOTFIX` is a newer version than `1.2.3`.
 However, if the original version were `1.3.0`, then no change would have been made because, according to the SemVer
-precedence, the original `1.3.0` is newer than the given `1.3.0-HOTFIX`. (Note that a final SemVer is always newer than
-any labeled counterpart, regardless the label's semantics. That is, the final "hot fix" SemVer of `1.3.0` would
-be `1.3.1`, not `1.3.0-HOTFIX`.)
+precedence, the original `1.3.0` is newer than the given `1.3.0-HOTFIX`. (Note that a final SemVer is always newer
+than any labeled counterpart, regardless the label's semantics. That is, the final/stable "hot fix" SemVer of `1.3.0`
+would be `1.3.1`, not `1.3.0-HOTFIX` or `1.3.1-HOTFIX`.)
 
 ### Merge with another semver
 
@@ -173,17 +170,17 @@ purposes of the current POM version will dominate those of the given SemVer to m
 
 2. If the current POM version is newer, no change will be made and the current POM version is the merge result.
    Otherwise, if the given version to merge is newer, then to form the merge result, the given version is to be
-   incremented on the **intended change category of the current POM version** - major, minor, or patch.
+   incremented on the **last incremented normal version of the current POM version** - `major`, `minor`, or `patch`.
 
-3. The current POM version's pre-release and build metadata labels, if any exist, always stay and serve as the final
+4. The current POM version's pre-release and build metadata labels, if any exist, always stay and serve as the final
    merged version's labels.
 
 In this case, the given version `1.3.10-HOTFIX` is newer, so it is to be incremented to form the merge result. The
-intended change category of the current POM version `1.2.0-SNAPSHOT+chi.1` is `minor`, so the given version
-`1.3.10-HOTFIX` is incremented on its own `minor` category, resulting in `1.4.0` per SemVer spec. (Note that the given
-version `1.3.10-HOTFIX`'s intended change category is `patch` but that does not matter per the merge rules, anyway.)
-Lastly, the current POM version's labels (in this case `SNAPSHOT` and `chi.1`), if any exist, always stay as they are.
-Thus, for the final merged version, we have `1.4.0-SNAPSHOT+chi.1`.
+last incremented normal version of the current POM version `1.2.0-SNAPSHOT+chi.1` is `minor`, so the given version
+`1.3.10-HOTFIX` is incremented on its own `minor` version number, resulting in `1.4.0` per SemVer spec. (Note that the
+given version `1.3.10-HOTFIX`'s last incremented normal version is `patch` but that anyway does not matter per the merge
+rules here.) Then, the current POM version's labels (in this case `SNAPSHOT` and `chi.1`), if any exist, always stay as 
+they are. Thus, for the final merged version, we have `1.4.0-SNAPSHOT+chi.1`.
 
 Assuming now is 1PM on Jan 31, 2021, then:
 
@@ -194,6 +191,14 @@ mvn semver:merge-calendar -Dsemver=1.3.10-HOTFIX
 updates `1.2.0-SNAPSHOT+chi.1` into `1.2021.0-SNAPSHOT+chi.1`, where `1.2.0-SNAPSHOT+chi.1` is the current POM version.
 This goal performs similar functions as with `semver:merge`, but using calendar value as the update result instead of
 simple increment.
+
+### Finalize current version
+
+```shell
+mvn semver:finalize-current
+```
+
+changes `1.2.3-SNAPSHOT` or `1.2.3-beta.1+build.10` into `1.2.3`, stripping off all additional labels
 
 ### Verify the current pom version
 
