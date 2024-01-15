@@ -23,13 +23,14 @@
  */
 package q3769.maven.plugins.semver.mojos;
 
-import com.github.zafarkhaja.semver.Version;
-import org.apache.maven.plugin.MojoFailureException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
+
+import com.github.zafarkhaja.semver.Version;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import org.apache.maven.plugin.MojoFailureException;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Qingtian Wang

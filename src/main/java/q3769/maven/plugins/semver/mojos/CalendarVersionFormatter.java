@@ -25,14 +25,14 @@
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import lombok.NonNull;
-import org.apache.maven.plugin.MojoFailureException;
-import q3769.maven.plugins.semver.SemverNormalVersion;
-import javax.annotation.Nonnull;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.EnumSet;
+import javax.annotation.Nonnull;
+import lombok.NonNull;
+import org.apache.maven.plugin.MojoFailureException;
+import q3769.maven.plugins.semver.SemverNormalVersion;
 
 enum CalendarVersionFormatter {
     TO_YEAR("yyyy"),

@@ -24,6 +24,7 @@
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
+import lombok.NonNull;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import q3769.maven.plugins.semver.LabelUpdater;
@@ -32,22 +33,25 @@ import q3769.maven.plugins.semver.LabelUpdater;
  * Mojo to increment build meta info portion of the SemVer text. If, however, the <code>set</code> parameter is passed
  * in, its value will be used to set as the build metadata label.
  *
- * @deprecated as build metadata label is not really part of precedence comparison, thus doesn't really make sense to be
- * incremented/updated
- *
  * @author Qingtian Wang
  */
-@Deprecated
 @Mojo(name = "update-build-metadata", defaultPhase = LifecyclePhase.NONE)
 public class UpdateBuildMetadata extends LabelUpdater {
 
+    /**
+     * @param version to increment
+     * @return incremented semver
+     * @deprecated as build metadata label is not really part of precedence comparison, thus doesn't really make sense
+     * to be incremented/updated
+     */
+    @Deprecated
     @Override
-    protected Version incrementLabel(Version version) {
+    protected Version incrementLabel(@NonNull Version version) {
         return version.incrementBuildMetadata();
     }
 
     @Override
-    protected Version setLabel(Version version, String label) {
+    protected Version setLabel(@NonNull Version version, String label) {
         return version.withBuildMetadata(label);
     }
 }

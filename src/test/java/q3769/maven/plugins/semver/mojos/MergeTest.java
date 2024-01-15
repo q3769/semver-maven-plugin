@@ -24,14 +24,15 @@
 
 package q3769.maven.plugins.semver.mojos;
 
-import com.github.zafarkhaja.semver.Version;
-import elf4j.Logger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static q3769.maven.plugins.semver.SemverNormalVersion.MINOR;
+
+import com.github.zafarkhaja.semver.Version;
+import elf4j.Logger;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import q3769.maven.plugins.semver.SemverNormalVersion;
-import static q3769.maven.plugins.semver.SemverNormalVersion.MINOR;
 
 class MergeTest {
     static final Logger info = Logger.instance().atInfo();

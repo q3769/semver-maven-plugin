@@ -30,7 +30,7 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>20240115.0.0</version>
+    <version>20240115.0.2024</version>
     <packaging>maven-plugin</packaging>
 
     <name>semver-maven-plugin</name>
@@ -198,13 +198,35 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.41.1</version>
+                <executions>
+                    <execution>
+                        <id>spotless-apply-id</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>apply</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <java>
+                        <palantirJavaFormat>
+                            <version>2.39.0</version>
+                        </palantirJavaFormat>
+                        <formatAnnotations/>
+                    </java>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20221011.20230506.20240114</version>
+                <version>20240115.0.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -40,7 +40,8 @@ public class VerifyCurrent extends SemverMojo {
     /**
      * force the version to be output to stdout if valid
      */
-    @Parameter(property = "force-stdout", defaultValue = "false") protected boolean forceStdOut;
+    @Parameter(property = "force-stdout", defaultValue = "false")
+    protected boolean forceStdOut;
 
     @Override
     protected void doExecute() throws MojoFailureException {

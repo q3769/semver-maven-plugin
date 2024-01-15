@@ -37,7 +37,8 @@ public abstract class LabelUpdater extends Updater {
     /**
      * If passed in, will be used to set as either one of the two SemVer labels.
      */
-    @Parameter(property = "set") protected String set;
+    @Parameter(property = "set")
+    protected String set;
 
     /**
      * @param version
@@ -62,8 +63,10 @@ public abstract class LabelUpdater extends Updater {
             try {
                 return incrementLabel(original);
             } catch (Exception ex) {
-                throw new MojoFailureException("Failed to increment label of original version '" + original
-                        + "', it needs to exist and conform to SemVer format before increment", ex);
+                throw new MojoFailureException(
+                        "Failed to increment label of original version '" + original
+                                + "', it needs to exist and conform to SemVer format before increment",
+                        ex);
             }
         }
         getLog().info("Setting label of version '" + original + "' into '" + set + "'...");

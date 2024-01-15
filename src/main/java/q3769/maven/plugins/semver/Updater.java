@@ -23,13 +23,14 @@
  */
 package q3769.maven.plugins.semver;
 
+import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
+
 import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugin.BuildPluginManager;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 
 /**
  * Updates POM version, based on current value

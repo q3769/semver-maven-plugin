@@ -89,11 +89,11 @@ mvn semver:calendar-major
 ```
 
 increments `1.2.3` into `2021.0.0`; `20201225.2.3-beta.1` into `20210131.0.0`; `2021.2.3`
-into `202101.0.0`; `20210131.2.3` into `2021013113.0.0`, etc... 
+into `202101.0.0`; `20210131.2.3` into `2021013113.0.0`, etc...
 
-This goal uses the current calendar datetime as the target `major` number: It tries to increase the accuracy 
+This goal uses the current calendar datetime as the target `major` number: It tries to increase the accuracy
 of the current time stamp until the value is larger than the original `major` version number; then uses that
-time stamp value as the replacement. If the original `major` number is too large to replace even when increasing 
+time stamp value as the replacement. If the original `major` number is too large to replace even when increasing
 the current time accuracy to milliseconds, then the goal errors out and no update will be performed to the POM.
 
 ```shell
@@ -122,9 +122,9 @@ increments `1.2.3-beta` into `1.2.3-beta.1`
 mvn semver:update-build-metadata
 ```
 
-increments `1.2.3-beta.1+build.10` into `1.2.3-beta.1+build.11`. 
+increments `1.2.3-beta.1+build.10` into `1.2.3-beta.1+build.11`.
 
-Using this goal alone, without the `Dset=...` parameter (mentioned later), is deprecated as SemVer spec 
+Using this goal alone, without the `Dset=...` parameter (mentioned later), is deprecated as SemVer spec
 excludes using build metadata for precedence or equavalance comparison; thus, there is no definitive way
 to increment build metadata.
 
@@ -179,7 +179,7 @@ In this case, the given version `1.3.10-HOTFIX` is newer, so it is to be increme
 last incremented normal version of the current POM version `1.2.0-SNAPSHOT+chi.1` is `minor`, so the given version
 `1.3.10-HOTFIX` is incremented on its own `minor` version number, resulting in `1.4.0` per SemVer spec. (Note that the
 given version `1.3.10-HOTFIX`'s last incremented normal version is `patch` but that anyway does not matter per the merge
-rules here.) Then, the current POM version's labels (in this case `SNAPSHOT` and `chi.1`), if any exist, always stay as 
+rules here.) Then, the current POM version's labels (in this case `SNAPSHOT` and `chi.1`), if any exist, always stay as
 they are. Thus, for the final merged version, we have `1.4.0-SNAPSHOT+chi.1`.
 
 Assuming now is 1PM on Jan 31, 2021, then:
