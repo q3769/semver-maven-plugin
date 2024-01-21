@@ -28,7 +28,6 @@ import com.github.zafarkhaja.semver.Version;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.EnumSet;
 import javax.annotation.Nonnull;
 import lombok.NonNull;
 import org.apache.maven.plugin.MojoFailureException;
@@ -60,7 +59,7 @@ enum CalendarVersionFormatter {
             throws MojoFailureException {
         long target = targetNormalVersion.getNormalVersionNumber(original);
         Instant now = Instant.now();
-        for (CalendarVersionFormatter formatter : EnumSet.allOf(CalendarVersionFormatter.class)) {
+        for (CalendarVersionFormatter formatter : values()) {
             long updatedNormalVersion = formatter.format(now);
             if (updatedNormalVersion > target) {
                 return targetNormalVersion.incrementTo(updatedNormalVersion, original);
