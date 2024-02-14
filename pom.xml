@@ -30,7 +30,7 @@
 
     <groupId>io.github.q3769</groupId>
     <artifactId>semver-maven-plugin</artifactId>
-    <version>20240116.0.2024</version>
+    <version>20240116.0.202402</version>
     <packaging>maven-plugin</packaging>
 
     <name>semver-maven-plugin</name>
@@ -112,6 +112,11 @@
             <groupId>org.twdata.maven</groupId>
             <artifactId>mojo-executor</artifactId>
             <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.14.0</version>
         </dependency>
         <dependency>
             <groupId>io.github.elf4j</groupId>
@@ -221,7 +226,7 @@
             <plugin>
                 <groupId>io.github.q3769</groupId>
                 <artifactId>semver-maven-plugin</artifactId>
-                <version>20240115.0.2024</version>
+                <version>20240116.0.202402</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
