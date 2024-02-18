@@ -46,9 +46,7 @@ public abstract class Updater extends SemverMojo {
      */
     @Parameter(property = "snapshot", defaultValue = "false")
     protected boolean addingSnapshotLabel;
-    /**
-     *
-     */
+    /** */
     @Component
     protected BuildPluginManager pluginManager;
 

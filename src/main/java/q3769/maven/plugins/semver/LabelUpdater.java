@@ -29,29 +29,22 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
-/**
- * @author Qingtian Wang
- */
+/** @author Qingtian Wang */
 public abstract class LabelUpdater extends Updater {
 
-    /**
-     * If passed in, will be used to set as either one of the two SemVer labels.
-     */
+    /** If passed in, will be used to set as either one of the two SemVer labels. */
     @Parameter(property = "set")
     protected String set;
 
     /**
-     * @param version
-     *         to increment
+     * @param version to increment
      * @return incremented
      */
     protected abstract Version incrementLabel(Version version);
 
     /**
-     * @param version
-     *         to be set with new label
-     * @param label
-     *         new label to set
+     * @param version to be set with new label
+     * @param label new label to set
      * @return version with newly set label
      */
     protected abstract Version setLabel(Version version, String label);

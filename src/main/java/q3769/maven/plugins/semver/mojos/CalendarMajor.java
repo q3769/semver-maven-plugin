@@ -41,8 +41,7 @@ import q3769.maven.plugins.semver.Updater;
 public class CalendarMajor extends Updater {
 
     /**
-     * @param original
-     *         POM project version whose major number is to be incremented
+     * @param original POM project version whose major number is to be incremented
      * @return New semver version whose major number is incremented to current date in basic ISO format. Error out
      */
     @Override

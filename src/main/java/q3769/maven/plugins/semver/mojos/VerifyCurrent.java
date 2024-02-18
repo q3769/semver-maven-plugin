@@ -37,9 +37,7 @@ import q3769.maven.plugins.semver.SemverMojo;
 @Mojo(name = "verify-current", defaultPhase = LifecyclePhase.NONE)
 public class VerifyCurrent extends SemverMojo {
 
-    /**
-     * force the version to be output to stdout if valid
-     */
+    /** force the version to be output to stdout if valid */
     @Parameter(property = "force-stdout", defaultValue = "false")
     protected boolean forceStdOut;
 

@@ -30,9 +30,7 @@ import java.time.Instant;
 import org.apache.maven.plugin.MojoFailureException;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Qingtian Wang
- */
+/** @author Qingtian Wang */
 class CalendarMinorTest {
 
     CalendarMinor calendarMinor = new CalendarMinor();

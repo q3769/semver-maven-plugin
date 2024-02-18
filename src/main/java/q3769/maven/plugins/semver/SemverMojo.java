@@ -39,30 +39,21 @@ import org.apache.maven.project.MavenProject;
  */
 public abstract class SemverMojo extends AbstractMojo {
     private static final String FALSE = "false";
-    /**
-     *
-     */
+    /** */
     @Parameter(defaultValue = "${mojoExecution}", readonly = true)
     protected MojoExecution mojo;
-    /**
-     *
-     */
+    /** */
     @Parameter(property = "processModule", defaultValue = FALSE)
     protected String processModule;
-    /**
-     * Current Maven POM
-     */
+    /** Current Maven POM */
     @Parameter(property = "project", defaultValue = "${project}", readonly = true, required = true)
     protected MavenProject project;
-    /**
-     * Default session
-     */
+    /** Default session */
     @Parameter(property = "session", defaultValue = "${session}", readonly = true, required = true)
     protected MavenSession session;
 
     /**
-     * @param version
-     *         text that is supposed to be valid per SemVer spec
+     * @param version text that is supposed to be valid per SemVer spec
      * @return A valid SemVer
      */
     public static Version requireValidSemVer(String version) {
@@ -74,19 +65,16 @@ public abstract class SemverMojo extends AbstractMojo {
     }
 
     /**
-     * @throws MojoExecutionException
-     *         if an unexpected problem occurs. Throwing this exception causes a "BUILD ERROR" message to be displayed.
-     * @throws MojoFailureException
-     *         if an expected problem (such as a compilation failure) occurs. Throwing this exception causes a "BUILD
-     *         FAILURE" message to be displayed.
+     * @throws MojoExecutionException if an unexpected problem occurs. Throwing this exception causes a "BUILD ERROR"
+     *     message to be displayed.
+     * @throws MojoFailureException if an expected problem (such as a compilation failure) occurs. Throwing this
+     *     exception causes a "BUILD FAILURE" message to be displayed.
      */
     protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 
     /**
-     * @throws MojoExecutionException
-     *         on execution error
-     * @throws MojoFailureException
-     *         on build error
+     * @throws MojoExecutionException on execution error
+     * @throws MojoFailureException on build error
      */
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -112,9 +100,7 @@ public abstract class SemverMojo extends AbstractMojo {
         doExecute();
     }
 
-    /**
-     * @return original version in pom.xml
-     */
+    /** @return original version in pom.xml */
     protected String originalPomVersion() {
         return project.getOriginalModel().getVersion();
     }

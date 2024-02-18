@@ -213,7 +213,10 @@
                 <configuration>
                     <java>
                         <palantirJavaFormat>
-                            <version>2.39.0</version>
+                            <version>2.40.0</version>                     <!-- optional -->
+                            <style>PALANTIR</style>                       <!-- or AOSP/GOOGLE (optional) -->
+                            <formatJavadoc>true
+                            </formatJavadoc>          <!-- defaults to false (optional, requires at least Palantir 2.39.0) -->
                         </palantirJavaFormat>
                         <formatAnnotations/>
                     </java>

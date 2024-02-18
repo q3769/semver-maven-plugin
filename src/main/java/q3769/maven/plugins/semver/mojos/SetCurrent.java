@@ -37,9 +37,7 @@ import q3769.maven.plugins.semver.Updater;
 @Mojo(name = "set-current", defaultPhase = LifecyclePhase.NONE)
 public class SetCurrent extends Updater {
 
-    /**
-     * SemVer to be set in pom.xml. Needs to be in valid SemVer format.
-     */
+    /** SemVer to be set in pom.xml. Needs to be in valid SemVer format. */
     @Parameter(property = "semver", required = true)
     protected String semver;
 

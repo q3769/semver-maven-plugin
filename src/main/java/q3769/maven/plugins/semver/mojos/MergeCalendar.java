@@ -43,9 +43,7 @@ import q3769.maven.plugins.semver.Updater;
  */
 @Mojo(name = "merge-calendar", defaultPhase = LifecyclePhase.NONE)
 public class MergeCalendar extends Updater {
-    /**
-     * The other SemVer to be merged with current local POM's version
-     */
+    /** The other SemVer to be merged with current local POM's version */
     @Parameter(property = "semver", defaultValue = "NOT_SET")
     protected String otherSemVer;
 

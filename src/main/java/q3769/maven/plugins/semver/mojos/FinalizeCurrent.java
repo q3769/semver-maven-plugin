@@ -37,8 +37,7 @@ import q3769.maven.plugins.semver.Updater;
 public class FinalizeCurrent extends Updater {
 
     /**
-     * @param original
-     *         to finalize
+     * @param original to finalize
      * @return final SemVer version of the original, all meta info stripped
      */
     @Override

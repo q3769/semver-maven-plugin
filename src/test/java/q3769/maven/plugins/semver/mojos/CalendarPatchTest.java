@@ -32,9 +32,7 @@ import java.time.format.DateTimeFormatter;
 import org.apache.maven.plugin.MojoFailureException;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Qingtian Wang
- */
+/** @author Qingtian Wang */
 class CalendarPatchTest {
     private static final DateTimeFormatter TO_UTC_DAY_FORMATTER =
             DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);

@@ -38,9 +38,7 @@ import q3769.maven.plugins.semver.Updater;
 @Mojo(name = "pick-newer", defaultPhase = LifecyclePhase.NONE)
 public class PickNewer extends Updater {
 
-    /**
-     * The other SemVer to be merged with current local POM version
-     */
+    /** The other SemVer to be merged with current local POM version */
     @Parameter(property = "semver", defaultValue = "NOT_SET", required = true)
     protected String otherSemVer;
 

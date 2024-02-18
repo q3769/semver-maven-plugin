@@ -27,14 +27,10 @@ package q3769.maven.plugins.semver;
 import com.github.zafarkhaja.semver.Version;
 import javax.annotation.Nonnull;
 
-/**
- * @author Qingtian Wang
- */
+/** @author Qingtian Wang */
 public enum SemverNormalVersion {
 
-    /**
-     *
-     */
+    /** */
     MAJOR {
         @Override
         public long getNormalVersionNumber(Version semver) {
@@ -50,9 +46,7 @@ public enum SemverNormalVersion {
         }
     },
 
-    /**
-     *
-     */
+    /** */
     MINOR {
         @Override
         public long getNormalVersionNumber(Version semver) {
@@ -68,9 +62,7 @@ public enum SemverNormalVersion {
         }
     },
 
-    /**
-     *
-     */
+    /** */
     PATCH {
         @Override
         public long getNormalVersionNumber(Version semver) {

@@ -42,7 +42,7 @@ public class UpdateBuildMetadata extends LabelUpdater {
      * @param version to increment
      * @return incremented semver
      * @deprecated as build metadata label is not really part of precedence comparison, thus doesn't really make sense
-     * to be incremented/updated
+     *     to be incremented/updated
      */
     @Deprecated(since = "20240115.0.0")
     @Override
