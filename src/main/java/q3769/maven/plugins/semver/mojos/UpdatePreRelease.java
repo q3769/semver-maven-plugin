@@ -29,21 +29,21 @@ import org.apache.maven.plugins.annotations.Mojo;
 import q3769.maven.plugins.semver.LabelUpdater;
 
 /**
- * Mojo to increment pre-release portion of the SemVer text. If, however, the <code>set</code> parameter is passed in,
- * then its value will be used to set as the pre-release label.
+ * Mojo to increment pre-release portion of the SemVer text. If, however, the <code>set</code>
+ * parameter is passed in, then its value will be used to set as the pre-release label.
  *
  * @author Qingtian Wang
  */
 @Mojo(name = "update-pre-release", defaultPhase = LifecyclePhase.NONE)
 public class UpdatePreRelease extends LabelUpdater {
 
-    @Override
-    protected Version incrementLabel(Version version) {
-        return version.nextPreReleaseVersion();
-    }
+  @Override
+  protected Version incrementLabel(Version version) {
+    return version.nextPreReleaseVersion();
+  }
 
-    @Override
-    protected Version setLabel(Version version, String label) {
-        return version.nextPreReleaseVersion(label);
-    }
+  @Override
+  protected Version setLabel(Version version, String label) {
+    return version.nextPreReleaseVersion(label);
+  }
 }

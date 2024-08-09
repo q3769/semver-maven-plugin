@@ -33,14 +33,15 @@ import org.junit.jupiter.api.Test;
 /** @author Qingtian Wang */
 class CalendarMinorTest {
 
-    CalendarMinor calendarMinor = new CalendarMinor();
+  CalendarMinor calendarMinor = new CalendarMinor();
 
-    @Test
-    void ok() throws MojoFailureException {
-        Version original = Version.of(1, 2, 3);
+  @Test
+  void ok() throws MojoFailureException {
+    Version original = Version.of(1, 2, 3);
 
-        Version incremented = calendarMinor.update(original);
+    Version incremented = calendarMinor.update(original);
 
-        assertEquals(Version.of(1, CalendarVersionFormatter.TO_YEAR.format(Instant.now()), 0), incremented);
-    }
+    assertEquals(
+        Version.of(1, CalendarVersionFormatter.TO_YEAR.format(Instant.now()), 0), incremented);
+  }
 }

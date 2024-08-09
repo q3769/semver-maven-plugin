@@ -31,21 +31,23 @@ import q3769.maven.plugins.semver.SemverNormalVersion;
 import q3769.maven.plugins.semver.Updater;
 
 /**
- * Increments major of the original semver version to int representing current datetime in UTC time zone, up to the day
- * of the month (preferred) or hour of the day if such int is large enough for the original semver to be incremented to.
- * If the original semver major int is already too large for such increment, error is thrown.
+ * Increments major of the original semver version to int representing current datetime in UTC time
+ * zone, up to the day of the month (preferred) or hour of the day if such int is large enough for
+ * the original semver to be incremented to. If the original semver major int is already too large
+ * for such increment, error is thrown.
  *
  * @author Qingtian Wang
  */
 @Mojo(name = "calendar-major", defaultPhase = LifecyclePhase.NONE)
 public class CalendarMajor extends Updater {
 
-    /**
-     * @param original POM project version whose major number is to be incremented
-     * @return New semver version whose major number is incremented to current date in basic ISO format. Error out
-     */
-    @Override
-    protected Version update(Version original) throws MojoFailureException {
-        return CalendarVersionFormatter.calendarIncrement(original, SemverNormalVersion.MAJOR);
-    }
+  /**
+   * @param original POM project version whose major number is to be incremented
+   * @return New semver version whose major number is incremented to current date in basic ISO
+   *     format. Error out
+   */
+  @Override
+  protected Version update(Version original) throws MojoFailureException {
+    return CalendarVersionFormatter.calendarIncrement(original, SemverNormalVersion.MAJOR);
+  }
 }

@@ -39,65 +39,79 @@ import org.apache.maven.plugins.annotations.Parameter;
  * @author Qingtian Wang
  */
 public abstract class Updater extends SemverMojo {
-    private static final String SNAPSHOT = "SNAPSHOT";
-    /**
-     * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in as a -D parameter
-     * from CLI.
-     */
-    @Parameter(property = "snapshot", defaultValue = "false")
-    protected boolean addingSnapshotLabel;
-    /** */
-    @Component
-    protected BuildPluginManager pluginManager;
+  private static final String SNAPSHOT = "SNAPSHOT";
+  /**
+   * Flag to append SNAPSHOT as the prerelease label in the target version. Expected to be passed in
+   * as a -D parameter from CLI.
+   */
+  @Parameter(property = "snapshot", defaultValue = "false")
+  protected boolean addingSnapshotLabel;
+  /** */
+  @Component
+  protected BuildPluginManager pluginManager;
 
-    /**
-     * @param original SemVer to be updated
-     * @return the incremented result SemVer
-     * @throws MojoFailureException on build error
-     */
-    protected abstract Version update(Version original) throws MojoFailureException;
+  /**
+   * @param original SemVer to be updated
+   * @return the incremented result SemVer
+   * @throws MojoFailureException on build error
+   */
+  protected abstract Version update(Version original) throws MojoFailureException;
 
-    @Override
-    protected void doExecute() throws MojoExecutionException, MojoFailureException {
-        updatePomFile(getUpdatedVersion().toString());
+  @Override
+  protected void doExecute() throws MojoExecutionException, MojoFailureException {
+    updatePomFile(getUpdatedVersion().toString());
+  }
+
+  /**
+   * @return The incremented SemVer
+   * @throws MojoFailureException if original version in POM is malformed
+   */
+  private Version getUpdatedVersion() throws MojoFailureException {
+    Version updatedVersion = update(requireValidSemVer(project.getVersion()));
+    if (!addingSnapshotLabel) {
+      return updatedVersion;
     }
-
-    /**
-     * @return The incremented SemVer
-     * @throws MojoFailureException if original version in POM is malformed
-     */
-    private Version getUpdatedVersion() throws MojoFailureException {
-        Version updated = update(requireValidSemVer(project.getVersion()));
-        if (!addingSnapshotLabel) {
-            return updated;
-        }
-        if (updated.preReleaseVersion().isPresent() || updated.buildMetadata().isPresent()) {
-            throw new MojoFailureException(
-                    "snapshot labeling requested for updated semver " + updated
-                            + " but not honored, because snapshot flag only supports normal version number increments with no labels");
-        }
-        getLog().info("labeling version " + updated + " as a SNAPSHOT...");
-        return updated.toBuilder().setPreReleaseVersion(SNAPSHOT).build();
+    if (hasPreReleaseVersionOrBuildMetadata(updatedVersion)) {
+      throw new MojoFailureException(String.format(
+          "snapshot labeling requested for updated semver %s but not honored, because snapshot flag only supports normal version number increments with no labels",
+          updatedVersion));
     }
+    getLog().info(String.format("labeling version %s as a SNAPSHOT...", updatedVersion));
+    return addSnapshotLabel(updatedVersion);
+  }
 
-    /**
-     * @param version New version to be set in the POM file
-     * @throws MojoExecutionException if unexpected error occurred while updating the POM file
-     */
-    private void updatePomFile(@NonNull String version) throws MojoExecutionException {
-        String original = project.getVersion();
-        final String executedGoal = mojo.getGoal();
-        if (version.equals(original)) {
-            getLog().info("Original POM version: " + original + " remains unchanged after executing goal: "
-                    + executedGoal);
-            return;
-        }
-        executeMojo(
-                plugin(groupId("org.codehaus.mojo"), artifactId("versions-maven-plugin"), version("2.16.2")),
-                goal("set"),
-                configuration(element(name("generateBackupPoms"), "false"), element(name("newVersion"), version)),
-                executionEnvironment(project, session, pluginManager));
-        getLog().info("Updated original POM version: " + original + " into: " + version + " after executing goal: "
-                + executedGoal);
+  private static boolean hasPreReleaseVersionOrBuildMetadata(@NonNull Version version) {
+    return version.preReleaseVersion().isPresent() || version.buildMetadata().isPresent();
+  }
+
+  private static Version addSnapshotLabel(@NonNull Version version) {
+    return version.toBuilder().setPreReleaseVersion(SNAPSHOT).build();
+  }
+
+  /**
+   * @param newVersion New version to be set in the POM file
+   * @throws MojoExecutionException if unexpected error occurred while updating the POM file
+   */
+  private void updatePomFile(@NonNull String newVersion) throws MojoExecutionException {
+    String originalVersion = project.getVersion();
+    String executedGoal = mojo.getGoal();
+    if (newVersion.equals(originalVersion)) {
+      getLog()
+          .info(String.format(
+              "Original POM version: %s remains unchanged after executing goal: %s",
+              originalVersion, executedGoal));
+      return;
     }
+    executeMojo(
+        plugin(
+            groupId("org.codehaus.mojo"), artifactId("versions-maven-plugin"), version("2.17.1")),
+        goal("set"),
+        configuration(
+            element(name("generateBackupPoms"), "false"), element(name("newVersion"), newVersion)),
+        executionEnvironment(project, session, pluginManager));
+    getLog()
+        .info(String.format(
+            "Updated original POM version: %s into: %s after executing goal: %s",
+            originalVersion, newVersion, executedGoal));
+  }
 }

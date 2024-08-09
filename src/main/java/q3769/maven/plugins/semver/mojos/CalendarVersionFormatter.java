@@ -34,51 +34,52 @@ import org.apache.maven.plugin.MojoFailureException;
 import q3769.maven.plugins.semver.SemverNormalVersion;
 
 enum CalendarVersionFormatter {
-    TO_YEAR("yyyy"),
-    TO_MONTH("yyyyMM"),
-    TO_DAY("yyyyMMdd"),
-    TO_HOUR("yyyyMMddHH"),
-    TO_MINUTE("yyyyMMddHHmm"),
-    TO_SECOND("yyyyMMddHHmmss"),
-    TO_MILLISECOND("yyyyMMddHHmmssSSS");
+  TO_YEAR("yyyy"),
+  TO_MONTH("yyyyMM"),
+  TO_DAY("yyyyMMdd"),
+  TO_HOUR("yyyyMMddHH"),
+  TO_MINUTE("yyyyMMddHHmm"),
+  TO_SECOND("yyyyMMddHHmmss"),
+  TO_MILLISECOND("yyyyMMddHHmmssSSS");
 
-    private final String pattern;
-    private transient DateTimeFormatter dateTimeFormatter;
+  private final String pattern;
+  private transient DateTimeFormatter dateTimeFormatter;
 
-    CalendarVersionFormatter(String pattern) {
-        this.pattern = pattern;
+  CalendarVersionFormatter(String pattern) {
+    this.pattern = pattern;
+  }
+
+  /**
+   * @param original pom version
+   * @param originalNormalVersion to increment
+   * @return new instance incremented
+   * @throws MojoFailureException if the original version's target category version is newer than
+   *     now
+   */
+  public static Version calendarIncrement(
+      Version original, @Nonnull SemverNormalVersion originalNormalVersion)
+      throws MojoFailureException {
+    long originalNormalVersionNumber = originalNormalVersion.getNormalVersionNumber(original);
+    Instant now = Instant.now();
+    for (CalendarVersionFormatter formatter : values()) {
+      long updatedNormalVersionNumber = formatter.format(now);
+      if (updatedNormalVersionNumber > originalNormalVersionNumber) {
+        return originalNormalVersion.incrementTo(updatedNormalVersionNumber, original);
+      }
     }
+    throw new MojoFailureException(new UnsupportedOperationException(String.format(
+        "%s version %s in original semver %s is not supported for calendar style increment - it has to be older than current date in UTC zone",
+        originalNormalVersion, originalNormalVersionNumber, original)));
+  }
 
-    /**
-     * @param original pom version
-     * @param targetNormalVersion to increment
-     * @return new instance incremented
-     * @throws MojoFailureException if the original version's target category version is newer than now
-     */
-    public static Version calendarIncrement(Version original, @Nonnull SemverNormalVersion targetNormalVersion)
-            throws MojoFailureException {
-        long target = targetNormalVersion.getNormalVersionNumber(original);
-        Instant now = Instant.now();
-        for (CalendarVersionFormatter formatter : values()) {
-            long updatedNormalVersion = formatter.format(now);
-            if (updatedNormalVersion > target) {
-                return targetNormalVersion.incrementTo(updatedNormalVersion, original);
-            }
-        }
-        throw new MojoFailureException(
-                new UnsupportedOperationException(
-                        "Target " + targetNormalVersion + " version " + target + " in original semver " + original
-                                + " is not supported for calendar style increment - it has to be older than current date in UTC zone"));
+  private DateTimeFormatter getDateTimeFormatter() {
+    if (this.dateTimeFormatter == null) {
+      this.dateTimeFormatter = DateTimeFormatter.ofPattern(this.pattern);
     }
+    return this.dateTimeFormatter;
+  }
 
-    private DateTimeFormatter getDateTimeFormatter() {
-        if (this.dateTimeFormatter == null) {
-            this.dateTimeFormatter = DateTimeFormatter.ofPattern(this.pattern);
-        }
-        return this.dateTimeFormatter;
-    }
-
-    long format(@NonNull Instant instant) {
-        return Long.parseLong(getDateTimeFormatter().format(instant.atZone(ZoneOffset.UTC)));
-    }
+  long format(@NonNull Instant instant) {
+    return Long.parseLong(getDateTimeFormatter().format(instant.atZone(ZoneOffset.UTC)));
+  }
 }

@@ -34,17 +34,18 @@ import org.junit.jupiter.api.Test;
 
 /** @author Qingtian Wang */
 class CalendarPatchTest {
-    private static final DateTimeFormatter TO_UTC_DAY_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);
+  private static final DateTimeFormatter TO_UTC_DAY_FORMATTER =
+      DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);
 
-    CalendarPatch calendarMinor = new CalendarPatch();
+  CalendarPatch calendarMinor = new CalendarPatch();
 
-    @Test
-    void ok() throws MojoFailureException {
-        Version original = Version.of(1, 2, 3);
+  @Test
+  void ok() throws MojoFailureException {
+    Version original = Version.of(1, 2, 3);
 
-        Version incremented = calendarMinor.update(original);
+    Version incremented = calendarMinor.update(original);
 
-        assertEquals(Version.of(1, 2, CalendarVersionFormatter.TO_YEAR.format(Instant.now())), incremented);
-    }
+    assertEquals(
+        Version.of(1, 2, CalendarVersionFormatter.TO_YEAR.format(Instant.now())), incremented);
+  }
 }
