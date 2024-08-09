@@ -36,8 +36,8 @@ import q3769.maven.plugins.semver.Updater;
 @Mojo(name = "increment-patch", defaultPhase = LifecyclePhase.NONE)
 public class IncrementPatch extends Updater {
 
-    @Override
-    protected Version update(Version original) {
-        return original.nextPatchVersion();
-    }
+  @Override
+  protected Version update(Version original) {
+    return original.nextPatchVersion();
+  }
 }

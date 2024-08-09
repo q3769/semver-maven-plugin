@@ -38,70 +38,77 @@ import org.apache.maven.project.MavenProject;
  * @author Qingtian Wang
  */
 public abstract class SemverMojo extends AbstractMojo {
-    private static final String FALSE = "false";
-    /** */
-    @Parameter(defaultValue = "${mojoExecution}", readonly = true)
-    protected MojoExecution mojo;
-    /** */
-    @Parameter(property = "processModule", defaultValue = FALSE)
-    protected String processModule;
-    /** Current Maven POM */
-    @Parameter(property = "project", defaultValue = "${project}", readonly = true, required = true)
-    protected MavenProject project;
-    /** Default session */
-    @Parameter(property = "session", defaultValue = "${session}", readonly = true, required = true)
-    protected MavenSession session;
+  private static final String FALSE = "false";
+  /** */
+  @Parameter(defaultValue = "${mojoExecution}", readonly = true)
+  protected MojoExecution mojo;
+  /** */
+  @Parameter(property = "processModule", defaultValue = FALSE)
+  protected String processModule;
+  /** Current Maven POM */
+  @Parameter(property = "project", defaultValue = "${project}", readonly = true, required = true)
+  protected MavenProject project;
+  /** Default session */
+  @Parameter(property = "session", defaultValue = "${session}", readonly = true, required = true)
+  protected MavenSession session;
 
-    /**
-     * @param version text that is supposed to be valid per SemVer spec
-     * @return A valid SemVer
-     */
-    public static Version requireValidSemVer(String version) {
-        try {
-            return Version.parse(version);
-        } catch (Exception ex) {
-            throw new IllegalArgumentException("Error parsing '" + version + "' as a SemVer", ex);
-        }
+  /**
+   * @param version text that is supposed to be valid per SemVer spec
+   * @return A valid SemVer
+   */
+  public static Version requireValidSemVer(String version) {
+    try {
+      return Version.parse(version);
+    } catch (Exception ex) {
+      throw new IllegalArgumentException("Error parsing '" + version + "' as a SemVer", ex);
     }
+  }
 
-    /**
-     * @throws MojoExecutionException if an unexpected problem occurs. Throwing this exception causes a "BUILD ERROR"
-     *     message to be displayed.
-     * @throws MojoFailureException if an expected problem (such as a compilation failure) occurs. Throwing this
-     *     exception causes a "BUILD FAILURE" message to be displayed.
-     */
-    protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
+  /**
+   * @throws MojoExecutionException if an unexpected problem occurs. Throwing this exception causes
+   *     a "BUILD ERROR" message to be displayed.
+   * @throws MojoFailureException if an expected problem (such as a compilation failure) occurs.
+   *     Throwing this exception causes a "BUILD FAILURE" message to be displayed.
+   */
+  protected abstract void doExecute() throws MojoExecutionException, MojoFailureException;
 
-    /**
-     * @throws MojoExecutionException on execution error
-     * @throws MojoFailureException on build error
-     */
-    @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        String projectName = project.getName();
-        String pomVersion = originalPomVersion();
-        getLog().info("Goal '" + this.mojo.getGoal() + "' processing project '" + projectName + "' with POM version '"
-                + pomVersion + "'...");
-        if (project.hasParent()) {
-            getLog().info("current project " + projectName + " is a module of "
-                    + project.getParent().getName());
-            if (FALSE.equalsIgnoreCase(processModule)) {
-                getLog().warn(
-                                "Version of module '" + projectName
-                                        + "' will not be processed. By default, only parent project is processed; if otherwise desired, use the `-DprocessModule` CLI flag");
-                return;
-            }
-            if (pomVersion == null) {
-                getLog().warn("Version of module '" + projectName + "' is inherited to be the same as parent '"
-                        + project.getParent().getName() + "', thus will not be processed independently");
-                return;
-            }
-        }
-        doExecute();
+  /**
+   * @throws MojoExecutionException on execution error
+   * @throws MojoFailureException on build error
+   */
+  @Override
+  public void execute() throws MojoExecutionException, MojoFailureException {
+    String projectName = project.getName();
+    String pomVersion = originalPomVersion();
+    getLog()
+        .info(String.format(
+            "Goal '%s' processing project '%s' with POM version '%s'...",
+            this.mojo.getGoal(), projectName, pomVersion));
+    if (project.hasParent()) {
+      getLog()
+          .info(String.format(
+              "current project %s is a module of %s",
+              projectName, project.getParent().getName()));
+      if (FALSE.equalsIgnoreCase(processModule)) {
+        getLog()
+            .warn(String.format(
+                "Version of module '%s' will not be processed. By default, only parent project is processed; if otherwise desired, use the `-DprocessModule` CLI flag",
+                projectName));
+        return;
+      }
+      if (pomVersion == null) {
+        getLog()
+            .warn(String.format(
+                "Version of module '%s' is inherited to be the same as parent '%s', thus will not be processed independently",
+                projectName, project.getParent().getName()));
+        return;
+      }
     }
+    doExecute();
+  }
 
-    /** @return original version in pom.xml */
-    protected String originalPomVersion() {
-        return project.getOriginalModel().getVersion();
-    }
+  /** @return original version in pom.xml */
+  protected String originalPomVersion() {
+    return project.getOriginalModel().getVersion();
+  }
 }

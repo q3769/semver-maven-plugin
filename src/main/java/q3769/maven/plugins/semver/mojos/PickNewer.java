@@ -30,27 +30,32 @@ import org.apache.maven.plugins.annotations.Parameter;
 import q3769.maven.plugins.semver.Updater;
 
 /**
- * Compares this POM's version with another SemVer passed in as parameter, and pick the newer of the two versions as the
- * updated POM version.
+ * Compares this POM's version with another SemVer passed in as parameter, and pick the newer of the
+ * two versions as the updated POM version.
  *
  * @author Qingtian Wang
  */
 @Mojo(name = "pick-newer", defaultPhase = LifecyclePhase.NONE)
 public class PickNewer extends Updater {
 
-    /** The other SemVer to be merged with current local POM version */
-    @Parameter(property = "semver", defaultValue = "NOT_SET", required = true)
-    protected String otherSemVer;
+  /** The other SemVer to be merged with current local POM version */
+  @Parameter(property = "semver", defaultValue = "NOT_SET", required = true)
+  protected String otherSemVer;
 
-    @Override
-    protected Version update(Version original) {
-        getLog().debug("Taking the newer between current version " + original + " and given version " + otherSemVer);
-        final Version other = requireValidSemVer(otherSemVer);
-        if (original.isHigherThanOrEquivalentTo(other)) {
-            getLog().debug("Current POM version " + original + " is newer and being picked");
-            return original;
-        }
-        getLog().debug("CLI provided version " + otherSemVer + " is newer and being picked");
-        return other;
+  @Override
+  protected Version update(Version original) {
+    logDebug(
+        "Taking the newer between current version %s and given version %s", original, otherSemVer);
+    final Version other = requireValidSemVer(otherSemVer);
+    if (original.isHigherThanOrEquivalentTo(other)) {
+      logDebug("Current POM version %s is newer and being picked", original);
+      return original;
     }
+    logDebug("CLI provided version %s is newer and being picked", otherSemVer);
+    return other;
+  }
+
+  private void logDebug(String message, Object... args) {
+    getLog().debug(String.format(message, args));
+  }
 }

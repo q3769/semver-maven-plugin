@@ -37,45 +37,44 @@ import org.junit.jupiter.api.Test;
 /** @author Qingtian Wang */
 class CalendarMajorTest {
 
-    private static final DateTimeFormatter TO_UTC_DAY_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);
-    private final CalendarMajor instance = new CalendarMajor();
+  private static final DateTimeFormatter TO_UTC_DAY_FORMATTER =
+      DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);
+  private final CalendarMajor instance = new CalendarMajor();
 
-    @Test
-    void testShouldErrorOutIfOriginalMajorVersionDateIsHigher() {
-        final long futureDate = Long.MAX_VALUE;
-        Version original = Version.parse(futureDate + ".2.3");
+  @Test
+  void testShouldErrorOutIfOriginalMajorVersionDateIsHigher() {
+    final long futureDate = Long.MAX_VALUE;
+    Version original = Version.parse(futureDate + ".2.3");
 
-        Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
-    }
+    Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
+  }
 
-    @Test
-    void testShouldIncludeHourIfOriginalMajorVersionDateIsToday() throws MojoFailureException {
-        Instant now = Instant.now();
-        final int futureDate = Integer.parseInt(TO_UTC_DAY_FORMATTER.format(now));
-        Version original = Version.parse(futureDate + ".2.3");
+  @Test
+  void testShouldIncludeHourIfOriginalMajorVersionDateIsToday() throws MojoFailureException {
+    Instant now = Instant.now();
+    final int futureDate = Integer.parseInt(TO_UTC_DAY_FORMATTER.format(now));
+    Version original = Version.parse(futureDate + ".2.3");
 
-        Version update = instance.update(original);
+    Version update = instance.update(original);
 
-        String updatedMajorText = String.valueOf(update.majorVersion());
-        String originalMajorText = String.valueOf(original.majorVersion());
-        assertTrue(updatedMajorText.startsWith(originalMajorText));
-        String nowHourText = String.valueOf(now.atZone(ZoneOffset.UTC).getHour());
-        assertEquals(
-                now.atZone(ZoneOffset.UTC).getHour(),
-                Long.parseLong(updatedMajorText.substring(updatedMajorText.length() - 2)));
-        assertEquals(0, update.minorVersion());
-        assertEquals(0, update.patchVersion());
-    }
+    String updatedMajorText = String.valueOf(update.majorVersion());
+    String originalMajorText = String.valueOf(original.majorVersion());
+    assertTrue(updatedMajorText.startsWith(originalMajorText));
+    assertEquals(
+        now.atZone(ZoneOffset.UTC).getHour(),
+        Long.parseLong(updatedMajorText.substring(updatedMajorText.length() - 2)));
+    assertEquals(0, update.minorVersion());
+    assertEquals(0, update.patchVersion());
+  }
 
-    @Test
-    void testShouldIncrementMajorToNowWithNoHours() throws MojoFailureException {
-        String expectedMajor = TO_UTC_DAY_FORMATTER.format(Instant.now());
-        final int someDayEarlier = Integer.parseInt(expectedMajor) - 10000;
-        Version original = Version.parse(someDayEarlier + ".2.3");
+  @Test
+  void testShouldIncrementMajorToNowWithNoHours() throws MojoFailureException {
+    String expectedMajor = TO_UTC_DAY_FORMATTER.format(Instant.now());
+    final int someDayEarlier = Integer.parseInt(expectedMajor) - 10000;
+    Version original = Version.parse(someDayEarlier + ".2.3");
 
-        Version result = instance.update(original);
+    Version result = instance.update(original);
 
-        assertEquals(Version.parse(expectedMajor + ".0.0"), result);
-    }
+    assertEquals(Version.parse(expectedMajor + ".0.0"), result);
+  }
 }

@@ -26,43 +26,63 @@ package q3769.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
-/** @author Qingtian Wang */
+/**
+ * Abstract class for updating semantic version labels.
+ *
+ * <p>This class provides methods to increment or set labels on a semantic version. Subclasses must
+ * implement the {@link #incrementLabel(Version)} and {@link #setLabel(Version, String)} methods.
+ *
+ * @author Qingtian Wang
+ */
 public abstract class LabelUpdater extends Updater {
 
-    /** If passed in, will be used to set as either one of the two SemVer labels. */
-    @Parameter(property = "set")
-    protected String set;
+  /**
+   * The label to set on the semantic version. If this parameter is provided, the label will be set
+   * instead of incremented.
+   */
+  @Parameter(property = "set")
+  protected String set;
 
-    /**
-     * @param version to increment
-     * @return incremented
-     */
-    protected abstract Version incrementLabel(Version version);
+  /**
+   * Increments the label of the given semantic version.
+   *
+   * @param version the semantic version to increment
+   * @return the incremented semantic version
+   */
+  protected abstract Version incrementLabel(Version version);
 
-    /**
-     * @param version to be set with new label
-     * @param label new label to set
-     * @return version with newly set label
-     */
-    protected abstract Version setLabel(Version version, String label);
+  /**
+   * Sets the label of the given semantic version to the specified value.
+   *
+   * @param version the semantic version to be set with a new label
+   * @param label the new label to set
+   * @return the semantic version with the newly set label
+   */
+  protected abstract Version setLabel(Version version, String label);
 
-    @Override
-    protected Version update(Version original) throws MojoFailureException {
-        if (StringUtils.isBlank(set)) {
-            getLog().info("Incrementing label of version: " + original);
-            try {
-                return incrementLabel(original);
-            } catch (Exception ex) {
-                throw new MojoFailureException(
-                        "Failed to increment label of original version '" + original
-                                + "', it needs to exist and conform to SemVer format before increment",
-                        ex);
-            }
-        }
-        getLog().info("Setting label of version '" + original + "' into '" + set + "'...");
-        return setLabel(original, set);
+  /**
+   * Updates the semantic version by either incrementing or setting its label.
+   *
+   * <p>If the {@code set} parameter is blank, the label is incremented. Otherwise, the label is set
+   * to the specified value.
+   *
+   * @param original the original semantic version
+   * @return the updated semantic version
+   */
+  @Override
+  protected Version update(Version original) {
+    if (StringUtils.isBlank(set)) {
+      logInfo("Incrementing label of version: %s", original);
+      return incrementLabel(original);
+    } else {
+      logInfo("Setting label of version '%s' into '%s'...", original, set);
+      return setLabel(original, set);
     }
+  }
+
+  private void logInfo(String message, Object... args) {
+    getLog().info(String.format(message, args));
+  }
 }

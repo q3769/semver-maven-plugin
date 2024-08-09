@@ -29,24 +29,26 @@ import org.apache.maven.plugins.annotations.Mojo;
 import q3769.maven.plugins.semver.Updater;
 
 /**
- * Mojo to strip off all additional labels of the SemVer, leaving the normal numbers untouched for final version.
+ * Mojo to strip off all additional labels of the SemVer, leaving the normal numbers untouched for
+ * final version.
  *
  * @author Qingtian Wang
  */
 @Mojo(name = "finalize-current", defaultPhase = LifecyclePhase.NONE)
 public class FinalizeCurrent extends Updater {
 
-    /**
-     * @param original to finalize
-     * @return final SemVer version of the original, all meta info stripped
-     */
-    @Override
-    protected Version update(Version original) {
-        if (!original.preReleaseVersion().isPresent()
-                && !original.buildMetadata().isPresent()) {
-            getLog().info("Current version: " + original + " contains only normal version numbers, so no change.");
-            return original;
-        }
-        return Version.of(original.majorVersion(), original.minorVersion(), original.patchVersion());
+  /**
+   * @param original to finalize
+   * @return final SemVer version of the original, all meta info stripped
+   */
+  @Override
+  protected Version update(Version original) {
+    if (!original.preReleaseVersion().isPresent() && !original.buildMetadata().isPresent()) {
+      getLog()
+          .info("Current version: " + original
+              + " contains only normal version numbers, so no change.");
+      return original;
     }
+    return Version.of(original.majorVersion(), original.minorVersion(), original.patchVersion());
+  }
 }

@@ -35,39 +35,39 @@ import org.junit.jupiter.api.Test;
 import q3769.maven.plugins.semver.SemverNormalVersion;
 
 class MergeTest {
-    static final Logger info = Logger.instance().atInfo();
+  static final Logger info = Logger.instance().atInfo();
 
-    Merge mergeMojo = new Merge();
+  Merge mergeMojo = new Merge();
 
-    @Nested
-    class update {
-        @Test
-        void whenOriginalVersionIsNewer() {
-            Version original = Version.parse("1.4.0-SNAPSHOT");
-            Version toMerge = Version.parse("1.3.4-hotfix");
-            info.log("Merging " + toMerge + " to " + original);
-            assertTrue(original.compareTo(toMerge) > 0);
-            mergeMojo.otherSemVer = toMerge.toString();
+  @Nested
+  class update {
+    @Test
+    void whenOriginalVersionIsNewer() {
+      Version original = Version.parse("1.4.0-SNAPSHOT");
+      Version toMerge = Version.parse("1.3.4-hotfix");
+      info.log("Merging " + toMerge + " to " + original);
+      assertTrue(original.compareTo(toMerge) > 0);
+      mergeMojo.otherSemVer = toMerge.toString();
 
-            Version updated = mergeMojo.update(original);
-            info.log("Merge result: " + updated);
+      Version updated = mergeMojo.update(original);
+      info.log("Merge result: " + updated);
 
-            assertEquals(original, updated);
-        }
-
-        @Test
-        void whenOriginalVersionIsOlder() {
-            Version original = Version.parse("1.2.0-pre-release.1+build.metadata");
-            Version toMerge = Version.parse("1.3.4-hotfix");
-            info.log("Merging " + toMerge + " to " + original);
-            mergeMojo.otherSemVer = toMerge.toString();
-            assertTrue(original.compareTo(toMerge) < 0);
-            assertEquals(MINOR, SemverNormalVersion.getLastIncrementedNormalVersion(original));
-
-            Version updated = mergeMojo.update(original);
-            info.log("Merge result: " + updated);
-
-            assertEquals(Version.parse("1.4.0-pre-release.1+build.metadata"), updated);
-        }
+      assertEquals(original, updated);
     }
+
+    @Test
+    void whenOriginalVersionIsOlder() {
+      Version original = Version.parse("1.2.0-pre-release.1+build.metadata");
+      Version toMerge = Version.parse("1.3.4-hotfix");
+      info.log("Merging " + toMerge + " to " + original);
+      mergeMojo.otherSemVer = toMerge.toString();
+      assertTrue(original.compareTo(toMerge) < 0);
+      assertEquals(MINOR, SemverNormalVersion.getLastIncrementedNormalVersion(original));
+
+      Version updated = mergeMojo.update(original);
+      info.log("Merge result: " + updated);
+
+      assertEquals(Version.parse("1.4.0-pre-release.1+build.metadata"), updated);
+    }
+  }
 }

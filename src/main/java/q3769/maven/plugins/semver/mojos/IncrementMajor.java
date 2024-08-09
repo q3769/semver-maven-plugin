@@ -36,8 +36,8 @@ import q3769.maven.plugins.semver.Updater;
 @Mojo(name = "increment-major", defaultPhase = LifecyclePhase.NONE)
 public class IncrementMajor extends Updater {
 
-    @Override
-    protected Version update(Version original) {
-        return original.nextMajorVersion();
-    }
+  @Override
+  protected Version update(Version original) {
+    return original.nextMajorVersion();
+  }
 }

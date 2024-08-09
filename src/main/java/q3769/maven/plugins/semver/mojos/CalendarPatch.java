@@ -34,12 +34,13 @@ import q3769.maven.plugins.semver.Updater;
 @Mojo(name = "calendar-patch", defaultPhase = LifecyclePhase.NONE)
 public class CalendarPatch extends Updater {
 
-    /**
-     * @param original POM project version whose major number is to be incremented
-     * @return New semver version whose major number is incremented to current date in basic ISO format. Error out
-     */
-    @Override
-    protected Version update(Version original) throws MojoFailureException {
-        return CalendarVersionFormatter.calendarIncrement(original, SemverNormalVersion.PATCH);
-    }
+  /**
+   * @param original POM project version whose major number is to be incremented
+   * @return New semver version whose major number is incremented to current date in basic ISO
+   *     format. Error out
+   */
+  @Override
+  protected Version update(Version original) throws MojoFailureException {
+    return CalendarVersionFormatter.calendarIncrement(original, SemverNormalVersion.PATCH);
+  }
 }
