@@ -50,32 +50,35 @@ public class MergeCalendar extends Updater {
 
   @Override
   protected Version update(@NonNull final Version original) throws MojoFailureException {
-    getLog()
-        .debug("Merging current POM version " + original + " with provided version " + otherSemVer);
+    logDebug("Merging current POM version %s with provided version %s", original, otherSemVer);
     final Version other = requireValidSemVer(otherSemVer);
     if (original.isHigherThan(other)) {
-      getLog()
-          .debug("Current POM version " + original + " is newer than provided version " + other
-              + ", current unchanged is the merge result: " + original);
+      logDebug(
+          "Current POM version %s is newer than provided version %s, current unchanged is the merge result: %s",
+          original, other, original);
       return original;
     }
-    getLog().debug("Provided version " + other + " is newer than current POM version " + original);
+    logDebug("Provided version %s is newer than current POM version %s", other, original);
     SemverNormalVersion pomIncrementedNormalVersion =
         SemverNormalVersion.getLastIncrementedNormalVersion(original);
-    getLog()
-        .debug("Last incremented normal version of current pom semver is "
-            + pomIncrementedNormalVersion);
-    Version.Builder versionBuilder =
-        CalendarVersionFormatter.calendarIncrement(other, pomIncrementedNormalVersion).toBuilder();
-    getLog()
-        .debug("Incrementing provided version " + other
-            + " on POM semver incremented normal version " + pomIncrementedNormalVersion
-            + ", provisional merge version: " + versionBuilder.build());
+    logDebug(
+        "Last incremented normal version of current pom semver is %s", pomIncrementedNormalVersion);
+    Version provisionalMergedVersion =
+        CalendarVersionFormatter.calendarIncrement(other, pomIncrementedNormalVersion);
+    logDebug(
+        "Incrementing provided version %s on POM semver incremented normal version %s, provisional merge version: %s",
+        other, pomIncrementedNormalVersion, provisionalMergedVersion);
+    Version.Builder versionBuilder = provisionalMergedVersion.toBuilder();
     original.preReleaseVersion().ifPresent(versionBuilder::setPreReleaseVersion);
     original.buildMetadata().ifPresent(versionBuilder::setBuildMetadata);
-    getLog()
-        .debug("Keeping all label(s) of POM semver " + original + ", final merge version: "
-            + versionBuilder.build());
-    return versionBuilder.build();
+    Version finalMergedVersion = versionBuilder.build();
+    logDebug(
+        "Keeping all label(s) of POM semver %s, final merge version: %s",
+        original, finalMergedVersion);
+    return finalMergedVersion;
+  }
+
+  private void logDebug(String message, Object... args) {
+    getLog().debug(String.format(message, args));
   }
 }

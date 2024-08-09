@@ -81,23 +81,26 @@ public abstract class SemverMojo extends AbstractMojo {
     String projectName = project.getName();
     String pomVersion = originalPomVersion();
     getLog()
-        .info("Goal '" + this.mojo.getGoal() + "' processing project '" + projectName
-            + "' with POM version '" + pomVersion + "'...");
+        .info(String.format(
+            "Goal '%s' processing project '%s' with POM version '%s'...",
+            this.mojo.getGoal(), projectName, pomVersion));
     if (project.hasParent()) {
       getLog()
-          .info("current project " + projectName + " is a module of "
-              + project.getParent().getName());
+          .info(String.format(
+              "current project %s is a module of %s",
+              projectName, project.getParent().getName()));
       if (FALSE.equalsIgnoreCase(processModule)) {
         getLog()
-            .warn(
-                "Version of module '" + projectName
-                    + "' will not be processed. By default, only parent project is processed; if otherwise desired, use the `-DprocessModule` CLI flag");
+            .warn(String.format(
+                "Version of module '%s' will not be processed. By default, only parent project is processed; if otherwise desired, use the `-DprocessModule` CLI flag",
+                projectName));
         return;
       }
       if (pomVersion == null) {
         getLog()
-            .warn("Version of module '" + projectName + "' is inherited to be the same as parent '"
-                + project.getParent().getName() + "', thus will not be processed independently");
+            .warn(String.format(
+                "Version of module '%s' is inherited to be the same as parent '%s', thus will not be processed independently",
+                projectName, project.getParent().getName()));
         return;
       }
     }

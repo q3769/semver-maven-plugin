@@ -51,27 +51,25 @@ enum CalendarVersionFormatter {
 
   /**
    * @param original pom version
-   * @param targetNormalVersion to increment
+   * @param originalNormalVersion to increment
    * @return new instance incremented
    * @throws MojoFailureException if the original version's target category version is newer than
    *     now
    */
   public static Version calendarIncrement(
-      Version original, @Nonnull SemverNormalVersion targetNormalVersion)
+      Version original, @Nonnull SemverNormalVersion originalNormalVersion)
       throws MojoFailureException {
-    long target = targetNormalVersion.getNormalVersionNumber(original);
+    long originalNormalVersionNumber = originalNormalVersion.getNormalVersionNumber(original);
     Instant now = Instant.now();
     for (CalendarVersionFormatter formatter : values()) {
-      long updatedNormalVersion = formatter.format(now);
-      if (updatedNormalVersion > target) {
-        return targetNormalVersion.incrementTo(updatedNormalVersion, original);
+      long updatedNormalVersionNumber = formatter.format(now);
+      if (updatedNormalVersionNumber > originalNormalVersionNumber) {
+        return originalNormalVersion.incrementTo(updatedNormalVersionNumber, original);
       }
     }
-    throw new MojoFailureException(
-        new UnsupportedOperationException(
-            "Target " + targetNormalVersion + " version " + target + " in original semver "
-                + original
-                + " is not supported for calendar style increment - it has to be older than current date in UTC zone"));
+    throw new MojoFailureException(new UnsupportedOperationException(String.format(
+        "%s version %s in original semver %s is not supported for calendar style increment - it has to be older than current date in UTC zone",
+        originalNormalVersion, originalNormalVersionNumber, original)));
   }
 
   private DateTimeFormatter getDateTimeFormatter() {

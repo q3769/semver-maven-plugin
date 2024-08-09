@@ -44,15 +44,18 @@ public class PickNewer extends Updater {
 
   @Override
   protected Version update(Version original) {
-    getLog()
-        .debug("Taking the newer between current version " + original + " and given version "
-            + otherSemVer);
+    logDebug(
+        "Taking the newer between current version %s and given version %s", original, otherSemVer);
     final Version other = requireValidSemVer(otherSemVer);
     if (original.isHigherThanOrEquivalentTo(other)) {
-      getLog().debug("Current POM version " + original + " is newer and being picked");
+      logDebug("Current POM version %s is newer and being picked", original);
       return original;
     }
-    getLog().debug("CLI provided version " + otherSemVer + " is newer and being picked");
+    logDebug("CLI provided version %s is newer and being picked", otherSemVer);
     return other;
+  }
+
+  private void logDebug(String message, Object... args) {
+    getLog().debug(String.format(message, args));
   }
 }

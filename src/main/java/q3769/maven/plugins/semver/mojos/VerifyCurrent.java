@@ -47,9 +47,9 @@ public class VerifyCurrent extends SemverMojo {
     try {
       requireValidSemVer(version);
     } catch (Exception e) {
-      throw new MojoFailureException("Invalid SemVer '" + version + "'", e);
+      throw new MojoFailureException(String.format("Invalid SemVer '%s'", version), e);
     }
-    getLog().info("POM version '" + version + "' is a valid SemVer");
+    getLog().info(String.format("POM version '%s' is a valid SemVer", version));
     if (forceStdOut) {
       System.out.println(version);
     }

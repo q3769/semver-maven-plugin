@@ -26,7 +26,6 @@ package q3769.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
@@ -71,22 +70,19 @@ public abstract class LabelUpdater extends Updater {
    *
    * @param original the original semantic version
    * @return the updated semantic version
-   * @throws MojoFailureException if the label cannot be incremented or set
    */
   @Override
-  protected Version update(Version original) throws MojoFailureException {
+  protected Version update(Version original) {
     if (StringUtils.isBlank(set)) {
-      getLog().info("Incrementing label of version: " + original);
-      try {
-        return incrementLabel(original);
-      } catch (Exception ex) {
-        throw new MojoFailureException(
-            "Failed to increment label of original version '" + original
-                + "', it needs to exist and conform to SemVer format before increment",
-            ex);
-      }
+      logInfo("Incrementing label of version: %s", original);
+      return incrementLabel(original);
+    } else {
+      logInfo("Setting label of version '%s' into '%s'...", original, set);
+      return setLabel(original, set);
     }
-    getLog().info("Setting label of version '" + original + "' into '" + set + "'...");
-    return setLabel(original, set);
+  }
+
+  private void logInfo(String message, Object... args) {
+    getLog().info(String.format(message, args));
   }
 }
