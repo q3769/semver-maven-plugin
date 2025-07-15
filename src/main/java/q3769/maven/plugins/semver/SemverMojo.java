@@ -110,7 +110,7 @@ public abstract class SemverMojo extends AbstractMojo {
 
   /** @return original version in pom.xml */
   protected String originalPomVersion() {
-    return project.getOriginalModel().getVersion();
+    return project.getModel().getVersion();
   }
 
   protected void logError(String message, Object... args) {
