@@ -21,7 +21,7 @@ _Notes:_
 
 ## Prerequisite
 
-Maven 3.5.4 or better
+Maven 3.9.0 or better
 
 ## Get it...
 

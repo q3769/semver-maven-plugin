@@ -44,7 +44,7 @@ public class FinalizeCurrent extends Updater {
    */
   @Override
   protected Version update(@NonNull Version original) {
-    if (original.preReleaseVersion().isEmpty() && original.buildMetadata().isEmpty()) {
+    if (!original.preReleaseVersion().isPresent() && !original.buildMetadata().isPresent()) {
       logInfo("Current version: %s contains only normal version numbers, so no change.", original);
       return original;
     }
