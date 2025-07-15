@@ -27,6 +27,7 @@ import com.github.zafarkhaja.semver.Version;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.jspecify.annotations.Nullable;
 import q3769.maven.plugins.semver.Updater;
 
 /**
@@ -40,18 +41,14 @@ public class PickNewer extends Updater {
 
   /** The other SemVer to be merged with current local POM version */
   @Parameter(property = "semver", defaultValue = "NOT_SET", required = true)
-  protected String otherSemVer;
+  protected @Nullable String otherSemVer;
 
   @Override
   protected Version update(Version original) {
-    logDebug(
-        "Taking the newer between current version %s and given version %s", original, otherSemVer);
     final Version other = requireValidSemVer(otherSemVer);
     if (original.isHigherThanOrEquivalentTo(other)) {
-      logDebug("Current POM version %s is newer and being picked", original);
       return original;
     }
-    logDebug("CLI provided version %s is newer and being picked", otherSemVer);
     return other;
   }
 }

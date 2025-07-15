@@ -23,15 +23,16 @@
  */
 package q3769.maven.plugins.semver;
 
+import static java.util.Objects.requireNonNull;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 
 import com.github.zafarkhaja.semver.Version;
 import javax.inject.Inject;
-import lombok.NonNull;
 import org.apache.maven.plugin.BuildPluginManager;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Updates POM version, based on current value
@@ -50,13 +51,13 @@ public abstract class Updater extends SemverMojo {
 
   /** */
   @Inject
-  protected BuildPluginManager pluginManager;
+  protected @Nullable BuildPluginManager pluginManager;
 
-  private static boolean hasPreReleaseVersionOrBuildMetadata(@NonNull Version version) {
+  private static boolean hasPreReleaseVersionOrBuildMetadata(Version version) {
     return version.preReleaseVersion().isPresent() || version.buildMetadata().isPresent();
   }
 
-  private static Version addSnapshotLabel(@NonNull Version version) {
+  private static Version addSnapshotLabel(Version version) {
     return version.toBuilder().setPreReleaseVersion(SNAPSHOT).build();
   }
 
@@ -77,19 +78,20 @@ public abstract class Updater extends SemverMojo {
    * @throws MojoFailureException if original version in POM is malformed
    */
   private Version getUpdatedVersion() throws MojoFailureException {
-    Version original = requireValidSemVer(project.getVersion());
+    Version original = requireValidSemVer(requireNonNull(project).getVersion());
     Version updatedVersion = update(original);
     if (!addingSnapshotLabel) {
       return updatedVersion;
     }
     if (hasPreReleaseVersionOrBuildMetadata(updatedVersion)) {
-      logError(
-          "SNAPSHOT labeling requested for POM version %s but not honored, because SNAPSHOT may collide with other labels in the updated version %s",
-          original, updatedVersion);
+      getLog()
+          .error(String.format(
+              "SNAPSHOT labeling requested for POM version %s but not honored, because SNAPSHOT may collide with other labels in the updated version %s",
+              original, updatedVersion));
       throw new MojoFailureException(
           String.format("SNAPSHOT may collide with other labels in %s", updatedVersion));
     }
-    logInfo("labeling version %s as a SNAPSHOT...", updatedVersion);
+    getLog().info(String.format("labeling version %s as a SNAPSHOT...", updatedVersion));
     return addSnapshotLabel(updatedVersion);
   }
 
@@ -97,13 +99,15 @@ public abstract class Updater extends SemverMojo {
    * @param newVersion New version to be set in the POM file
    * @throws MojoExecutionException if unexpected error occurred while updating the POM file
    */
-  private void updatePomFile(@NonNull String newVersion) throws MojoExecutionException {
+  private void updatePomFile(String newVersion) throws MojoExecutionException {
+    requireNonNull(project);
     String originalVersion = project.getVersion();
-    String executedGoal = mojo.getGoal();
+    String executedGoal = requireNonNull(mojo).getGoal();
     if (newVersion.equals(originalVersion)) {
-      logInfo(
-          "Original POM version: %s remains unchanged after executing goal: %s",
-          originalVersion, executedGoal);
+      getLog()
+          .info(String.format(
+              "Original POM version: %s remains unchanged after executing goal: %s",
+              originalVersion, executedGoal));
       return;
     }
     executeMojo(
@@ -112,9 +116,10 @@ public abstract class Updater extends SemverMojo {
         goal("set"),
         configuration(
             element(name("generateBackupPoms"), "false"), element(name("newVersion"), newVersion)),
-        executionEnvironment(project, session, pluginManager));
-    logInfo(
-        "Updated original POM version: %s into: %s after executing goal: %s",
-        originalVersion, newVersion, executedGoal);
+        executionEnvironment(project, requireNonNull(session), requireNonNull(pluginManager)));
+    getLog()
+        .info(String.format(
+            "Updated original POM version: %s into: %s after executing goal: %s",
+            originalVersion, newVersion, executedGoal));
   }
 }

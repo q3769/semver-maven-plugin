@@ -24,7 +24,6 @@
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import lombok.NonNull;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -39,11 +38,12 @@ import q3769.maven.plugins.semver.Updater;
 public class IncrementMajor extends Updater {
 
   @Override
-  protected Version update(@NonNull Version original) throws MojoFailureException {
+  protected Version update(Version original) throws MojoFailureException {
     try {
       return original.nextMajorVersion();
     } catch (Exception e) {
-      logError(e, "Failed to increment the major version of semver %s", original);
+      getLog()
+          .error(String.format("Failed to increment the major version of semver %s", original), e);
       throw new MojoFailureException(e);
     }
   }

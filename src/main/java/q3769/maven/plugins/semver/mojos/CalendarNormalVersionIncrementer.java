@@ -28,8 +28,6 @@ import com.github.zafarkhaja.semver.Version;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import javax.annotation.Nonnull;
-import lombok.NonNull;
 import q3769.maven.plugins.semver.NormalVersion;
 
 enum CalendarNormalVersionIncrementer {
@@ -52,8 +50,7 @@ enum CalendarNormalVersionIncrementer {
    * @param selectedNormalVersion to increment
    * @return new instance incremented to current date in UTC zone
    */
-  public static Version calendarIncrement(
-      Version original, @Nonnull NormalVersion selectedNormalVersion) {
+  public static Version calendarIncrement(Version original, NormalVersion selectedNormalVersion) {
     long selectedNormalVersionNumber = selectedNormalVersion.getNumber(original);
     Instant now = Instant.now();
     for (CalendarNormalVersionIncrementer formatter : values()) {
@@ -62,12 +59,12 @@ enum CalendarNormalVersionIncrementer {
         return selectedNormalVersion.incrementTo(updatedNormalVersionNumber, original);
       }
     }
-    throw new UnsupportedOperationException(String.format(
+    throw new IllegalArgumentException(String.format(
         "%s version %s in POM semver %s is not supported for calendar style increment - it has to be older than current date in UTC zone",
         selectedNormalVersion, selectedNormalVersionNumber, original));
   }
 
-  long format(@NonNull Instant instant) {
+  long format(Instant instant) {
     return Long.parseLong(dateTimeFormatter.format(instant.atZone(ZoneOffset.UTC)));
   }
 }

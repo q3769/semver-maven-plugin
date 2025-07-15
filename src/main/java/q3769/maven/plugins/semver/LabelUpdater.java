@@ -28,6 +28,7 @@ import com.github.zafarkhaja.semver.Version;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Abstract class for updating semantic version labels.
@@ -44,7 +45,7 @@ public abstract class LabelUpdater extends Updater {
    * instead of incremented.
    */
   @Parameter(property = "set")
-  protected String set;
+  protected @Nullable String set;
 
   /**
    * Increments the label of the given semantic version.
@@ -75,10 +76,10 @@ public abstract class LabelUpdater extends Updater {
   @Override
   protected Version update(Version original) throws MojoFailureException {
     if (StringUtils.isBlank(set)) {
-      logInfo("Incrementing label of version: %s", original);
+      getLog().info(String.format("Incrementing label of version: %s", original));
       return incrementLabel(original);
     } else {
-      logInfo("Setting label of version '%s' into '%s'...", original, set);
+      getLog().info(String.format("Setting label of version '%s' into '%s'...", original, set));
       return setLabel(original, set);
     }
   }

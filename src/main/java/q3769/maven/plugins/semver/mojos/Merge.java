@@ -24,11 +24,11 @@
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import lombok.NonNull;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.jspecify.annotations.Nullable;
 import q3769.maven.plugins.semver.NormalVersion;
 import q3769.maven.plugins.semver.Updater;
 
@@ -46,44 +46,35 @@ import q3769.maven.plugins.semver.Updater;
 public class Merge extends Updater {
   /** The other SemVer to be merged with current local POM version */
   @Parameter(property = "semver", defaultValue = "NOT_SET")
-  protected String otherSemVer;
+  protected @Nullable String otherSemVer;
 
   @Override
   protected Version update(final Version original) throws MojoFailureException {
     Version other = requireValidSemVer(otherSemVer);
-    logDebug("Merging current POM version %s with provided version %s", original, other);
     if (original.isHigherThan(other)) {
-      logDebug(
-          "Current POM version %s is newer than provided version %s, current unchanged is the merge result: %s",
-          original, other, original);
       return original;
     }
-    logDebug("Provided version %s is newer than current POM version %s", other, original);
     NormalVersion pomIncrementedNormalVersion =
         NormalVersion.getLastIncrementedNormalVersion(original);
-    logDebug(
-        "Last incremented normal version of current pom semver is %s", pomIncrementedNormalVersion);
     Version incrementedVersion;
     try {
       incrementedVersion = increment(other, pomIncrementedNormalVersion);
     } catch (Exception e) {
-      logError(
-          e, "Failed to merge the provided version %s with the POM version %s", other, original);
+      getLog()
+          .error(
+              String.format(
+                  "Failed to merge the provided version %s with the POM version %s",
+                  other, original),
+              e);
       throw new MojoFailureException(e);
     }
-    logDebug(
-        "Incrementing provided version %s on POM semver incremented normal version %s, provisional merge version: %s",
-        other, pomIncrementedNormalVersion, incrementedVersion);
     Version.Builder versionBuilder = incrementedVersion.toBuilder();
     original.preReleaseVersion().ifPresent(versionBuilder::setPreReleaseVersion);
     original.buildMetadata().ifPresent(versionBuilder::setBuildMetadata);
-    Version mergedVersion = versionBuilder.build();
-    logDebug(
-        "Keeping all label(s) of POM semver %s, final merge version: %s", original, mergedVersion);
-    return mergedVersion;
+    return versionBuilder.build();
   }
 
-  private Version increment(Version version, @NonNull NormalVersion targetNormalVersion) {
+  private Version increment(Version version, NormalVersion targetNormalVersion) {
     switch (targetNormalVersion) {
       case MAJOR:
         return version.nextMajorVersion();

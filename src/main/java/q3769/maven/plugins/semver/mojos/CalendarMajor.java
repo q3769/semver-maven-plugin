@@ -51,11 +51,12 @@ public class CalendarMajor extends Updater {
     try {
       return CalendarNormalVersionIncrementer.calendarIncrement(original, NormalVersion.MAJOR);
     } catch (Exception e) {
-      logError(
-          e,
-          "Failed to calendar-increment the %s version of semver %s",
-          NormalVersion.MAJOR,
-          original);
+      getLog()
+          .error(
+              String.format(
+                  "Failed to calendar-increment the %s version of semver %s",
+                  NormalVersion.MAJOR, original),
+              e);
       throw new MojoFailureException(e);
     }
   }

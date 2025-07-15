@@ -44,11 +44,12 @@ public class CalendarPatch extends Updater {
     try {
       return CalendarNormalVersionIncrementer.calendarIncrement(original, NormalVersion.PATCH);
     } catch (Exception e) {
-      logError(
-          e,
-          "Failed to calendar-increment the %s version of semver %s",
-          NormalVersion.PATCH,
-          original);
+      getLog()
+          .error(
+              String.format(
+                  "Failed to calendar-increment the %s version of semver %s",
+                  NormalVersion.PATCH, original),
+              e);
       throw new MojoFailureException(e);
     }
   }

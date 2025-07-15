@@ -39,14 +39,14 @@ class CalendarMajorTest {
 
   private static final DateTimeFormatter TO_UTC_DAY_FORMATTER =
       DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);
-  private final CalendarMajor instance = new CalendarMajor();
+  private final CalendarMajor sut = new CalendarMajor();
 
   @Test
   void testShouldErrorOutIfOriginalMajorVersionDateIsHigher() {
     final long futureDate = Long.MAX_VALUE;
     Version original = Version.parse(futureDate + ".2.3");
 
-    Assertions.assertThrows(MojoFailureException.class, () -> instance.update(original));
+    Assertions.assertThrows(MojoFailureException.class, () -> sut.update(original));
   }
 
   @Test
@@ -55,7 +55,7 @@ class CalendarMajorTest {
     final int futureDate = Integer.parseInt(TO_UTC_DAY_FORMATTER.format(now));
     Version original = Version.parse(futureDate + ".2.3");
 
-    Version update = instance.update(original);
+    Version update = sut.update(original);
 
     String updatedMajorText = String.valueOf(update.majorVersion());
     String originalMajorText = String.valueOf(original.majorVersion());
@@ -73,7 +73,7 @@ class CalendarMajorTest {
     final int someDayEarlier = Integer.parseInt(expectedMajor) - 10000;
     Version original = Version.parse(someDayEarlier + ".2.3");
 
-    Version result = instance.update(original);
+    Version result = sut.update(original);
 
     assertEquals(Version.parse(expectedMajor + ".0.0"), result);
   }

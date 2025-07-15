@@ -25,8 +25,6 @@
 package q3769.maven.plugins.semver;
 
 import com.github.zafarkhaja.semver.Version;
-import javax.annotation.Nonnull;
-import lombok.NonNull;
 
 /**
  * Enum representing the normal version categories (MAJOR, MINOR, PATCH) of a semantic version.
@@ -140,7 +138,7 @@ public enum NormalVersion {
    * @param semver the original semantic version to be incremented
    * @return the exception to be thrown
    */
-  private static @NonNull IllegalArgumentException newIllegalIncrementError(
+  private static IllegalArgumentException newIllegalIncrementError(
       NormalVersion normalVersion, long target, Version semver) {
     String errorMessage = String.format(
         "%s version of %s is already higher than its increment target %d",
@@ -155,7 +153,7 @@ public enum NormalVersion {
    * @return the last incremented normal version category
    * @throws IllegalArgumentException if all version numbers are zero
    */
-  public static @Nonnull NormalVersion getLastIncrementedNormalVersion(@Nonnull Version version) {
+  public static NormalVersion getLastIncrementedNormalVersion(Version version) {
     final long major = version.majorVersion();
     final long minor = version.minorVersion();
     final long patch = version.patchVersion();

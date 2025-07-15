@@ -24,7 +24,6 @@
 package q3769.maven.plugins.semver.mojos;
 
 import com.github.zafarkhaja.semver.Version;
-import lombok.NonNull;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -47,21 +46,21 @@ public class UpdateBuildMetadata extends LabelUpdater {
    */
   @Deprecated
   @Override
-  protected Version incrementLabel(@NonNull Version version) throws MojoFailureException {
+  protected Version incrementLabel(Version version) throws MojoFailureException {
     try {
       return version.incrementBuildMetadata();
     } catch (Exception e) {
-      logError("Failed to increment build metadata label for %s", version);
+      getLog().error(String.format("Failed to increment build metadata label for %s", version));
       throw new MojoFailureException(e);
     }
   }
 
   @Override
-  protected Version setLabel(@NonNull Version version, String label) throws MojoFailureException {
+  protected Version setLabel(Version version, String label) throws MojoFailureException {
     try {
       return version.withBuildMetadata(label);
     } catch (Exception e) {
-      logError(e, "Failed to set build metadata label for %s", version);
+      getLog().error(String.format("Failed to set build metadata label for %s", version), e);
       throw new MojoFailureException(e);
     }
   }
