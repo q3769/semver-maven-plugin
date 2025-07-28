@@ -29,14 +29,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static q3769.maven.plugins.semver.NormalVersion.MINOR;
 
 import com.github.zafarkhaja.semver.Version;
-import elf4j.Logger;
+import java.util.logging.Logger;
 import org.apache.maven.plugin.MojoFailureException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import q3769.maven.plugins.semver.NormalVersion;
 
 class MergeTest {
-  static final Logger info = Logger.instance().atInfo();
+  static final Logger log = Logger.getLogger(MergeTest.class.getName());
 
   Merge mergeMojo = new Merge();
 
@@ -46,12 +46,12 @@ class MergeTest {
     void whenOriginalVersionIsNewer() throws MojoFailureException {
       Version original = Version.parse("1.4.0-SNAPSHOT");
       Version toMerge = Version.parse("1.3.4-hotfix");
-      info.log("Merging " + toMerge + " to " + original);
+      log.info(String.format("Merging %s to %s", toMerge, original));
       assertTrue(original.compareTo(toMerge) > 0);
       mergeMojo.otherSemVer = toMerge.toString();
 
       Version updated = mergeMojo.update(original);
-      info.log("Merge result: " + updated);
+      log.info(String.format("Merge result: %s", updated));
 
       assertEquals(original, updated);
     }
@@ -60,13 +60,13 @@ class MergeTest {
     void whenOriginalVersionIsOlder() throws MojoFailureException {
       Version original = Version.parse("1.2.0-pre-release.1+build.metadata");
       Version toMerge = Version.parse("1.3.4-hotfix");
-      info.log("Merging " + toMerge + " to " + original);
+      log.info(String.format("Merging %s to %s", toMerge, original));
       mergeMojo.otherSemVer = toMerge.toString();
       assertTrue(original.compareTo(toMerge) < 0);
       assertEquals(MINOR, NormalVersion.getLastIncrementedNormalVersion(original));
 
       Version updated = mergeMojo.update(original);
-      info.log("Merge result: " + updated);
+      log.info(String.format("Merge result: %s", updated));
 
       assertEquals(Version.parse("1.4.0-pre-release.1+build.metadata"), updated);
     }
