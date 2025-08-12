@@ -243,6 +243,13 @@
                             <goal>apply</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>spotless-apply-compile</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>apply</goal>
+                        </goals>
+                    </execution>
                 </executions>
                 <configuration>
                     <java>

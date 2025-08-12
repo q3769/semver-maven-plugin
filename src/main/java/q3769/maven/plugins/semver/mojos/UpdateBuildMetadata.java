@@ -60,7 +60,11 @@ public class UpdateBuildMetadata extends LabelUpdater {
     try {
       return version.withBuildMetadata(label);
     } catch (Exception e) {
-      getLog().error(String.format("Failed to set build metadata label for %s", version), e);
+      getLog()
+          .error(
+              String.format(
+                  "Failed to set build metadata label '%s' for semver '%s'", label, version),
+              e);
       throw new MojoFailureException(e);
     }
   }
