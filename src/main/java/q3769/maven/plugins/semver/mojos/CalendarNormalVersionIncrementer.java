@@ -60,7 +60,7 @@ enum CalendarNormalVersionIncrementer {
       }
     }
     throw new IllegalArgumentException(String.format(
-        "%s version %s in POM semver %s is not supported for calendar style increment - it has to be older than current date in UTC zone",
+        "%s version %s in original semver %s is not supported for calendar style increment - it has to be older than current date in UTC zone",
         selectedNormalVersion, selectedNormalVersionNumber, original));
   }
 

@@ -52,7 +52,7 @@ public class UpdatePreRelease extends LabelUpdater {
     try {
       return version.nextPreReleaseVersion(label);
     } catch (Exception e) {
-      getLog().error(String.format("Failed to set pre-release label for %s", version), e);
+      getLog().error(String.format("Failed to set pre-release label: %s", label), e);
       throw new MojoFailureException(e);
     }
   }
