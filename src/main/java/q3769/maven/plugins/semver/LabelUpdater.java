@@ -62,7 +62,14 @@ public abstract class LabelUpdater extends Updater {
    * @param label the new label to set
    * @return the semantic version with the newly set label
    */
-  protected abstract Version setLabel(Version version, String label) throws MojoFailureException;
+  public Version setLabel(Version version, String label) throws MojoFailureException {
+    if (StringUtils.isBlank(label)) {
+      throw new MojoFailureException(new IllegalArgumentException("Label to set cannot be blank"));
+    }
+    return doSetLabel(version, label);
+  }
+
+  protected abstract Version doSetLabel(Version version, String label) throws MojoFailureException;
 
   /**
    * Updates the semantic version by either incrementing or setting its label.
