@@ -48,7 +48,7 @@ public class UpdatePreRelease extends LabelUpdater {
   }
 
   @Override
-  protected Version setLabel(Version version, String label) throws MojoFailureException {
+  protected Version doSetLabel(Version version, String label) throws MojoFailureException {
     try {
       return version.nextPreReleaseVersion(label);
     } catch (Exception e) {

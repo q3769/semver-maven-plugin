@@ -56,7 +56,7 @@ public class UpdateBuildMetadata extends LabelUpdater {
   }
 
   @Override
-  protected Version setLabel(Version version, String label) throws MojoFailureException {
+  protected Version doSetLabel(Version version, String label) throws MojoFailureException {
     try {
       return version.withBuildMetadata(label);
     } catch (Exception e) {
