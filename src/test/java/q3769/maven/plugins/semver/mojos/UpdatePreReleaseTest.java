@@ -69,7 +69,8 @@ class UpdatePreReleaseTest {
           .willThrow(new IllegalStateException("Invalid label"));
 
       MojoFailureException exception = assertThrows(
-          MojoFailureException.class, () -> updatePreRelease.setLabel(version, "invalid"));
+          MojoFailureException.class,
+          () -> updatePreRelease.setLabel(version, "test-invalid-label"));
 
       assertThat(exception.getCause())
           .isInstanceOf(IllegalStateException.class)
